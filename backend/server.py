@@ -202,12 +202,22 @@ async def get_users():
     return users
 
 @api_router.delete("/admin/users/{username}", dependencies=[Depends(get_admin_user)])
-async def delete_user(username: str):
-    if username == "admin":
-        raise HTTPException(status_code=400, detail="Cannot delete admin user")
-    result = await db.users.delete_one({"username": username})
-    if result.deleted_count == 0:
+async def delete_user(username: str, current_user: dict = Depends(get_admin_user)):
+    # Prevent deleting yourself
+    if username == current_user["username"]:
+        raise HTTPException(status_code=400, detail="Cannot delete your own account")
+    
+    # Check if this is the last admin
+    user_to_delete = await db.users.find_one({"username": username})
+    if not user_to_delete:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    if user_to_delete["role"] == "admin":
+        admin_count = await db.users.count_documents({"role": "admin"})
+        if admin_count <= 1:
+            raise HTTPException(status_code=400, detail="Cannot delete the last admin user")
+    
+    result = await db.users.delete_one({"username": username})
     return {"message": "User deleted successfully"}
 
 # Session routes
