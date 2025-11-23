@@ -73,7 +73,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
             </div>
             <div className="flex items-center justify-between text-sm text-gray-600">
               <div>
-                <span className="font-semibold">Session ID:</span> <span className="font-mono">{session.id}</span>
+                <span className="font-semibold">Session Code:</span> <span className="font-mono text-lg text-purple-700">{session.sessionCode}</span>
               </div>
               <div>
                 <span className="font-semibold">Date:</span> {formatDate(session.createdAt)}
