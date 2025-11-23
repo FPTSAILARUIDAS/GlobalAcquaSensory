@@ -172,26 +172,28 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
           <Button
             data-testid="tab-users"
             onClick={() => setActiveTab("users")}
-            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+            className={`px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base ${
               activeTab === "users"
                 ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
                 : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
             }`}
           >
-            <UsersIcon className="w-5 h-5 mr-2 inline" />
-            User Management
+            <UsersIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
+            <span className="hidden xs:inline sm:inline">User Management</span>
+            <span className="xs:hidden sm:hidden">Users</span>
           </Button>
           <Button
             data-testid="tab-sessions"
             onClick={() => setActiveTab("sessions")}
-            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+            className={`px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base ${
               activeTab === "sessions"
                 ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
                 : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
             }`}
           >
-            <FileText className="w-5 h-5 mr-2 inline" />
-            All Sessions
+            <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
+            <span className="hidden xs:inline sm:inline">All Sessions</span>
+            <span className="xs:hidden sm:hidden">Sessions</span>
           </Button>
         </div>
 
