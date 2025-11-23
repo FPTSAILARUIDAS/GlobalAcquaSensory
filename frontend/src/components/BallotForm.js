@@ -329,64 +329,64 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                 <Label htmlFor="productCode" className="text-sm font-semibold text-gray-700">
                   Product Code *
                 </Label>
-              <Input
-                id="productCode"
-                data-testid="input-product-code"
-                value={formData.productCode}
-                onChange={(e) => handleChange("productCode", e.target.value)}
-                placeholder="e.g., PDW-2025-001"
-                required
-                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
+                <Input
+                  id="productCode"
+                  data-testid="input-product-code"
+                  value={formData.productCode}
+                  onChange={(e) => handleChange("productCode", e.target.value)}
+                  placeholder="e.g., PDW-2025-001"
+                  required
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
 
-            {/* Date of Manufacturing */}
-            <div className="space-y-2">
-              <Label htmlFor="dateOfMfg" className="text-sm font-semibold text-gray-700">
-                Date of Manufacturing *
-              </Label>
-              <Input
-                id="dateOfMfg"
-                data-testid="input-date-of-mfg"
-                type="date"
-                value={formData.dateOfMfg}
-                onChange={(e) => handleChange("dateOfMfg", e.target.value)}
-                required
-                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
+              {/* Date of Manufacturing */}
+              <div className="space-y-2">
+                <Label htmlFor="dateOfMfg" className="text-sm font-semibold text-gray-700">
+                  Date of Manufacturing *
+                </Label>
+                <Input
+                  id="dateOfMfg"
+                  data-testid="input-date-of-mfg"
+                  type="date"
+                  value={formData.dateOfMfg}
+                  onChange={(e) => handleChange("dateOfMfg", e.target.value)}
+                  required
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
 
-            {/* Control Sample Code */}
-            <div className="space-y-2">
-              <Label htmlFor="controlSampleCode" className="text-sm font-semibold text-gray-700">
-                Control Sample Code *
-              </Label>
-              <Input
-                id="controlSampleCode"
-                data-testid="input-control-sample-code"
-                value={formData.controlSampleCode}
-                onChange={(e) => handleChange("controlSampleCode", e.target.value)}
-                placeholder="e.g., CTRL-001"
-                required
-                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
+              {/* Control Sample Code */}
+              <div className="space-y-2">
+                <Label htmlFor="controlSampleCode" className="text-sm font-semibold text-gray-700">
+                  Control Sample Code *
+                </Label>
+                <Input
+                  id="controlSampleCode"
+                  data-testid="input-control-sample-code"
+                  value={formData.controlSampleCode}
+                  onChange={(e) => handleChange("controlSampleCode", e.target.value)}
+                  placeholder="e.g., CTRL-001"
+                  required
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
 
-            {/* Product Time */}
-            <div className="space-y-2">
-              <Label htmlFor="productTime" className="text-sm font-semibold text-gray-700">
-                Product Time *
-              </Label>
-              <Input
-                id="productTime"
-                data-testid="input-product-time"
-                type="time"
-                value={formData.productTime}
-                onChange={(e) => handleChange("productTime", e.target.value)}
-                required
-                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
+              {/* Product Time */}
+              <div className="space-y-2">
+                <Label htmlFor="productTime" className="text-sm font-semibold text-gray-700">
+                  Product Time *
+                </Label>
+                <Input
+                  id="productTime"
+                  data-testid="input-product-time"
+                  type="time"
+                  value={formData.productTime}
+                  onChange={(e) => handleChange("productTime", e.target.value)}
+                  required
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
           </div>
         </div>
 
