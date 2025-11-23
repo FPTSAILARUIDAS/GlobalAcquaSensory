@@ -253,9 +253,28 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                   <SelectItem value="Raw Water">Raw Water</SelectItem>
                   <SelectItem value="Treated Water">Treated Water</SelectItem>
                   <SelectItem value="Finished Goods">Finished Goods</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Other Product Type - Show only when Other is selected */}
+            {formData.productType === "Other" && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <Label htmlFor="otherProductType" className="text-sm font-semibold text-gray-700">
+                  Specify Product Type *
+                </Label>
+                <Input
+                  id="otherProductType"
+                  data-testid="input-other-product-type"
+                  value={formData.otherProductType}
+                  onChange={(e) => handleChange("otherProductType", e.target.value)}
+                  placeholder="Enter product type..."
+                  required={formData.productType === "Other"}
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            )}
 
             {/* Product Variant - Show only for Finished Goods */}
             {formData.productType === "Finished Goods" && (
@@ -263,7 +282,13 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                 <Label htmlFor="productVariant" className="text-sm font-semibold text-gray-700">
                   Product Variant
                 </Label>
-                <Select value={formData.productVariant} onValueChange={(value) => handleChange("productVariant", value)}>
+                <Select value={formData.productVariant} onValueChange={(value) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    productVariant: value,
+                    otherProductVariant: value === "Other" ? prev.otherProductVariant : ""
+                  }));
+                }}>
                   <SelectTrigger data-testid="select-product-variant" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                     <SelectValue placeholder="Select variant" />
                   </SelectTrigger>
@@ -271,8 +296,26 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                     <SelectItem value="KW 500 ml">KW 500 ml</SelectItem>
                     <SelectItem value="KW 1000 ml">KW 1000 ml</SelectItem>
                     <SelectItem value="KW 2000 ml">KW 2000 ml</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+            )}
+
+            {/* Other Product Variant - Show only when Other variant is selected */}
+            {formData.productType === "Finished Goods" && formData.productVariant === "Other" && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <Label htmlFor="otherProductVariant" className="text-sm font-semibold text-gray-700">
+                  Specify Product Variant
+                </Label>
+                <Input
+                  id="otherProductVariant"
+                  data-testid="input-other-product-variant"
+                  value={formData.otherProductVariant}
+                  onChange={(e) => handleChange("otherProductVariant", e.target.value)}
+                  placeholder="Enter variant..."
+                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
               </div>
             )}
 
