@@ -41,6 +41,14 @@ const SummaryReport = () => {
     });
   };
 
+  const formatDateTime = (dateString, timeString) => {
+    if (!dateString) return "N/A";
+    if (timeString) {
+      return `${dateString} ${timeString}`;
+    }
+    return dateString;
+  };
+
   const formatTime = (timeString) => {
     if (!timeString) return "N/A";
     return timeString;
