@@ -188,178 +188,103 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Product Type */}
-          <div className="space-y-2">
-            <Label htmlFor="productType" className="text-sm font-semibold text-gray-700">
-              Product Type *
-            </Label>
-            <Input
-              id="productType"
-              data-testid="input-product-type"
-              value={formData.productType}
-              onChange={(e) => handleChange("productType", e.target.value)}
-              placeholder="e.g., Packaged Drinking Water"
-              required
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
+        {/* Product Information */}
+        <div className="bg-white rounded-xl p-6 border border-blue-200 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Product Information
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Product Type */}
+            <div className="space-y-2">
+              <Label htmlFor="productType" className="text-sm font-semibold text-gray-700">
+                Product Type *
+              </Label>
+              <Input
+                id="productType"
+                data-testid="input-product-type"
+                value={formData.productType}
+                onChange={(e) => handleChange("productType", e.target.value)}
+                placeholder="e.g., Packaged Drinking Water"
+                required
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
 
-          {/* Product Code */}
-          <div className="space-y-2">
-            <Label htmlFor="productCode" className="text-sm font-semibold text-gray-700">
-              Product Code *
-            </Label>
-            <Input
-              id="productCode"
-              data-testid="input-product-code"
-              value={formData.productCode}
-              onChange={(e) => handleChange("productCode", e.target.value)}
-              placeholder="e.g., PDW-2025-001"
-              required
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
+            {/* Product Code */}
+            <div className="space-y-2">
+              <Label htmlFor="productCode" className="text-sm font-semibold text-gray-700">
+                Product Code *
+              </Label>
+              <Input
+                id="productCode"
+                data-testid="input-product-code"
+                value={formData.productCode}
+                onChange={(e) => handleChange("productCode", e.target.value)}
+                placeholder="e.g., PDW-2025-001"
+                required
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
 
-          {/* Date of Manufacturing */}
-          <div className="space-y-2">
-            <Label htmlFor="dateOfMfg" className="text-sm font-semibold text-gray-700">
-              Date of Manufacturing *
-            </Label>
-            <Input
-              id="dateOfMfg"
-              data-testid="input-date-of-mfg"
-              type="date"
-              value={formData.dateOfMfg}
-              onChange={(e) => handleChange("dateOfMfg", e.target.value)}
-              required
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
+            {/* Date of Manufacturing */}
+            <div className="space-y-2">
+              <Label htmlFor="dateOfMfg" className="text-sm font-semibold text-gray-700">
+                Date of Manufacturing *
+              </Label>
+              <Input
+                id="dateOfMfg"
+                data-testid="input-date-of-mfg"
+                type="date"
+                value={formData.dateOfMfg}
+                onChange={(e) => handleChange("dateOfMfg", e.target.value)}
+                required
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
 
-          {/* Control Sample Code */}
-          <div className="space-y-2">
-            <Label htmlFor="controlSampleCode" className="text-sm font-semibold text-gray-700">
-              Control Sample Code *
-            </Label>
-            <Input
-              id="controlSampleCode"
-              data-testid="input-control-sample-code"
-              value={formData.controlSampleCode}
-              onChange={(e) => handleChange("controlSampleCode", e.target.value)}
-              placeholder="e.g., CTRL-001"
-              required
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
+            {/* Control Sample Code */}
+            <div className="space-y-2">
+              <Label htmlFor="controlSampleCode" className="text-sm font-semibold text-gray-700">
+                Control Sample Code *
+              </Label>
+              <Input
+                id="controlSampleCode"
+                data-testid="input-control-sample-code"
+                value={formData.controlSampleCode}
+                onChange={(e) => handleChange("controlSampleCode", e.target.value)}
+                placeholder="e.g., CTRL-001"
+                required
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
 
-          {/* Product Time */}
-          <div className="space-y-2">
-            <Label htmlFor="productTime" className="text-sm font-semibold text-gray-700">
-              Product Time *
-            </Label>
-            <Input
-              id="productTime"
-              data-testid="input-product-time"
-              type="time"
-              value={formData.productTime}
-              onChange={(e) => handleChange("productTime", e.target.value)}
-              required
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
+            {/* Product Time */}
+            <div className="space-y-2">
+              <Label htmlFor="productTime" className="text-sm font-semibold text-gray-700">
+                Product Time *
+              </Label>
+              <Input
+                id="productTime"
+                data-testid="input-product-time"
+                type="time"
+                value={formData.productTime}
+                onChange={(e) => handleChange("productTime", e.target.value)}
+                required
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
           </div>
+        </div>
 
-          {/* Temperature */}
-          <div className="space-y-2">
-            <Label htmlFor="temperature" className="text-sm font-semibold text-gray-700">
-              Temperature (°C)
-            </Label>
-            <Input
-              id="temperature"
-              data-testid="input-temperature"
-              value={formData.temperature}
-              onChange={(e) => handleChange("temperature", e.target.value)}
-              placeholder="e.g., 22"
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Clarity */}
-          <div className="space-y-2">
-            <Label htmlFor="clarity" className="text-sm font-semibold text-gray-700">
-              Clarity
-            </Label>
-            <Select value={formData.clarity} onValueChange={(value) => handleChange("clarity", value)}>
-              <SelectTrigger data-testid="select-clarity" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                <SelectValue placeholder="Select clarity" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Clear">Clear</SelectItem>
-                <SelectItem value="Slightly Hazy">Slightly Hazy</SelectItem>
-                <SelectItem value="Hazy">Hazy</SelectItem>
-                <SelectItem value="Turbid">Turbid</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Color */}
-          <div className="space-y-2">
-            <Label htmlFor="color" className="text-sm font-semibold text-gray-700">
-              Color
-            </Label>
-            <Select value={formData.color} onValueChange={(value) => handleChange("color", value)}>
-              <SelectTrigger data-testid="select-color" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                <SelectValue placeholder="Select color" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Colorless">Colorless</SelectItem>
-                <SelectItem value="Light Yellow">Light Yellow</SelectItem>
-                <SelectItem value="Yellow">Yellow</SelectItem>
-                <SelectItem value="Brown">Brown</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Odor */}
-          <div className="space-y-2">
-            <Label htmlFor="odor" className="text-sm font-semibold text-gray-700">
-              Odor
-            </Label>
-            <Select value={formData.odor} onValueChange={(value) => handleChange("odor", value)}>
-              <SelectTrigger data-testid="select-odor" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                <SelectValue placeholder="Select odor" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Odorless">Odorless</SelectItem>
-                <SelectItem value="Mild">Mild</SelectItem>
-                <SelectItem value="Chlorine">Chlorine</SelectItem>
-                <SelectItem value="Musty">Musty</SelectItem>
-                <SelectItem value="Chemical">Chemical</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Taste */}
-          <div className="space-y-2">
-            <Label htmlFor="taste" className="text-sm font-semibold text-gray-700">
-              Taste
-            </Label>
-            <Select value={formData.taste} onValueChange={(value) => handleChange("taste", value)}>
-              <SelectTrigger data-testid="select-taste" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                <SelectValue placeholder="Select taste" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Tasteless">Tasteless</SelectItem>
-                <SelectItem value="Pleasant">Pleasant</SelectItem>
-                <SelectItem value="Salty">Salty</SelectItem>
-                <SelectItem value="Bitter">Bitter</SelectItem>
-                <SelectItem value="Metallic">Metallic</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        {/* Sensory Testing */}
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Sensory Testing
+          </h3>
+          
+          {renderTestSection("appearance", "Appearance", appearanceReasons, "test-appearance")}
+          {renderTestSection("odour", "Odour", odourReasons, "test-odour")}
+          {renderTestSection("taste", "Taste", tasteReasons, "test-taste")}
         </div>
 
         {/* Remarks */}
