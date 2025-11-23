@@ -224,28 +224,6 @@ function App() {
     }
   };
 
-  const handleViewHistory = () => {
-    fetchHistory();
-    setView(AppView.HISTORY);
-  };
-
-  const handleSelectSession = (session) => {
-    setSelectedSession(session);
-    setView(AppView.REPORT);
-  };
-
-  const handleClearHistory = async () => {
-    if (window.confirm("Are you sure you want to clear all history?")) {
-      try {
-        await axios.delete(`${API}/sessions`);
-        setHistory([]);
-        localStorage.removeItem("sensory_history");
-      } catch (error) {
-        console.error("Failed to clear history:", error);
-      }
-    }
-  };
-
   const handleBackToDashboard = () => {
     setView(AppView.DASHBOARD);
     setSessionBallots([]);
