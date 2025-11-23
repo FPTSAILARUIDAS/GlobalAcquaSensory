@@ -373,12 +373,21 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                         className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
                       >
                         <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Summary Report</span>
+                        <span>Summary</span>
+                      </Button>
+                      <Button
+                        data-testid={`delete-session-${session.sessionCode}`}
+                        onClick={() => handleDeleteSession(session.sessionCode)}
+                        variant="outline"
+                        className="border-red-300 text-red-600 hover:bg-red-50 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
+                      >
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Delete</span>
                       </Button>
                     </div>
                   </div>
                 </div>
-              ))}
+              )))}
             </div>
           </div>
         )}
