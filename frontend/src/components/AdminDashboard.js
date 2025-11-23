@@ -251,30 +251,30 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
             </div>
 
             {/* Users List */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-100">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-blue-100">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                 All Users ({users.length})
               </h2>
               <div className="space-y-3">
                 {users.map((user) => (
-                  <div key={user.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div key={user.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-2 sm:space-y-0">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2">
-                        <p className="font-semibold text-gray-800">{user.username}</p>
+                      <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                        <p className="font-semibold text-gray-800 text-sm sm:text-base">{user.username}</p>
                         {user.username === "admin" && (
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-300">
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-300 w-fit">
                             DEFAULT - PROTECTED
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-600 mt-1">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-gray-600 mt-1 space-y-1 sm:space-y-0">
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold w-fit ${
                           user.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"
                         }`}>
                           {user.role}
                         </span>
-                        <span className="ml-3">Created: {new Date(user.createdAt).toLocaleDateString()}</span>
-                      </p>
+                        <span className="sm:ml-3">Created: {new Date(user.createdAt).toLocaleDateString()}</span>
+                      </div>
                     </div>
                     {user.username !== "admin" ? (
                       <Button
