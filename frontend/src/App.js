@@ -323,7 +323,7 @@ function App() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
               {/* New Session Card */}
               <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-blue-100 hover:border-blue-300">
                 <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
@@ -408,27 +408,6 @@ function App() {
                     </button>
                   </div>
                 )}
-              </div>
-
-              {/* History Card */}
-              <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-blue-100 hover:border-blue-300">
-                <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <ClipboardList className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                  View History
-                </h3>
-                <p className="text-gray-600 mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
-                  Access your past sessions
-                </p>
-                <button
-                  data-testid="view-history-btn"
-                  onClick={handleViewHistory}
-                  className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-cyan-700 hover:to-teal-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
-                >
-                  <span>View Sessions</span>
-                  <ArrowLeft className="w-5 h-5 rotate-180" />
-                </button>
               </div>
             </div>
           </div>
