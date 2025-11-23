@@ -86,7 +86,8 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      setMessage(`Report downloaded: ${session.sessionCode}`);\n      setTimeout(() => setMessage(\"\"), 2000);
+      setMessage(`Report downloaded: ${session.sessionCode}`);
+      setTimeout(() => setMessage(""), 2000);
     } catch (error) {
       console.error('Download error:', error);
       setMessage('Failed to download report');
