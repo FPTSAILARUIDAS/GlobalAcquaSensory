@@ -54,37 +54,53 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-4xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              Session History
-            </h2>
-            <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
-              View and access past evaluation sessions
-            </p>
-          </div>
-          <div className="flex items-center space-x-3">
-            {history.length > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                Session History
+              </h2>
+              <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
+                View and access past evaluation sessions
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              {history.length > 0 && (
+                <Button
+                  data-testid="clear-history-btn"
+                  onClick={onClearHistory}
+                  variant="outline"
+                  className="flex items-center space-x-2 border-red-300 text-red-600 hover:bg-red-50"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Clear History</span>
+                </Button>
+              )}
               <Button
-                data-testid="clear-history-btn"
-                onClick={onClearHistory}
+                data-testid="back-to-dashboard-history-btn"
+                onClick={onBack}
                 variant="outline"
-                className="flex items-center space-x-2 border-red-300 text-red-600 hover:bg-red-50"
+                className="flex items-center space-x-2 border-gray-300 hover:bg-gray-50"
               >
-                <Trash2 className="w-4 h-4" />
-                <span>Clear History</span>
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Dashboard</span>
               </Button>
-            )}
-            <Button
-              data-testid="back-to-dashboard-history-btn"
-              onClick={onBack}
-              variant="outline"
-              className="flex items-center space-x-2 border-gray-300 hover:bg-gray-50"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Dashboard</span>
-            </Button>
+            </div>
           </div>
+
+          {/* Search Bar */}
+          {history.length > 0 && (
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Input
+                data-testid="search-history-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by date, batch code, or panelist name..."
+                className="pl-12 pr-4 py-6 text-base border-2 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-xl"
+              />
+            </div>
+          )}
         </div>
 
         {/* History List */}
