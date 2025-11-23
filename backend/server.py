@@ -107,10 +107,108 @@ class BallotSubmit(BaseModel):
     sessionCode: str
     ballotData: BallotData
 
+# Helper functions
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        role: str = payload.get("role")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        return {"username": username, "role": role}
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
+    except jwt.JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
+
+async def get_admin_user(current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return current_user
+
+# Initialize default admin user
+async def init_admin():
+    admin = await db.users.find_one({"username": "admin"})
+    if not admin:
+        admin_user = {
+            "id": str(uuid.uuid4()),
+            "username": "admin",
+            "password": get_password_hash("admin123"),
+            "role": "admin",
+            "createdAt": datetime.now(timezone.utc).isoformat()
+        }
+        await db.users.insert_one(admin_user)
+        print("Default admin user created: username=admin, password=admin123")
+
+@app.on_event("startup")
+async def startup_event():
+    await init_admin()
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
     return {"message": "Global Acqua Sensory Analysis API"}
+
+# Authentication routes
+@api_router.post("/auth/login", response_model=Token)
+async def login(user_login: UserLogin):
+    user = await db.users.find_one({"username": user_login.username})
+    if not user or not verify_password(user_login.password, user["password"]):
+        raise HTTPException(status_code=401, detail="Incorrect username or password")
+    
+    access_token = create_access_token(data={"sub": user["username"], "role": user["role"]})
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "role": user["role"],
+        "username": user["username"]
+    }
+
+# Admin routes - User management
+@api_router.post("/admin/users", dependencies=[Depends(get_admin_user)])
+async def create_user(user: UserCreate):
+    # Check if username already exists
+    existing_user = await db.users.find_one({"username": user.username})
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already exists")
+    
+    new_user = {
+        "id": str(uuid.uuid4()),
+        "username": user.username,
+        "password": get_password_hash(user.password),
+        "role": user.role,
+        "createdAt": datetime.now(timezone.utc).isoformat()
+    }
+    await db.users.insert_one(new_user)
+    return {"message": "User created successfully", "username": user.username}
+
+@api_router.get("/admin/users", dependencies=[Depends(get_admin_user)])
+async def get_users():
+    users = await db.users.find({}, {"_id": 0, "password": 0}).to_list(1000)
+    return users
+
+@api_router.delete("/admin/users/{username}", dependencies=[Depends(get_admin_user)])
+async def delete_user(username: str):
+    if username == "admin":
+        raise HTTPException(status_code=400, detail="Cannot delete admin user")
+    result = await db.users.delete_one({"username": username})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"message": "User deleted successfully"}
 
 @api_router.post("/sessions", response_model=BatchSession)
 async def create_session(input: BatchSessionCreate):
