@@ -115,6 +115,20 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
     }
   };
 
+  const handleDeleteSession = async (sessionCode) => {
+    if (window.confirm(`Are you sure you want to delete session '${sessionCode}'? This action cannot be undone.`)) {
+      try {
+        await axios.delete(`${API}/admin/sessions/${sessionCode}`, axiosConfig);
+        setMessage(`Session '${sessionCode}' deleted successfully`);
+        fetchSessions();
+        setTimeout(() => setMessage(""), 3000);
+      } catch (error) {
+        setMessage(error.response?.data?.detail || "Failed to delete session");
+        setTimeout(() => setMessage(""), 3000);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
       {/* Header */}
