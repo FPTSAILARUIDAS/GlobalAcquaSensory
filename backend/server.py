@@ -210,33 +210,87 @@ async def delete_user(username: str):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}
 
-@api_router.post("/sessions", response_model=BatchSession)
-async def create_session(input: BatchSessionCreate):
+# Session routes
+@api_router.post("/sessions/create", dependencies=[Depends(get_current_user)])
+async def create_session(input: BatchSessionCreate, current_user: dict = Depends(get_current_user)):
+    # Generate unique session code
+    session_code = input.sessionCode or str(uuid.uuid4())[:8].upper()
+    
     session = BatchSession(
-        ballots=input.ballots,
-        summary=input.summary
+        sessionCode=session_code,
+        status="in_progress",
+        targetPanelistCount=input.targetPanelistCount,
+        ballots=[],
+        createdBy=current_user["username"]
     )
     
-    # Convert to dict for MongoDB
     doc = session.model_dump()
-    
-    _ = await db.sessions.insert_one(doc)
+    await db.sessions.insert_one(doc)
     return session
 
-@api_router.get("/sessions", response_model=List[BatchSession])
-async def get_sessions():
-    # Exclude MongoDB's _id field from the query results
-    sessions = await db.sessions.find({}, {"_id": 0}).sort("createdAt", -1).to_list(1000)
-    return sessions
+@api_router.post("/sessions/submit-ballot")
+async def submit_ballot(input: BallotSubmit):
+    # Find session by code
+    session = await db.sessions.find_one({"sessionCode": input.sessionCode})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    # Add ballot to session
+    ballots = session.get("ballots", [])
+    ballots.append(input.ballotData.model_dump())
+    
+    # Check if session is complete
+    status = "completed" if len(ballots) >= session["targetPanelistCount"] else "in_progress"
+    completed_at = datetime.now(timezone.utc).isoformat() if status == "completed" else None
+    
+    # Update session
+    await db.sessions.update_one(
+        {"sessionCode": input.sessionCode},
+        {
+            "$set": {
+                "ballots": ballots,
+                "status": status,
+                "completedAt": completed_at
+            }
+        }
+    )
+    
+    # Fetch updated session
+    updated_session = await db.sessions.find_one({"sessionCode": input.sessionCode}, {"_id": 0})
+    return updated_session
 
-@api_router.get("/sessions/{session_id}", response_model=BatchSession)
-async def get_session(session_id: str):
-    session = await db.sessions.find_one({"id": session_id}, {"_id": 0})
+@api_router.get("/sessions/code/{session_code}")
+async def get_session_by_code(session_code: str):
+    session = await db.sessions.find_one({"sessionCode": session_code}, {"_id": 0})
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
     return session
 
-@api_router.delete("/sessions")
+@api_router.get("/sessions", response_model=List[BatchSession])
+async def get_sessions(current_user: dict = Depends(get_current_user)):
+    # Admin can see all sessions, users can only see their own
+    query = {} if current_user["role"] == "admin" else {"createdBy": current_user["username"]}
+    sessions = await db.sessions.find(query, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+    return sessions
+
+@api_router.get("/admin/sessions/all", dependencies=[Depends(get_admin_user)])
+async def get_all_sessions():
+    sessions = await db.sessions.find({}, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+    return sessions
+
+@api_router.get("/sessions/{session_id}", response_model=BatchSession)
+async def get_session(session_id: str, current_user: dict = Depends(get_current_user)):
+    session = await db.sessions.find_one({"id": session_id}, {"_id": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    # Check access
+    if current_user["role"] != "admin" and session.get("createdBy") != current_user["username"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    return session
+
+@api_router.delete("/admin/sessions", dependencies=[Depends(get_admin_user)])
 async def clear_sessions():
     result = await db.sessions.delete_many({})
     return {"deleted_count": result.deleted_count, "message": "All sessions cleared"}
