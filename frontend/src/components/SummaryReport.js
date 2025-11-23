@@ -138,12 +138,13 @@ const SummaryReport = () => {
               <tr className="bg-blue-600 text-white">
                 <th className="border-2 border-gray-900 px-4 py-3 text-left font-bold text-sm">Panelist</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-left font-bold text-sm">Product Code</th>
+                <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Product Time</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Appearance</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Odour</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Taste</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Final Conclusion</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-left font-bold text-sm">Failed Tests</th>
-                <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Testing Date</th>
+                <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Testing Date & Time</th>
               </tr>
             </thead>
             <tbody>
