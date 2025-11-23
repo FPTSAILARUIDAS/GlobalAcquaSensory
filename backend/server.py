@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,7 +6,7 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, timezone
 
@@ -27,44 +27,69 @@ api_router = APIRouter(prefix="/api")
 
 
 # Define Models
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+class BallotData(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    productType: str
+    productCode: str
+    dateOfMfg: str
+    controlSampleCode: str
+    productTime: str
+    temperature: Optional[str] = None
+    clarity: Optional[str] = None
+    color: Optional[str] = None
+    odor: Optional[str] = None
+    taste: Optional[str] = None
+    remarks: Optional[str] = None
+
+class BatchSession(BaseModel):
+    model_config = ConfigDict(extra="ignore")
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    status: str = "completed"
+    ballots: List[BallotData]
+    createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    summary: Optional[Dict[str, Any]] = None
 
-class StatusCheckCreate(BaseModel):
-    client_name: str
+class BatchSessionCreate(BaseModel):
+    ballots: List[BallotData]
+    summary: Optional[Dict[str, Any]] = None
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Global Acqua Sensory Analysis API"}
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
+@api_router.post("/sessions", response_model=BatchSession)
+async def create_session(input: BatchSessionCreate):
+    session = BatchSession(
+        ballots=input.ballots,
+        summary=input.summary
+    )
     
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
+    # Convert to dict for MongoDB
+    doc = session.model_dump()
     
-    _ = await db.status_checks.insert_one(doc)
-    return status_obj
+    _ = await db.sessions.insert_one(doc)
+    return session
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
+@api_router.get("/sessions", response_model=List[BatchSession])
+async def get_sessions():
     # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
+    sessions = await db.sessions.find({}, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+    return sessions
+
+@api_router.get("/sessions/{session_id}", response_model=BatchSession)
+async def get_session(session_id: str):
+    session = await db.sessions.find_one({"id": session_id}, {"_id": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return session
+
+@api_router.delete("/sessions")
+async def clear_sessions():
+    result = await db.sessions.delete_many({})
+    return {"deleted_count": result.deleted_count, "message": "All sessions cleared"}
 
 # Include the router in the main app
 app.include_router(api_router)
