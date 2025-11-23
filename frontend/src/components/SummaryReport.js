@@ -241,6 +241,10 @@ const SummaryReport = () => {
               <p className="text-base text-gray-900">{session.ballots[0]?.dateOfMfg}</p>
             </div>
             <div>
+              <p className="text-sm font-semibold text-gray-700">Product Time:</p>
+              <p className="text-base text-gray-900">{session.ballots[0]?.productTime}</p>
+            </div>
+            <div>
               <p className="text-sm font-semibold text-gray-700">Control Sample Code:</p>
               <p className="text-base text-gray-900">{session.ballots[0]?.controlSampleCode}</p>
             </div>
