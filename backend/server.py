@@ -304,6 +304,15 @@ async def get_session(session_id: str, current_user: dict = Depends(get_current_
     
     return session
 
+@api_router.delete("/admin/sessions/{session_code}", dependencies=[Depends(get_admin_user)])
+async def delete_session(session_code: str):
+    session = await db.sessions.find_one({"sessionCode": session_code})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    result = await db.sessions.delete_one({"sessionCode": session_code})
+    return {"message": "Session deleted successfully", "sessionCode": session_code}
+
 @api_router.delete("/admin/sessions", dependencies=[Depends(get_admin_user)])
 async def clear_sessions():
     result = await db.sessions.delete_many({})
