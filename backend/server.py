@@ -207,6 +207,10 @@ async def delete_user(username: str, current_user: dict = Depends(get_admin_user
     if username == current_user["username"]:
         raise HTTPException(status_code=400, detail="Cannot delete your own account")
     
+    # Prevent deleting the default admin account
+    if username == "admin":
+        raise HTTPException(status_code=400, detail="Cannot delete the default admin account")
+    
     # Check if this is the last admin
     user_to_delete = await db.users.find_one({"username": username})
     if not user_to_delete:
