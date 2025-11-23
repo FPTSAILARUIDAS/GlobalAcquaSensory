@@ -150,7 +150,7 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
               {filteredHistory.map((session) => (
                 <div
                   key={session.id}
-                  data-testid={`session-item-${session.id}`}
+                  data-testid={`session-item-${session.sessionCode}`}
                   onClick={() => onSelectSession(session)}
                   className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-blue-100 hover:border-blue-300 cursor-pointer group"
                 >
