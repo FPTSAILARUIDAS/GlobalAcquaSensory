@@ -299,45 +299,47 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
 
         {/* Sessions Tab */}
         {activeTab === "sessions" && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-100">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-blue-100">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
               All Sensory Analysis Sessions ({sessions.length})
             </h2>
             <div className="space-y-4">
               {sessions.map((session) => (
-                <div key={session.id} className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
-                  <div className="flex items-center justify-between">
+                <div key={session.id} className="p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-3 lg:space-y-0">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <p className="font-semibold text-gray-800">Session Code: <span className="font-mono text-blue-600">{session.sessionCode}</span></p>
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3 mb-2">
+                        <p className="font-semibold text-gray-800 text-sm sm:text-base">Session Code: <span className="font-mono text-blue-600">{session.sessionCode}</span></p>
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold w-fit ${
                           session.status === "completed" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
                         }`}>
                           {session.status}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">
-                        Panelists: {session.ballots.length}/{session.targetPanelistCount} | 
-                        Created by: {session.createdBy} | 
-                        Date: {new Date(session.createdAt).toLocaleString()}
-                      </p>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
+                        <div className="flex flex-col sm:flex-row sm:space-x-4">
+                          <span>Panelists: {session.ballots.length}/{session.targetPanelistCount}</span>
+                          <span>Created by: {session.createdBy}</span>
+                        </div>
+                        <div>Date: {new Date(session.createdAt).toLocaleString()}</div>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                       <Button
                         data-testid={`view-session-${session.sessionCode}`}
                         onClick={() => window.open(`/report/${session.sessionCode}`, '_blank')}
                         variant="outline"
-                        className="border-blue-300 text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
+                        className="border-blue-300 text-blue-600 hover:bg-blue-50 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
                       >
-                        <FileText className="w-4 h-4" />
+                        <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>Detailed</span>
                       </Button>
                       <Button
                         data-testid={`summary-session-${session.sessionCode}`}
                         onClick={() => window.open(`/summary/${session.sessionCode}`, '_blank')}
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center space-x-2"
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
                       >
-                        <FileText className="w-4 h-4" />
+                        <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>Summary Report</span>
                       </Button>
                     </div>
