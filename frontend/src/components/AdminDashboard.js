@@ -131,29 +131,29 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
-      {/* Header */}
+      {/* Header - Mobile Responsive */}
       <header className="bg-white/80 backdrop-blur-lg border-b border-blue-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <UsersIcon className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                <UsersIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                   Admin Dashboard
                 </h1>
-                <p className="text-sm text-gray-600">Welcome, {username}</p>
+                <p className="text-xs sm:text-sm text-gray-600">Welcome, {username}</p>
               </div>
             </div>
             <Button
               data-testid="logout-btn"
               onClick={onLogout}
               variant="outline"
-              className="flex items-center space-x-2 border-gray-300 hover:bg-gray-50"
+              className="flex items-center space-x-1 sm:space-x-2 border-gray-300 hover:bg-gray-50 text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
             >
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
+              <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Logout</span>
             </Button>
           </div>
         </div>
