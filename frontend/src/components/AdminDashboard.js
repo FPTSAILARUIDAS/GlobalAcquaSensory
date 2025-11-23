@@ -43,10 +43,49 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
     try {
       const response = await axios.get(`${API}/admin/sessions/all`, axiosConfig);
       setSessions(response.data);
+      setFilteredSessions(response.data);
     } catch (error) {
       console.error("Failed to fetch sessions:", error);
     }
   };
+
+  // Search/Filter sessions
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredSessions(sessions);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const filtered = sessions.filter(session => {
+      // Search by session code
+      if (session.sessionCode.toLowerCase().includes(query)) return true;
+      
+      // Search by date
+      const dateStr = new Date(session.createdAt).toLocaleDateString().toLowerCase();
+      if (dateStr.includes(query)) return true;
+      
+      // Search by product code from ballots
+      if (session.ballots && session.ballots.length > 0) {
+        const hasMatchingProductCode = session.ballots.some(ballot => 
+          ballot.productCode && ballot.productCode.toLowerCase().includes(query)
+        );
+        if (hasMatchingProductCode) return true;
+      }
+      
+      // Search by panelist name
+      if (session.ballots && session.ballots.length > 0) {
+        const hasMatchingPanelist = session.ballots.some(ballot => 
+          ballot.panelistName && ballot.panelistName.toLowerCase().includes(query)
+        );
+        if (hasMatchingPanelist) return true;
+      }
+      
+      return false;
+    });
+    
+    setFilteredSessions(filtered);
+  }, [searchQuery, sessions]);
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
