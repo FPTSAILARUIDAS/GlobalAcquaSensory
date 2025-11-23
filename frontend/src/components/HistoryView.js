@@ -169,8 +169,10 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
                             <Calendar className="w-4 h-4" />
                             <span>{formatDate(session.createdAt)}</span>
                           </div>
-                          <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                            {session.ballots.length} Panelist{session.ballots.length > 1 ? "s" : ""}
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            session.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {session.ballots.length}/{session.targetPanelistCount} Panelists
                           </span>
                         </div>
                         {/* Show product code preview */}
