@@ -300,11 +300,44 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
         {/* Sessions Tab */}
         {activeTab === "sessions" && (
           <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-blue-100">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              All Sensory Analysis Sessions ({sessions.length})
-            </h2>
+            {/* Header with Search */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                All Sessions ({filteredSessions.length})
+              </h2>
+              
+              {/* Search Bar */}
+              <div className="relative w-full sm:w-96">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder="Search by date, product code, session code..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-10 w-full text-sm"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Sessions List */}
             <div className="space-y-4">
-              {sessions.map((session) => (
+              {filteredSessions.length === 0 ? (
+                <div className="text-center py-12">
+                  <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500 text-sm sm:text-base">
+                    {searchQuery ? "No sessions found matching your search" : "No sessions available"}
+                  </p>
+                </div>
+              ) : (
+                filteredSessions.map((session) => (
                 <div key={session.id} className="p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-3 lg:space-y-0">
                     <div className="flex-1">
