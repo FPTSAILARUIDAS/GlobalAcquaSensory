@@ -25,21 +25,21 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 border border-blue-100">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <LogIn className="w-8 h-8 text-white" />
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+              <LogIn className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
               Global Acqua Pvt Ltd
             </h1>
-            <p className="text-base text-gray-600 mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-sm sm:text-base text-gray-600 mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
               Sensory Quality Control
             </p>
-            <p className="text-sm text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-xs sm:text-sm text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
               Sign in to continue
             </p>
           </div>
