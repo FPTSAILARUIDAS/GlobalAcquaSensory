@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "@/index.css";
 import App from "@/App";
 import PrintableReport from "@/components/PrintableReport";
+import SummaryReport from "@/components/SummaryReport";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -11,6 +12,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/report/:sessionCode" element={<PrintableReport />} />
+        <Route path="/summary/:sessionCode" element={<SummaryReport />} />
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
