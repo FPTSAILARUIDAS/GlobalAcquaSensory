@@ -201,9 +201,16 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
               <div className="space-y-3">
                 {users.map((user) => (
                   <div key={user.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <div>
-                      <p className="font-semibold text-gray-800">{user.username}</p>
-                      <p className="text-sm text-gray-600">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <p className="font-semibold text-gray-800">{user.username}</p>
+                        {user.username === "admin" && (
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-300">
+                            DEFAULT - PROTECTED
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 mt-1">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                           user.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"
                         }`}>
@@ -212,7 +219,7 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                         <span className="ml-3">Created: {new Date(user.createdAt).toLocaleDateString()}</span>
                       </p>
                     </div>
-                    {user.username !== "admin" && (
+                    {user.username !== "admin" ? (
                       <Button
                         data-testid={`delete-user-${user.username}`}
                         onClick={() => handleDeleteUser(user.username)}
@@ -221,6 +228,10 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
+                    ) : (
+                      <div className="px-4 py-2 text-xs text-gray-500 italic">
+                        Cannot delete
+                      </div>
                     )}
                   </div>
                 ))}
