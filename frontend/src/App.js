@@ -141,12 +141,52 @@ function App() {
     }
   }, [sessionBallots, view, targetPanelistCount, lastBallotData]);
 
-  const handleStartSession = (count) => {
+  const handleStartSession = async (count) => {
     setTargetPanelistCount(count);
-    setSessionBallots([]);
-    setCurrentPanelistNumber(1);
-    setLastBallotData(undefined);
-    setView(AppView.NEW_SESSION);
+    
+    // Create a collaborative session
+    try {
+      const response = await axios.post(`${API}/sessions/create`, 
+        { targetPanelistCount: count },
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      
+      setActiveSessionCode(response.data.sessionCode);
+      setSessionBallots([]);
+      setCurrentPanelistNumber(1);
+      setLastBallotData(undefined);
+      setView(AppView.BALLOT_ENTRY);
+    } catch (error) {
+      console.error("Failed to create session:", error);
+      alert("Failed to create session. Please try again.");
+    }
+  };
+
+  const handleJoinSession = async () => {
+    if (!sessionCode.trim()) {
+      alert("Please enter a session code");
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${API}/sessions/code/${sessionCode}`);
+      const session = response.data;
+      
+      if (session.status === "completed") {
+        alert("This session is already completed");
+        return;
+      }
+
+      setActiveSessionCode(sessionCode);
+      setTargetPanelistCount(session.targetPanelistCount);
+      setSessionBallots(session.ballots);
+      setCurrentPanelistNumber(session.ballots.length + 1);
+      setView(AppView.BALLOT_ENTRY);
+      setShowSessionCodeInput(false);
+    } catch (error) {
+      console.error("Failed to join session:", error);
+      alert("Invalid session code or session not found");
+    }
   };
 
   const handleBallotSubmit = (ballotData) => {
