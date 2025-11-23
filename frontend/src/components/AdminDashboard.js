@@ -74,27 +74,6 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
     }
   };
 
-  const downloadReport = (session) => {
-    try {
-      const reportData = JSON.stringify(session, null, 2);
-      const blob = new Blob([reportData], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `session-${session.sessionCode}-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      setMessage(`Report downloaded: ${session.sessionCode}`);
-      setTimeout(() => setMessage(""), 2000);
-    } catch (error) {
-      console.error('Download error:', error);
-      setMessage('Failed to download report');
-      setTimeout(() => setMessage(""), 2000);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
       {/* Header */}
