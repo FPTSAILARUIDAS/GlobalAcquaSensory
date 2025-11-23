@@ -160,6 +160,9 @@ const SummaryReport = () => {
                     <td className="border-2 border-gray-900 px-4 py-3 text-gray-800 font-mono text-sm">
                       {ballot.productCode}
                     </td>
+                    <td className="border-2 border-gray-900 px-4 py-3 text-center text-sm text-gray-800">
+                      {formatTime(ballot.productTime)}
+                    </td>
                     <td className="border-2 border-gray-900 px-4 py-3 text-center">
                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                         ballot.appearance.status === "IN" 
@@ -200,7 +203,7 @@ const SummaryReport = () => {
                       {getFailedTests(ballot)}
                     </td>
                     <td className="border-2 border-gray-900 px-4 py-3 text-center text-sm text-gray-800">
-                      {formatDate(ballot.testingCompletionDate)}
+                      {formatDateTime(ballot.testingCompletionDate, ballot.testingCompletionTime)}
                     </td>
                   </tr>
                 );
