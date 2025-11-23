@@ -201,12 +201,12 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
         {activeTab === "users" && (
           <div className="space-y-6">
             {/* Create User Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-100">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                <UserPlus className="w-6 h-6 inline mr-2" />
+            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-blue-100">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 inline mr-2" />
                 Create New User
               </h2>
-              <form onSubmit={handleCreateUser} className="grid md:grid-cols-4 gap-4">
+              <form onSubmit={handleCreateUser} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="new-username">Username *</Label>
                   <Input
