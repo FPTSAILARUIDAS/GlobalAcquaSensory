@@ -209,6 +209,14 @@ function App() {
                 </p>
                 <div className="space-y-3">
                   <button
+                    data-testid="start-session-1-btn"
+                    onClick={() => handleStartSession(1)}
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                  >
+                    <Users className="w-5 h-5" />
+                    <span>1 Panelist</span>
+                  </button>
+                  <button
                     data-testid="start-session-2-btn"
                     onClick={() => handleStartSession(2)}
                     className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
