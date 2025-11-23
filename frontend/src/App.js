@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import "@/App.css";
 import axios from "axios";
-import { Cloud, CloudOff, PlusCircle, ClipboardList, ArrowLeft, Users, CheckCircle } from "lucide-react";
+import { Cloud, CloudOff, PlusCircle, ClipboardList, ArrowLeft, Users, CheckCircle, Key, LogOut } from "lucide-react";
 import BallotForm from "@/components/BallotForm";
 import ReportView from "@/components/ReportView";
 import HistoryView from "@/components/HistoryView";
+import Login from "@/components/Login";
+import AdminDashboard from "@/components/AdminDashboard";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -12,11 +17,19 @@ const API = `${BACKEND_URL}/api`;
 const AppView = {
   DASHBOARD: "DASHBOARD",
   NEW_SESSION: "NEW_SESSION",
+  BALLOT_ENTRY: "BALLOT_ENTRY",
   REPORT: "REPORT",
   HISTORY: "HISTORY",
 };
 
 function App() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  // App state
   const [view, setView] = useState(AppView.DASHBOARD);
   const [sessionBallots, setSessionBallots] = useState([]);
   const [targetPanelistCount, setTargetPanelistCount] = useState(3);
@@ -25,6 +38,11 @@ function App() {
   const [history, setHistory] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
   const [cloudConnected, setCloudConnected] = useState(true);
+  
+  // Session code state
+  const [sessionCode, setSessionCode] = useState("");
+  const [activeSessionCode, setActiveSessionCode] = useState("");
+  const [showSessionCodeInput, setShowSessionCodeInput] = useState(false);
 
   // Fetch history from backend
   useEffect(() => {
