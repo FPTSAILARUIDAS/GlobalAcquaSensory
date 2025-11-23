@@ -90,14 +90,22 @@ class BatchSession(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    status: str = "completed"
-    ballots: List[BallotData]
+    sessionCode: Optional[str] = None  # For collaborative sessions
+    status: str = "in_progress"  # "in_progress" or "completed"
+    targetPanelistCount: int = 1
+    ballots: List[BallotData] = []
+    createdBy: Optional[str] = None  # Username of creator
     createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    completedAt: Optional[str] = None
     summary: Optional[Dict[str, Any]] = None
 
 class BatchSessionCreate(BaseModel):
-    ballots: List[BallotData]
-    summary: Optional[Dict[str, Any]] = None
+    targetPanelistCount: int
+    sessionCode: Optional[str] = None
+
+class BallotSubmit(BaseModel):
+    sessionCode: str
+    ballotData: BallotData
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
