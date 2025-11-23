@@ -92,66 +92,86 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                   Panelist {index + 1}
                 </h3>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Product Type</p>
-                    <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-product-type`}>{ballot.productType}</p>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Product Code</p>
-                    <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-product-code`}>{ballot.productCode}</p>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Date of Manufacturing</p>
-                    <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-date-of-mfg`}>{ballot.dateOfMfg}</p>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Control Sample Code</p>
-                    <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-control-sample-code`}>{ballot.controlSampleCode}</p>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">Product Time</p>
-                    <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-product-time`}>{ballot.productTime}</p>
-                  </div>
-
-                  {ballot.temperature && (
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <p className="text-xs font-semibold text-gray-500 mb-1">Temperature</p>
-                      <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-temperature`}>{ballot.temperature}°C</p>
+                {/* Product Information */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-bold text-gray-700 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Product Information</h4>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="bg-white rounded-lg p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-gray-500 mb-1">Product Type</p>
+                      <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-type`}>{ballot.productType}</p>
                     </div>
-                  )}
 
-                  {ballot.clarity && (
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <p className="text-xs font-semibold text-gray-500 mb-1">Clarity</p>
-                      <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-clarity`}>{ballot.clarity}</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-gray-500 mb-1">Product Code</p>
+                      <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-code`}>{ballot.productCode}</p>
                     </div>
-                  )}
 
-                  {ballot.color && (
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <p className="text-xs font-semibold text-gray-500 mb-1">Color</p>
-                      <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-color`}>{ballot.color}</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-gray-500 mb-1">Date of Manufacturing</p>
+                      <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-date-of-mfg`}>{ballot.dateOfMfg}</p>
                     </div>
-                  )}
 
-                  {ballot.odor && (
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <p className="text-xs font-semibold text-gray-500 mb-1">Odor</p>
-                      <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-odor`}>{ballot.odor}</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-gray-500 mb-1">Control Sample Code</p>
+                      <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-control-sample-code`}>{ballot.controlSampleCode}</p>
                     </div>
-                  )}
 
-                  {ballot.taste && (
-                    <div className="bg-white rounded-lg p-4 shadow-sm">
-                      <p className="text-xs font-semibold text-gray-500 mb-1">Taste</p>
-                      <p className="text-base font-medium text-gray-800" data-testid={`ballot-${index}-taste`}>{ballot.taste}</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-gray-500 mb-1">Product Time</p>
+                      <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-time`}>{ballot.productTime}</p>
                     </div>
-                  )}
+                  </div>
+                </div>
+
+                {/* Test Results */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-700 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Test Results</h4>
+                  <div className="space-y-3">
+                    {/* Appearance */}
+                    <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.appearance.status === "IN" ? "border-green-200" : "border-red-200"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-semibold text-gray-700">Appearance</p>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${ballot.appearance.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid={`ballot-${index}-appearance-status`}>
+                          {ballot.appearance.status}
+                        </span>
+                      </div>
+                      {ballot.appearance.status === "OUT" && (
+                        <div className="mt-2 pt-2 border-t border-gray-200">
+                          <p className="text-xs text-gray-600">Reason: <span className="font-semibold text-gray-800" data-testid={`ballot-${index}-appearance-reason`}>{ballot.appearance.reason === "Other" ? ballot.appearance.otherReason : ballot.appearance.reason}</span></p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Odour */}
+                    <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.odour.status === "IN" ? "border-green-200" : "border-red-200"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-semibold text-gray-700">Odour</p>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${ballot.odour.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid={`ballot-${index}-odour-status`}>
+                          {ballot.odour.status}
+                        </span>
+                      </div>
+                      {ballot.odour.status === "OUT" && (
+                        <div className="mt-2 pt-2 border-t border-gray-200">
+                          <p className="text-xs text-gray-600">Reason: <span className="font-semibold text-gray-800" data-testid={`ballot-${index}-odour-reason`}>{ballot.odour.reason === "Other" ? ballot.odour.otherReason : ballot.odour.reason}</span></p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Taste */}
+                    <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.taste.status === "IN" ? "border-green-200" : "border-red-200"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-semibold text-gray-700">Taste</p>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${ballot.taste.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid={`ballot-${index}-taste-status`}>
+                          {ballot.taste.status}
+                        </span>
+                      </div>
+                      {ballot.taste.status === "OUT" && (
+                        <div className="mt-2 pt-2 border-t border-gray-200">
+                          <p className="text-xs text-gray-600">Reason: <span className="font-semibold text-gray-800" data-testid={`ballot-${index}-taste-reason`}>{ballot.taste.reason === "Other" ? ballot.taste.otherReason : ballot.taste.reason}</span></p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 {ballot.remarks && (
