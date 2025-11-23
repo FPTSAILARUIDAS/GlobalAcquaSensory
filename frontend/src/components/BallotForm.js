@@ -336,6 +336,43 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
           />
         </div>
 
+        {/* Testing Completion Date & Time */}
+        <div className="bg-gradient-to-br from-cyan-50 to-teal-50 rounded-xl p-6 border-2 border-cyan-200 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Testing Completion
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="testingCompletionDate" className="text-sm font-semibold text-gray-700">
+                Completion Date *
+              </Label>
+              <Input
+                id="testingCompletionDate"
+                data-testid="input-testing-completion-date"
+                type="date"
+                value={formData.testingCompletionDate}
+                onChange={(e) => handleChange("testingCompletionDate", e.target.value)}
+                required
+                className="border-cyan-300 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="testingCompletionTime" className="text-sm font-semibold text-gray-700">
+                Completion Time *
+              </Label>
+              <Input
+                id="testingCompletionTime"
+                data-testid="input-testing-completion-time"
+                type="time"
+                value={formData.testingCompletionTime}
+                onChange={(e) => handleChange("testingCompletionTime", e.target.value)}
+                required
+                className="border-cyan-300 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4">
           {onBack && (
