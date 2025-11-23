@@ -20,7 +20,9 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
   const [formData, setFormData] = useState({
     panelistName: initialData?.panelistName || "",
     productType: initialData?.productType || "",
+    otherProductType: initialData?.otherProductType || "",
     productVariant: initialData?.productVariant || "",
+    otherProductVariant: initialData?.otherProductVariant || "",
     productCode: initialData?.productCode || "",
     dateOfMfg: initialData?.dateOfMfg || "",
     controlSampleCode: initialData?.controlSampleCode || "",
@@ -37,7 +39,9 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
     setFormData((prev) => ({
       ...prev,
       productType: value,
+      otherProductType: value === "Other" ? prev.otherProductType : "",
       productVariant: value === "Finished Goods" ? prev.productVariant : "",
+      otherProductVariant: "",
     }));
   };
 
