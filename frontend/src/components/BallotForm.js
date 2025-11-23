@@ -8,12 +8,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const time = now.toTimeString().slice(0, 5);
+    return { date, time };
+  };
+
+  const { date: currentDate, time: currentTime } = getCurrentDateTime();
+
   const [formData, setFormData] = useState({
+    panelistName: initialData?.panelistName || "",
     productType: initialData?.productType || "",
     productCode: initialData?.productCode || "",
     dateOfMfg: initialData?.dateOfMfg || "",
     controlSampleCode: initialData?.controlSampleCode || "",
     productTime: initialData?.productTime || "",
+    testingCompletionDate: initialData?.testingCompletionDate || currentDate,
+    testingCompletionTime: initialData?.testingCompletionTime || currentTime,
     appearance: initialData?.appearance || { status: "IN", reason: "", otherReason: "" },
     odour: initialData?.odour || { status: "IN", reason: "", otherReason: "" },
     taste: initialData?.taste || { status: "IN", reason: "", otherReason: "" },
