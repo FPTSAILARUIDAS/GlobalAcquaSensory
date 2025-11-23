@@ -116,6 +116,9 @@ backend:
         - working: true
           agent: "testing"
           comment: "All authentication endpoints tested successfully. Fixed minor JWT exception handling issue (jwt.JWTError -> jwt.InvalidTokenError). All 6 specified login scenarios work correctly: admin/admin123, Saila Ruidas/saila123, customadmin/custom123, SD/sd123, RM/rm123, and invalid credentials properly rejected with 401."
+        - working: true
+          agent: "testing"
+          comment: "COMPREHENSIVE LOGIN TESTING COMPLETED - Executed backend_test.py with all 6 specified scenarios from review request. Results: ✅ admin/admin123 (200 OK, role=admin, token received), ✅ Saila Ruidas/saila123 (200 OK, role=admin), ✅ customadmin/custom123 (200 OK, role=admin), ✅ SD/sd123 (200 OK, role=user), ✅ RM/rm123 (200 OK, role=user), ✅ invalid login admin/wrongpassword (401 Unauthorized as expected). All test users already exist in database. Backend service running properly at https://sensory-eval.preview.emergentagent.com/api. Total: 10/10 tests passed including API root endpoint."
         
   - task: "Authentication System - Token Validation"
     implemented: true
