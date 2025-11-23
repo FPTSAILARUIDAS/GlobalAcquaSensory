@@ -76,7 +76,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                 <span className="font-semibold">Session Code:</span> <span className="font-mono text-lg text-purple-700">{session.sessionCode}</span>
               </div>
               <div>
-                <span className="font-semibold">Date:</span> {formatDate(session.createdAt)}
+                <span className="font-semibold">Completed:</span> {formatDate(session.completedAt || session.createdAt)}
               </div>
             </div>
           </div>
