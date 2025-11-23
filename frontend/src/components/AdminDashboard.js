@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserPlus, Users as UsersIcon, Trash2, Download, LogOut, FileText } from "lucide-react";
+import { UserPlus, Users as UsersIcon, Trash2, Download, LogOut, FileText, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,8 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
   const [activeTab, setActiveTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
+  const [filteredSessions, setFilteredSessions] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [newUser, setNewUser] = useState({ username: "", password: "", role: "user" });
   const [message, setMessage] = useState("");
 
