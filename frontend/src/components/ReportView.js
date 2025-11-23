@@ -70,7 +70,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                     Sensory Evaluation Report
                   </h1>
                   <p className="text-sm text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    Organoleptic Analysis of Water
+                    Sensory Analysis
                   </p>
                 </div>
               </div>
