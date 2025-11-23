@@ -465,16 +465,7 @@ function App() {
           <ReportView
             session={selectedSession}
             onRestart={handleBackToDashboard}
-            onBackToHistory={handleViewHistory}
-          />
-        )}
-
-        {view === AppView.HISTORY && (
-          <HistoryView
-            history={history}
-            onSelectSession={handleSelectSession}
-            onClearHistory={handleClearHistory}
-            onBack={handleBackToDashboard}
+            onBackToHistory={null}
           />
         )}
       </main>
