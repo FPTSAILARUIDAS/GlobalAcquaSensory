@@ -33,10 +33,13 @@ const Login = ({ onLogin }) => {
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <LogIn className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <h1 className="text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
               Global Acqua Pvt Ltd
             </h1>
-            <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-base text-gray-600 mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Sensory Quality Control
+            </p>
+            <p className="text-sm text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
               Sign in to continue
             </p>
           </div>
