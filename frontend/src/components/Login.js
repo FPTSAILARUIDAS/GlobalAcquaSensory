@@ -106,6 +106,13 @@ const Login = ({ onLogin }) => {
               Default Admin: <span className="font-semibold">admin</span> / <span className="font-semibold">admin123</span>
             </p>
           </div>
+
+          {/* Developer Credit */}
+          <div className="mt-4 text-center">
+            <p className="text-xs text-gray-500">
+              Developed by <span className="font-semibold text-gray-700">Mr Saila Ruidas</span> in collaboration with <span className="font-semibold text-gray-700">Emergent Lab</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
