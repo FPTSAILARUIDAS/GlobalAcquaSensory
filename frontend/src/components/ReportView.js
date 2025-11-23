@@ -104,6 +104,13 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                       <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-type`}>{ballot.productType}</p>
                     </div>
 
+                    {ballot.productVariant && (
+                      <div className="bg-white rounded-lg p-3 shadow-sm">
+                        <p className="text-xs font-semibold text-gray-500 mb-1">Product Variant</p>
+                        <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-variant`}>{ballot.productVariant}</p>
+                      </div>
+                    )}
+
                     <div className="bg-white rounded-lg p-3 shadow-sm">
                       <p className="text-xs font-semibold text-gray-500 mb-1">Product Code</p>
                       <p className="text-sm font-medium text-gray-800" data-testid={`ballot-${index}-product-code`}>{ballot.productCode}</p>
