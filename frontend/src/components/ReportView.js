@@ -66,11 +66,14 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                   <FileText className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-800" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                  <h1 className="text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                     Sensory Evaluation Report
                   </h1>
-                  <p className="text-sm text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    Sensory Analysis
+                  <p className="text-base text-gray-600 mb-1" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    Sensory Quality Control
+                  </p>
+                  <p className="text-sm text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    Global Acqua Pvt Ltd
                   </p>
                 </div>
               </div>
