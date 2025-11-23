@@ -159,16 +159,16 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Message */}
         {message && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-700">
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm sm:text-base">
             {message}
           </div>
         )}
 
-        {/* Tabs */}
-        <div className="flex space-x-4 mb-6">
+        {/* Tabs - Mobile Responsive */}
+        <div className="flex space-x-2 sm:space-x-4 mb-4 sm:mb-6 overflow-x-auto">
           <Button
             data-testid="tab-users"
             onClick={() => setActiveTab("users")}
