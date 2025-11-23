@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the Summary Report changes for the Global Acqua Sensory App - removed 'Made with Emergent' badge, added 'Product Time' column, and changed 'Testing Date' to 'Testing Date & Time'"
+user_problem_statement: "Test that the default admin account cannot be deleted in the Global Acqua Sensory App"
 
 backend:
   - task: "Authentication System - Login Endpoint"
