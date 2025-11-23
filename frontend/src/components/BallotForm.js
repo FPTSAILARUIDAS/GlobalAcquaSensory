@@ -387,6 +387,7 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                   className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
+            </div>
           </div>
         </div>
 
