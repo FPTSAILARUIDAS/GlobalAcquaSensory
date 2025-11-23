@@ -177,6 +177,11 @@ class AuthTester:
         # Test API root endpoint
         self.test_api_root()
         
+        # Test default admin deletion protection
+        print("Testing Admin Protection...")
+        print("-" * 40)
+        self.test_default_admin_deletion_protection()
+        
         print("=" * 60)
         print("SUMMARY")
         print("=" * 60)
