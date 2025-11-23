@@ -88,9 +88,12 @@ const PrintableReport = () => {
       <div className="max-w-4xl mx-auto p-12">
         {/* Header */}
         <div className="text-center mb-8 pb-6 border-b-4 border-blue-600">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          <h1 className="text-4xl font-bold text-gray-900 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
             Global Acqua Pvt Ltd
           </h1>
+          <p className="text-lg text-gray-600 mb-3" style={{ fontFamily: 'Inter, sans-serif' }}>
+            Sensory Quality Control
+          </p>
           <h2 className="text-2xl font-semibold text-blue-600 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
             Sensory Analysis Report
           </h2>
