@@ -434,9 +434,17 @@ function App() {
           </div>
         )}
 
-        {view === AppView.NEW_SESSION && (
+        {view === AppView.BALLOT_ENTRY && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="max-w-3xl mx-auto">
+              {/* Session Code Display */}
+              <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl">
+                <div className="text-center">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Session Code (Share with other panelists)</p>
+                  <p className="text-3xl font-bold font-mono text-purple-700">{activeSessionCode}</p>
+                </div>
+              </div>
+
               <div className="flex items-center justify-between mb-6">
                 <button
                   data-testid="back-to-dashboard-btn"
