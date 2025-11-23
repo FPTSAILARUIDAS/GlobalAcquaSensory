@@ -294,7 +294,7 @@ function App() {
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="text-center mb-12">
               <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0369a1' }}>
-                Organoleptic Water Analysis
+                Sensory Analysis
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Digitize sensory evaluation with independent panelist opinions for comprehensive compliance reporting
