@@ -215,6 +215,73 @@ class AuthTester:
                 self.log_result(test_name, False, f"Expected 200, got {response.status_code}")
         except Exception as e:
             self.log_result(test_name, False, f"Exception: {str(e)}")
+    
+    def test_default_admin_deletion_protection(self):
+        """Test that the default admin account cannot be deleted"""
+        test_name = "Default Admin Deletion Protection"
+        
+        if not self.admin_token:
+            # Login as admin first
+            self.admin_token = self.test_login("admin", "admin123", "admin", True)
+            if not self.admin_token:
+                self.log_result(test_name, False, "Cannot test - admin login failed")
+                return False
+        
+        headers = {
+            "Authorization": f"Bearer {self.admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        try:
+            # Step 1: Verify admin user exists before deletion attempt
+            users_response = self.session.get(f"{API_BASE}/admin/users", headers=headers)
+            if users_response.status_code != 200:
+                self.log_result(test_name, False, f"Cannot get users list: {users_response.status_code}")
+                return False
+            
+            users = users_response.json()
+            admin_exists_before = any(user["username"] == "admin" for user in users)
+            if not admin_exists_before:
+                self.log_result(test_name, False, "Admin user does not exist before deletion test")
+                return False
+            
+            # Step 2: Attempt to delete the default admin account
+            delete_response = self.session.delete(f"{API_BASE}/admin/users/admin", headers=headers)
+            
+            # Step 3: Verify deletion is rejected with 400 Bad Request
+            if delete_response.status_code != 400:
+                self.log_result(test_name, False, f"Expected 400 Bad Request, got {delete_response.status_code}")
+                return False
+            
+            # Step 4: Verify correct error message
+            try:
+                error_data = delete_response.json()
+                expected_message = "Cannot delete the default admin account"
+                if error_data.get("detail") != expected_message:
+                    self.log_result(test_name, False, f"Expected error message '{expected_message}', got '{error_data.get('detail')}'")
+                    return False
+            except:
+                self.log_result(test_name, False, "Cannot parse error response as JSON")
+                return False
+            
+            # Step 5: Verify admin user still exists after failed deletion
+            users_response_after = self.session.get(f"{API_BASE}/admin/users", headers=headers)
+            if users_response_after.status_code != 200:
+                self.log_result(test_name, False, f"Cannot get users list after deletion attempt: {users_response_after.status_code}")
+                return False
+            
+            users_after = users_response_after.json()
+            admin_exists_after = any(user["username"] == "admin" for user in users_after)
+            if not admin_exists_after:
+                self.log_result(test_name, False, "Admin user was deleted despite protection")
+                return False
+            
+            self.log_result(test_name, True, "Default admin account properly protected from deletion")
+            return True
+            
+        except Exception as e:
+            self.log_result(test_name, False, f"Exception: {str(e)}")
+            return False
 
 if __name__ == "__main__":
     tester = AuthTester()
