@@ -161,7 +161,7 @@ async def startup_event():
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
-    return {"message": "Global Acqua Sensory Analysis API"}
+    return {"message": "Global Acqua Pvt Ltd - Sensory Analysis API"}
 
 # Authentication routes
 @api_router.post("/auth/login", response_model=Token)
