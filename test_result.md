@@ -144,6 +144,18 @@ backend:
           agent: "testing"
           comment: "User management endpoints working correctly. Admin users can create/list/delete users. Role-based access control properly enforced. All test users (Saila Ruidas, customadmin, SD, RM) already exist in database."
 
+  - task: "Default Admin Account Deletion Protection"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "✅ COMPREHENSIVE TEST PASSED: Default admin deletion protection working correctly. Test scenario: 1) Login as different admin user (Saila Ruidas), 2) Attempt DELETE /api/admin/users/admin, 3) Verified 400 Bad Request response, 4) Confirmed exact error message 'Cannot delete the default admin account', 5) Verified admin user still exists in database after failed deletion. All 5 test steps passed successfully. Protection mechanism properly implemented at backend/server.py lines 211-212."
+
 frontend:
   - task: "Summary Report - Remove Made with Emergent Badge"
     implemented: true
