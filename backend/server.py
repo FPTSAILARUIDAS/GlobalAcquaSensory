@@ -35,15 +35,15 @@ class TestResult(BaseModel):
 class BallotData(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
-    panelistName: str
+    panelistName: Optional[str] = "Unknown"
     productType: str
     productVariant: Optional[str] = None
     productCode: str
     dateOfMfg: str
     controlSampleCode: str
     productTime: str
-    testingCompletionDate: str
-    testingCompletionTime: str
+    testingCompletionDate: Optional[str] = None
+    testingCompletionTime: Optional[str] = None
     appearance: TestResult
     odour: TestResult
     taste: TestResult
