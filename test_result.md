@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the authentication endpoints for the Global Acqua Sensory App"
+user_problem_statement: "Test the Summary Report changes for the Global Acqua Sensory App - removed 'Made with Emergent' badge, added 'Product Time' column, and changed 'Testing Date' to 'Testing Date & Time'"
 
 backend:
   - task: "Authentication System - Login Endpoint"
@@ -142,22 +142,57 @@ backend:
           comment: "User management endpoints working correctly. Admin users can create/list/delete users. Role-based access control properly enforced. All test users (Saila Ruidas, customadmin, SD, RM) already exist in database."
 
 frontend:
-  # No frontend testing performed as per instructions
+  - task: "Summary Report - Remove Made with Emergent Badge"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/SummaryReport.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Need to verify that 'Made with Emergent' badge has been removed from all pages including printed reports"
+        
+  - task: "Summary Report - Add Product Time Column"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/SummaryReport.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Need to verify that 'Product Time' column has been added to the Summary Report table and displays correct values"
+        
+  - task: "Summary Report - Change Testing Date to Testing Date & Time"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/SummaryReport.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Need to verify that 'Testing Date' column has been changed to 'Testing Date & Time' and shows both date and time for each panelist"
 
 metadata:
   created_by: "testing_agent"
-  version: "1.0"
-  test_sequence: 1
-  run_ui: false
+  version: "1.1"
+  test_sequence: 2
+  run_ui: true
 
 test_plan:
   current_focus:
-    - "Authentication System - Login Endpoint"
-    - "Authentication System - Token Validation"
+    - "Summary Report - Remove Made with Emergent Badge"
+    - "Summary Report - Add Product Time Column"
+    - "Summary Report - Change Testing Date to Testing Date & Time"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
     - agent: "testing"
-      message: "Completed comprehensive authentication testing for Global Acqua Sensory App. All 6 specified login scenarios working correctly. Fixed minor JWT exception handling issue in backend. All authentication endpoints, token validation, and role-based access control functioning properly. Total tests: 26 (10 basic auth + 16 additional scenarios), all passed."
+      message: "Starting comprehensive testing of Summary Report changes for Global Acqua Sensory App. Will test: 1) Removal of 'Made with Emergent' badge, 2) Addition of 'Product Time' column, 3) Change from 'Testing Date' to 'Testing Date & Time'. Test scenario: Login as admin, navigate to All Sessions tab, click Summary Report for completed session with 2-3 panelists."
