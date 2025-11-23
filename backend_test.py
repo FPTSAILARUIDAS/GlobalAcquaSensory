@@ -225,15 +225,14 @@ class AuthTester:
         """Test that the default admin account cannot be deleted"""
         test_name = "Default Admin Deletion Protection"
         
-        if not self.admin_token:
-            # Login as admin first
-            self.admin_token = self.test_login("admin", "admin123", "admin", True)
-            if not self.admin_token:
-                self.log_result(test_name, False, "Cannot test - admin login failed")
-                return False
+        # Login as a different admin user (not the default admin) to test deletion
+        other_admin_token = self.test_login("Saila Ruidas", "saila123", "admin", True)
+        if not other_admin_token:
+            self.log_result(test_name, False, "Cannot test - other admin login failed")
+            return False
         
         headers = {
-            "Authorization": f"Bearer {self.admin_token}",
+            "Authorization": f"Bearer {other_admin_token}",
             "Content-Type": "application/json"
         }
         
