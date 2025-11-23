@@ -160,8 +160,9 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
                         <FileText className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                          Session Report
+                        <h3 className="text-lg font-bold text-gray-800 mb-1 flex items-center space-x-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                          <span>Session</span>
+                          <span className="font-mono text-purple-700">{session.sessionCode}</span>
                         </h3>
                         <div className="flex items-center space-x-4 text-sm text-gray-600">
                           <div className="flex items-center space-x-1">
