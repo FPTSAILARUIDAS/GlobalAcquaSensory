@@ -27,6 +27,11 @@ api_router = APIRouter(prefix="/api")
 
 
 # Define Models
+class TestResult(BaseModel):
+    status: str  # "IN" or "OUT"
+    reason: Optional[str] = None
+    otherReason: Optional[str] = None
+
 class BallotData(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -35,11 +40,9 @@ class BallotData(BaseModel):
     dateOfMfg: str
     controlSampleCode: str
     productTime: str
-    temperature: Optional[str] = None
-    clarity: Optional[str] = None
-    color: Optional[str] = None
-    odor: Optional[str] = None
-    taste: Optional[str] = None
+    appearance: TestResult
+    odour: TestResult
+    taste: TestResult
     remarks: Optional[str] = None
 
 class BatchSession(BaseModel):
