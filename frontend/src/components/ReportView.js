@@ -22,15 +22,19 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
       <div className="max-w-5xl mx-auto">
         {/* Action Buttons */}
         <div className="flex items-center justify-between mb-6 no-print">
-          <Button
-            data-testid="back-to-history-btn"
-            onClick={onBackToHistory}
-            variant="outline"
-            className="flex items-center space-x-2 border-gray-300 hover:bg-gray-50"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to History</span>
-          </Button>
+          <div>
+            {onBackToHistory && (
+              <Button
+                data-testid="back-to-history-btn"
+                onClick={onBackToHistory}
+                variant="outline"
+                className="flex items-center space-x-2 border-gray-300 hover:bg-gray-50"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to History</span>
+              </Button>
+            )}
+          </div>
           <div className="flex items-center space-x-3">
             <Button
               data-testid="print-report-btn"
