@@ -116,41 +116,75 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
               Start a new evaluation session to see it here
             </p>
           </div>
+        ) : filteredHistory.length === 0 ? (
+          <div className="bg-white rounded-2xl shadow-lg p-16 text-center border border-blue-100">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+              No Results Found
+            </h3>
+            <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
+              No sessions match your search criteria. Try a different search term.
+            </p>
+            <Button
+              onClick={() => setSearchQuery("")}
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Clear Search
+            </Button>
+          </div>
         ) : (
-          <div className="space-y-4">
-            {history.map((session) => (
-              <div
-                key={session.id}
-                data-testid={`session-item-${session.id}`}
-                onClick={() => onSelectSession(session)}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-blue-100 hover:border-blue-300 cursor-pointer group"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <FileText className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Session Report
-                      </h3>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600">
-                        <div className="flex items-center space-x-1">
-                          <Calendar className="w-4 h-4" />
-                          <span>{formatDate(session.createdAt)}</span>
+          <div className="relative">
+            <div className="text-sm text-gray-600 mb-3">
+              Showing {filteredHistory.length} of {history.length} session{history.length > 1 ? "s" : ""}
+            </div>
+            {/* Scrollable Container */}
+            <div 
+              className="space-y-4 max-h-[600px] overflow-y-auto pr-2 scrollbar-custom"
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#3b82f6 #e5e7eb'
+              }}
+            >
+              {filteredHistory.map((session) => (
+                <div
+                  key={session.id}
+                  data-testid={`session-item-${session.id}`}
+                  onClick={() => onSelectSession(session)}
+                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-blue-100 hover:border-blue-300 cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <FileText className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                          Session Report
+                        </h3>
+                        <div className="flex items-center space-x-4 text-sm text-gray-600">
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="w-4 h-4" />
+                            <span>{formatDate(session.createdAt)}</span>
+                          </div>
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+                            {session.ballots.length} Panelist{session.ballots.length > 1 ? "s" : ""}
+                          </span>
                         </div>
-                        <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                          {session.ballots.length} Panelist{session.ballots.length > 1 ? "s" : ""}
-                        </span>
+                        {/* Show product code preview */}
+                        <div className="text-xs text-gray-500 mt-1">
+                          Batch: {session.ballots[0]?.productCode}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-gray-400 group-hover:text-blue-600 transition-colors duration-200">
-                    <ArrowLeft className="w-6 h-6 rotate-180" />
+                    <div className="text-gray-400 group-hover:text-blue-600 transition-colors duration-200">
+                      <ArrowLeft className="w-6 h-6 rotate-180" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
