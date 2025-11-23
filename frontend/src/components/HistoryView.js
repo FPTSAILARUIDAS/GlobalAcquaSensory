@@ -1,7 +1,11 @@
-import { ArrowLeft, Trash2, FileText, Calendar } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Trash2, FileText, Calendar, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleDateString("en-US", {
@@ -12,6 +16,39 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
       minute: "2-digit",
     });
   };
+
+  const filterSessions = (sessions) => {
+    if (!searchQuery.trim()) return sessions;
+
+    const query = searchQuery.toLowerCase().trim();
+    
+    return sessions.filter((session) => {
+      // Search in session date
+      const sessionDate = new Date(session.createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }).toLowerCase();
+      
+      if (sessionDate.includes(query)) return true;
+
+      // Search in product codes from all ballots
+      const productCodes = session.ballots.map(b => b.productCode?.toLowerCase() || "");
+      if (productCodes.some(code => code.includes(query))) return true;
+
+      // Search in testing completion dates
+      const testingDates = session.ballots.map(b => b.testingCompletionDate?.toLowerCase() || "");
+      if (testingDates.some(date => date.includes(query))) return true;
+
+      // Search in panelist names
+      const panelistNames = session.ballots.map(b => b.panelistName?.toLowerCase() || "");
+      if (panelistNames.some(name => name.includes(query))) return true;
+
+      return false;
+    });
+  };
+
+  const filteredHistory = filterSessions(history);
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
