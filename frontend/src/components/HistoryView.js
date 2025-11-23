@@ -176,9 +176,11 @@ const HistoryView = ({ history, onSelectSession, onClearHistory, onBack }) => {
                           </span>
                         </div>
                         {/* Show product code preview */}
-                        <div className="text-xs text-gray-500 mt-1">
-                          Batch: {session.ballots[0]?.productCode}
-                        </div>
+                        {session.ballots.length > 0 && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            Batch: {session.ballots[0]?.productCode}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="text-gray-400 group-hover:text-blue-600 transition-colors duration-200">
