@@ -140,10 +140,10 @@ async def get_admin_user(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Admin access required")
     return current_user
 
-# Initialize default admin user
+# Initialize default admin user - ONLY if no users exist
 async def init_admin():
-    admin = await db.users.find_one({"username": "admin"})
-    if not admin:
+    user_count = await db.users.count_documents({})
+    if user_count == 0:
         admin_user = {
             "id": str(uuid.uuid4()),
             "username": "admin",
@@ -152,7 +152,7 @@ async def init_admin():
             "createdAt": datetime.now(timezone.utc).isoformat()
         }
         await db.users.insert_one(admin_user)
-        print("Default admin user created: username=admin, password=admin123")
+        print("First admin user created: username=admin, password=admin123")
 
 @app.on_event("startup")
 async def startup_event():
