@@ -323,13 +323,12 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
               </div>
             )}
 
+            {/* Product Code and other fields */}
             <div className="grid md:grid-cols-2 gap-4">
-
-            {/* Product Code */}
-            <div className="space-y-2">
-              <Label htmlFor="productCode" className="text-sm font-semibold text-gray-700">
-                Product Code *
-              </Label>
+              <div className="space-y-2">
+                <Label htmlFor="productCode" className="text-sm font-semibold text-gray-700">
+                  Product Code *
+                </Label>
               <Input
                 id="productCode"
                 data-testid="input-product-code"
