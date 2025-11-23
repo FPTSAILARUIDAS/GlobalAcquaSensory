@@ -283,15 +283,15 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                         className="border-blue-300 text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
                       >
                         <FileText className="w-4 h-4" />
-                        <span>View</span>
+                        <span>Detailed</span>
                       </Button>
                       <Button
-                        data-testid={`download-session-${session.sessionCode}`}
-                        onClick={() => downloadReport(session)}
+                        data-testid={`summary-session-${session.sessionCode}`}
+                        onClick={() => window.open(`/summary/${session.sessionCode}`, '_blank')}
                         className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center space-x-2"
                       >
-                        <Download className="w-4 h-4" />
-                        <span>Download</span>
+                        <FileText className="w-4 h-4" />
+                        <span>Summary Report</span>
                       </Button>
                     </div>
                   </div>
