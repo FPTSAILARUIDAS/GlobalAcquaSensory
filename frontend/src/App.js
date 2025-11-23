@@ -277,7 +277,7 @@ function App() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                  Global Acqua Sensory
+                  Global Acqua Pvt Ltd
                 </h1>
                 <p className="text-xs text-gray-600">User: {username}</p>
               </div>
