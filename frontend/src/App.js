@@ -189,32 +189,30 @@ function App() {
     }
   };
 
-  const handleBallotSubmit = (ballotData) => {
-    const updatedBallots = [...sessionBallots, ballotData];
-    setSessionBallots(updatedBallots);
-    setLastBallotData(ballotData);
-
-    if (updatedBallots.length >= targetPanelistCount) {
-      handleSessionComplete(updatedBallots);
-    } else {
-      setCurrentPanelistNumber(updatedBallots.length + 1);
-    }
-  };
-
-  const handleSessionComplete = async (ballots) => {
+  const handleBallotSubmit = async (ballotData) => {
     try {
-      const response = await axios.post(`${API}/sessions`, {
-        ballots: ballots,
-        summary: null,
+      // Submit ballot to the collaborative session
+      const response = await axios.post(`${API}/sessions/submit-ballot`, {
+        sessionCode: activeSessionCode,
+        ballotData: ballotData
       });
-      setSelectedSession(response.data);
-      setView(AppView.REPORT);
-      localStorage.removeItem("active_session");
-      fetchHistory();
+      
+      const updatedSession = response.data;
+      setSessionBallots(updatedSession.ballots);
+      setLastBallotData(ballotData);
+
+      if (updatedSession.status === "completed") {
+        setSelectedSession(updatedSession);
+        setView(AppView.REPORT);
+        localStorage.removeItem("active_session");
+        fetchHistory();
+      } else {
+        setCurrentPanelistNumber(updatedSession.ballots.length + 1);
+        alert(`Ballot submitted! Waiting for ${updatedSession.targetPanelistCount - updatedSession.ballots.length} more panelist(s).`);
+      }
     } catch (error) {
-      console.error("Failed to save session:", error);
-      setSelectedSession({ id: crypto.randomUUID(), status: "completed", ballots, createdAt: new Date().toISOString(), summary: null });
-      setView(AppView.REPORT);
+      console.error("Failed to submit ballot:", error);
+      alert("Failed to submit ballot. Please try again.");
     }
   };
 
