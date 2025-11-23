@@ -34,7 +34,7 @@ const Login = ({ onLogin }) => {
               <LogIn className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              Global Acqua Sensory
+              Global Acqua Pvt Ltd
             </h1>
             <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
               Sign in to continue
