@@ -35,11 +35,14 @@ class TestResult(BaseModel):
 class BallotData(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
+    panelistName: str
     productType: str
     productCode: str
     dateOfMfg: str
     controlSampleCode: str
     productTime: str
+    testingCompletionDate: str
+    testingCompletionTime: str
     appearance: TestResult
     odour: TestResult
     taste: TestResult
