@@ -200,6 +200,27 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Panelist Information */}
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Panelist Information
+          </h3>
+          <div className="space-y-2">
+            <Label htmlFor="panelistName" className="text-sm font-semibold text-gray-700">
+              Panelist Name *
+            </Label>
+            <Input
+              id="panelistName"
+              data-testid="input-panelist-name"
+              value={formData.panelistName}
+              onChange={(e) => handleChange("panelistName", e.target.value)}
+              placeholder="e.g., John Doe"
+              required
+              className="border-blue-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
         {/* Product Information */}
         <div className="bg-white rounded-xl p-6 border border-blue-200 shadow-sm">
           <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
