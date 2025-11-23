@@ -323,7 +323,7 @@ function App() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {/* New Session Card */}
               <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-blue-100 hover:border-blue-300">
                 <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
@@ -333,7 +333,7 @@ function App() {
                   New Session
                 </h3>
                 <p className="text-gray-600 mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
-                  Start a new sensory evaluation with multiple panelists
+                  Create a collaborative session
                 </p>
                 <div className="space-y-3">
                   <button
@@ -363,6 +363,53 @@ function App() {
                 </div>
               </div>
 
+              {/* Join Session Card */}
+              <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-blue-100 hover:border-blue-300">
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                  <Key className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                  Join Session
+                </h3>
+                <p className="text-gray-600 mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Enter session code to join
+                </p>
+                {!showSessionCodeInput ? (
+                  <button
+                    data-testid="show-join-session-btn"
+                    onClick={() => setShowSessionCodeInput(true)}
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                  >
+                    <Key className="w-5 h-5" />
+                    <span>Enter Code</span>
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    <Input
+                      data-testid="session-code-input"
+                      value={sessionCode}
+                      onChange={(e) => setSessionCode(e.target.value.toUpperCase())}
+                      placeholder="Enter session code"
+                      className="text-center font-mono text-lg"
+                      maxLength={8}
+                    />
+                    <button
+                      data-testid="join-session-btn"
+                      onClick={handleJoinSession}
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                    >
+                      Join Session
+                    </button>
+                    <button
+                      onClick={() => setShowSessionCodeInput(false)}
+                      className="w-full text-sm text-gray-600 hover:text-gray-800"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+              </div>
+
               {/* History Card */}
               <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-blue-100 hover:border-blue-300">
                 <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
@@ -372,7 +419,7 @@ function App() {
                   View History
                 </h3>
                 <p className="text-gray-600 mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
-                  Access and review past evaluation sessions
+                  Access your past sessions
                 </p>
                 <button
                   data-testid="view-history-btn"
