@@ -91,7 +91,7 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
     } catch (error) {
       console.error('Download error:', error);
       setMessage('Failed to download report');
-      setTimeout(() => setMessage(\"\"), 2000);
+      setTimeout(() => setMessage(""), 2000);
     }
   };
 
