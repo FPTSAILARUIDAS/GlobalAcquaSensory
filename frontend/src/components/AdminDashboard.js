@@ -275,14 +275,25 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                         Date: {new Date(session.createdAt).toLocaleString()}
                       </p>
                     </div>
-                    <Button
-                      data-testid={`download-session-${session.sessionCode}`}
-                      onClick={() => downloadReport(session)}
-                      className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center space-x-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Download</span>
-                    </Button>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        data-testid={`view-session-${session.sessionCode}`}
+                        onClick={() => window.open(`/report/${session.sessionCode}`, '_blank')}
+                        variant="outline"
+                        className="border-blue-300 text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
+                      >
+                        <FileText className="w-4 h-4" />
+                        <span>View</span>
+                      </Button>
+                      <Button
+                        data-testid={`download-session-${session.sessionCode}`}
+                        onClick={() => downloadReport(session)}
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 flex items-center space-x-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Download</span>
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
