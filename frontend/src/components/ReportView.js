@@ -183,6 +183,21 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                     <p className="text-base text-gray-700" data-testid={`ballot-${index}-remarks`}>{ballot.remarks}</p>
                   </div>
                 )}
+
+                {/* Testing Completion */}
+                <div className="mt-4 bg-gradient-to-r from-cyan-100 to-teal-100 rounded-lg p-4 shadow-sm border border-cyan-300">
+                  <h4 className="text-xs font-bold text-gray-700 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Testing Completion</h4>
+                  <div className="flex items-center space-x-6">
+                    <div>
+                      <p className="text-xs text-gray-600">Date</p>
+                      <p className="text-sm font-semibold text-gray-800" data-testid={`ballot-${index}-testing-date`}>{ballot.testingCompletionDate}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-600">Time</p>
+                      <p className="text-sm font-semibold text-gray-800" data-testid={`ballot-${index}-testing-time`}>{ballot.testingCompletionTime}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
