@@ -38,6 +38,30 @@ api_router = APIRouter(prefix="/api")
 
 
 # Define Models
+class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    username: str
+    password: str  # Will be hashed
+    role: str = "user"  # "admin" or "user"
+    createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class UserCreate(BaseModel):
+    username: str
+    password: str
+    role: str = "user"
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    role: str
+    username: str
+
 class TestResult(BaseModel):
     status: str  # "IN" or "OUT"
     reason: Optional[str] = None
