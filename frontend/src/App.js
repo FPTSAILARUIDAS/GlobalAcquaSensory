@@ -44,20 +44,67 @@ function App() {
   const [activeSessionCode, setActiveSessionCode] = useState("");
   const [showSessionCodeInput, setShowSessionCodeInput] = useState(false);
 
+  // Check for stored auth on mount
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      try {
+        const auth = JSON.parse(storedAuth);
+        setAuthToken(auth.token);
+        setUserRole(auth.role);
+        setUsername(auth.username);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Failed to restore auth:", error);
+        localStorage.removeItem("auth");
+      }
+    }
+  }, []);
+
   // Fetch history from backend
   useEffect(() => {
-    fetchHistory();
-  }, []);
+    if (isAuthenticated && authToken) {
+      fetchHistory();
+    }
+  }, [isAuthenticated, authToken]);
 
   const fetchHistory = async () => {
     try {
-      const response = await axios.get(`${API}/sessions`);
+      const response = await axios.get(`${API}/sessions`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
       setHistory(response.data);
       setCloudConnected(true);
     } catch (error) {
       console.error("Failed to fetch history:", error);
       setCloudConnected(false);
     }
+  };
+
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await axios.post(`${API}/auth/login`, { username, password });
+      const { access_token, role, username: user } = response.data;
+      
+      setAuthToken(access_token);
+      setUserRole(role);
+      setUsername(user);
+      setIsAuthenticated(true);
+      
+      // Store auth
+      localStorage.setItem("auth", JSON.stringify({ token: access_token, role, username: user }));
+    } catch (error) {
+      throw new Error(error.response?.data?.detail || "Login failed");
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setAuthToken(null);
+    setUserRole(null);
+    setUsername(null);
+    localStorage.removeItem("auth");
+    setView(AppView.DASHBOARD);
   };
 
   // Restore active session from localStorage
