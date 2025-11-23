@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { CheckCircle, ArrowLeft } from "lucide-react";
+import { CheckCircle, ArrowLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
   const [formData, setFormData] = useState({
@@ -13,11 +14,9 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
     dateOfMfg: initialData?.dateOfMfg || "",
     controlSampleCode: initialData?.controlSampleCode || "",
     productTime: initialData?.productTime || "",
-    temperature: initialData?.temperature || "",
-    clarity: initialData?.clarity || "",
-    color: initialData?.color || "",
-    odor: initialData?.odor || "",
-    taste: initialData?.taste || "",
+    appearance: initialData?.appearance || { status: "IN", reason: "", otherReason: "" },
+    odour: initialData?.odour || { status: "IN", reason: "", otherReason: "" },
+    taste: initialData?.taste || { status: "IN", reason: "", otherReason: "" },
     remarks: initialData?.remarks || "",
   });
 
@@ -25,10 +24,157 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleTestChange = (testName, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [testName]: {
+        ...prev[testName],
+        [field]: value,
+        ...(field === "status" && value === "IN" ? { reason: "", otherReason: "" } : {}),
+        ...(field === "reason" && value !== "Other" ? { otherReason: "" } : {}),
+      },
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
   };
+
+  const appearanceReasons = [
+    "Turbid",
+    "Discolored",
+    "Contains Particles",
+    "Cloudy",
+    "Sediment Present",
+    "Other",
+  ];
+
+  const odourReasons = [
+    "Chlorine Smell",
+    "Musty",
+    "Chemical",
+    "Rotten Eggs",
+    "Petroleum",
+    "Earthy",
+    "Other",
+  ];
+
+  const tasteReasons = [
+    "Bitter",
+    "Salty",
+    "Metallic",
+    "Chemical",
+    "Earthy",
+    "Sweet",
+    "Sour",
+    "Other",
+  ];
+
+  const renderTestSection = (testName, label, reasons, testId) => (
+    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200">
+      <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mr-3 text-sm">
+          {testName === "appearance" ? "A" : testName === "odour" ? "O" : "T"}
+        </div>
+        {label}
+      </h3>
+
+      <div className="space-y-4">
+        <div>
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Status *</Label>
+          <RadioGroup
+            value={formData[testName].status}
+            onValueChange={(value) => handleTestChange(testName, "status", value)}
+            className="flex space-x-4"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="IN"
+                id={`${testId}-in`}
+                data-testid={`${testId}-in`}
+                className="border-2 border-green-500 text-green-600"
+              />
+              <Label
+                htmlFor={`${testId}-in`}
+                className="text-base font-semibold text-green-700 cursor-pointer"
+              >
+                IN
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="OUT"
+                id={`${testId}-out`}
+                data-testid={`${testId}-out`}
+                className="border-2 border-red-500 text-red-600"
+              />
+              <Label
+                htmlFor={`${testId}-out`}
+                className="text-base font-semibold text-red-700 cursor-pointer"
+              >
+                OUT
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+
+        {formData[testName].status === "OUT" && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300 bg-white rounded-lg p-4 border border-red-200">
+            <div className="flex items-start space-x-2 mb-3">
+              <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-red-700">Sample marked as OUT</p>
+                <p className="text-xs text-red-600">Please specify the reason below</p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor={`${testId}-reason`} className="text-sm font-semibold text-gray-700">
+                Reason *
+              </Label>
+              <Select
+                value={formData[testName].reason}
+                onValueChange={(value) => handleTestChange(testName, "reason", value)}
+                required={formData[testName].status === "OUT"}
+              >
+                <SelectTrigger
+                  data-testid={`${testId}-reason-select`}
+                  className="border-red-300 focus:border-red-500 focus:ring-red-500"
+                >
+                  <SelectValue placeholder="Select reason for OUT" />
+                </SelectTrigger>
+                <SelectContent>
+                  {reasons.map((reason) => (
+                    <SelectItem key={reason} value={reason}>
+                      {reason}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {formData[testName].reason === "Other" && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <Label htmlFor={`${testId}-other`} className="text-sm font-semibold text-gray-700">
+                  Specify Other Reason *
+                </Label>
+                <Input
+                  id={`${testId}-other`}
+                  data-testid={`${testId}-other-input`}
+                  value={formData[testName].otherReason}
+                  onChange={(e) => handleTestChange(testName, "otherReason", e.target.value)}
+                  placeholder="Enter specific reason..."
+                  required={formData[testName].reason === "Other"}
+                  className="border-red-300 focus:border-red-500 focus:ring-red-500"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
