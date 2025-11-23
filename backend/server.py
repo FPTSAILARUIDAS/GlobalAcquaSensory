@@ -37,7 +37,9 @@ class BallotData(BaseModel):
     
     panelistName: Optional[str] = "Unknown"
     productType: str
+    otherProductType: Optional[str] = None
     productVariant: Optional[str] = None
+    otherProductVariant: Optional[str] = None
     productCode: str
     dateOfMfg: str
     controlSampleCode: str
