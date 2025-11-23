@@ -241,16 +241,36 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
               <Label htmlFor="productType" className="text-sm font-semibold text-gray-700">
                 Product Type *
               </Label>
-              <Input
-                id="productType"
-                data-testid="input-product-type"
-                value={formData.productType}
-                onChange={(e) => handleChange("productType", e.target.value)}
-                placeholder="e.g., Packaged Drinking Water"
-                required
-                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              />
+              <Select value={formData.productType} onValueChange={handleProductTypeChange} required>
+                <SelectTrigger data-testid="select-product-type" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                  <SelectValue placeholder="Select product type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Raw Water">Raw Water</SelectItem>
+                  <SelectItem value="Treated Water">Treated Water</SelectItem>
+                  <SelectItem value="Finished Goods">Finished Goods</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+
+            {/* Product Variant - Show only for Finished Goods */}
+            {formData.productType === "Finished Goods" && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <Label htmlFor="productVariant" className="text-sm font-semibold text-gray-700">
+                  Product Variant
+                </Label>
+                <Select value={formData.productVariant} onValueChange={(value) => handleChange("productVariant", value)}>
+                  <SelectTrigger data-testid="select-product-variant" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    <SelectValue placeholder="Select variant" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="KW 500 ml">KW 500 ml</SelectItem>
+                    <SelectItem value="KW 1000 ml">KW 1000 ml</SelectItem>
+                    <SelectItem value="KW 2000 ml">KW 2000 ml</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {/* Product Code */}
             <div className="space-y-2">
