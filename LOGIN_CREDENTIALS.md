@@ -28,6 +28,8 @@ These accounts can:
 |----------|----------|------|
 | **SD** | **sd123** | User |
 | **RM** | **rm123** | User |
+| **SC** | **sc123** | User |
+| **SM** | **sm123** | User |
 
 ---
 
