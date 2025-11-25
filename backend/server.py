@@ -98,6 +98,10 @@ class BatchSession(BaseModel):
     createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     completedAt: Optional[str] = None
     summary: Optional[Dict[str, Any]] = None
+    verifiedBy: Optional[str] = None  # BSL username who verified
+    verifiedByName: Optional[str] = None  # BSL full name
+    verificationSignature: Optional[str] = None  # Base64 signature image
+    verificationTimestamp: Optional[str] = None
 
 class BatchSessionCreate(BaseModel):
     targetPanelistCount: int
