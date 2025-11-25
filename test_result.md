@@ -185,7 +185,7 @@ frontend:
     implemented: true
     working: false
     file: "frontend/src/components/DailySummarySheet.js"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: true
     status_history:
@@ -195,6 +195,12 @@ frontend:
         - working: "NA"
           agent: "main"
           comment: "Fixed print CSS to match on-screen formatting. Changes: 1) Increased all font sizes to match screen (h1: 30px, h2: 24px, table text: 12px), 2) Enhanced signature image rendering with visibility and opacity rules, 3) Improved spacing and padding to match screen view, 4) Set A3 landscape with proper margins. On-screen view verified - signature visible, layout clean."
+        - working: false
+          agent: "user"
+          comment: "PDF still has issues: 1) Internal error on opening, 2) Opens at 49% zoom, 3) At 200% zoom text is visible but signature disappeared"
+        - working: "NA"
+          agent: "main"
+          comment: "Second fix applied with focus on signature rendering. Changes: 1) Changed from A3 to A4 landscape (better browser support), 2) Added explicit img[alt='Signature'] CSS rules with border and background, 3) Reduced font sizes for better fit (h1: 26px, h2: 20px, table: 10-11px), 4) Added force display rules for all images, 5) Simplified print CSS to avoid rendering errors. On-screen verified: 2 signatures visible and displaying correctly."
 
 metadata:
   created_by: "testing_agent"
