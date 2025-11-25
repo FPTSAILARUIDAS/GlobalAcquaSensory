@@ -217,6 +217,46 @@ const DailySummarySheet = () => {
 
   return (
     <div className="min-h-screen bg-white p-8">
+      {/* Print-specific styles */}
+      <style>{`
+        @media print {
+          @page {
+            size: A4 landscape;
+            margin: 0.3in;
+          }
+          
+          body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+          
+          table {
+            font-size: 7px !important;
+            page-break-inside: avoid;
+          }
+          
+          table th, table td {
+            padding: 3px 2px !important;
+            font-size: 7px !important;
+            line-height: 1.2 !important;
+          }
+          
+          .max-w-7xl {
+            max-width: 100% !important;
+            padding: 0 !important;
+          }
+          
+          h1 { font-size: 18px !important; margin-bottom: 4px !important; }
+          h2 { font-size: 14px !important; margin-bottom: 4px !important; }
+          h3 { font-size: 12px !important; }
+          
+          img {
+            max-width: 80px !important;
+            max-height: 40px !important;
+          }
+        }
+      `}</style>
+      
       {/* Action Buttons - Hide on print */}
       <div className="no-print fixed top-4 right-4 z-50 flex flex-wrap gap-2 justify-end">
         <Button
