@@ -130,6 +130,11 @@ class VerificationCreate(BaseModel):
     sessionIds: List[str]
     comments: Optional[str] = None
 
+class SessionVerification(BaseModel):
+    sessionCode: str
+    verifiedByName: str
+    signature: str  # Base64 encoded image
+
 # Helper functions
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
