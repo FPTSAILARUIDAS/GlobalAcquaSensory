@@ -107,6 +107,25 @@ class BallotSubmit(BaseModel):
     sessionCode: str
     ballotData: BallotData
 
+class DailySummaryVerification(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    date: str  # Date of the summary (YYYY-MM-DD format)
+    verifiedBy: str  # Username of BSL
+    verifiedByName: str  # Full name of BSL
+    signature: str  # Digital signature (base64 encoded image)
+    verificationTimestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    sessionIds: List[str] = []  # List of session IDs included in this summary
+    comments: Optional[str] = None
+
+class VerificationCreate(BaseModel):
+    date: str
+    verifiedByName: str
+    signature: str
+    sessionIds: List[str]
+    comments: Optional[str] = None
+
 # Helper functions
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
