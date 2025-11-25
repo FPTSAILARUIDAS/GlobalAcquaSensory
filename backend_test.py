@@ -286,6 +286,117 @@ class AuthTester:
         except Exception as e:
             self.log_result(test_name, False, f"Exception: {str(e)}")
             return False
+    
+    def test_daily_summary_endpoint(self):
+        """Test the Daily Summary endpoint for 2025-11-25"""
+        print("Testing Daily Summary Endpoint...")
+        print("-" * 40)
+        
+        # Step 1: Login as admin to get authentication token
+        test_name = "Daily Summary - Admin Login"
+        admin_token = self.test_login("admin", "admin123", "admin", True)
+        if not admin_token:
+            self.log_result("Daily Summary Test", False, "Cannot test - admin login failed")
+            return False
+        
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        # Step 2: Get Daily Summary for 2025-11-25
+        test_name = "Daily Summary - GET /api/admin/daily-summary/2025-11-25"
+        target_date = "2025-11-25"
+        
+        try:
+            response = self.session.get(
+                f"{API_BASE}/admin/daily-summary/{target_date}",
+                headers=headers
+            )
+            
+            if response.status_code != 200:
+                self.log_result(test_name, False, f"Expected 200 OK, got {response.status_code}: {response.text}")
+                return False
+            
+            # Step 3: Verify Response Data Structure
+            try:
+                data = response.json()
+            except:
+                self.log_result(test_name, False, "Response is not valid JSON")
+                return False
+            
+            # Check required fields
+            required_fields = ["date", "sessions", "totalSessions", "verification"]
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                self.log_result(test_name, False, f"Missing required fields: {missing_fields}")
+                return False
+            
+            # Verify date field
+            if data["date"] != target_date:
+                self.log_result(test_name, False, f"Expected date '{target_date}', got '{data['date']}'")
+                return False
+            
+            # Verify sessions is an array
+            if not isinstance(data["sessions"], list):
+                self.log_result(test_name, False, f"Expected sessions to be array, got {type(data['sessions'])}")
+                return False
+            
+            # Verify totalSessions matches array length
+            if data["totalSessions"] != len(data["sessions"]):
+                self.log_result(test_name, False, f"totalSessions ({data['totalSessions']}) doesn't match sessions array length ({len(data['sessions'])})")
+                return False
+            
+            # Check each session structure (if any sessions exist)
+            sessions_count = len(data["sessions"])
+            if sessions_count > 0:
+                for i, session in enumerate(data["sessions"]):
+                    required_session_fields = ["id", "sessionCode", "status", "ballots"]
+                    missing_session_fields = [field for field in required_session_fields if field not in session]
+                    if missing_session_fields:
+                        self.log_result(test_name, False, f"Session {i} missing fields: {missing_session_fields}")
+                        return False
+                    
+                    # Verify status is "completed"
+                    if session["status"] != "completed":
+                        self.log_result(test_name, False, f"Session {i} has status '{session['status']}', expected 'completed'")
+                        return False
+                    
+                    # Verify ballots is an array
+                    if not isinstance(session["ballots"], list):
+                        self.log_result(test_name, False, f"Session {i} ballots is not an array")
+                        return False
+            
+            # Log success with session count
+            success_details = f"Found {sessions_count} completed sessions for {target_date}. Response structure valid."
+            if sessions_count > 0:
+                success_details += f" All sessions have status='completed' and proper structure."
+            else:
+                success_details += " No sessions found for this date (which is valid)."
+            
+            self.log_result(test_name, True, success_details)
+            
+            # Print detailed information about the sessions found
+            print(f"📊 DAILY SUMMARY RESULTS FOR {target_date}:")
+            print(f"   Total Sessions: {sessions_count}")
+            if sessions_count > 0:
+                print(f"   Session Details:")
+                for i, session in enumerate(data["sessions"]):
+                    print(f"     Session {i+1}: ID={session['id']}, Code={session['sessionCode']}, Ballots={len(session['ballots'])}")
+            else:
+                print(f"   No completed sessions found for {target_date}")
+            
+            if data["verification"]:
+                print(f"   Verification Status: Verified by {data['verification'].get('verifiedByName', 'Unknown')}")
+            else:
+                print(f"   Verification Status: Not verified")
+            print()
+            
+            return True
+            
+        except Exception as e:
+            self.log_result(test_name, False, f"Exception: {str(e)}")
+            return False
 
 if __name__ == "__main__":
     tester = AuthTester()
