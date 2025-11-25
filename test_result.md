@@ -177,7 +177,7 @@ metadata:
 
 test_plan:
   current_focus: 
-    - "Default Admin Account Deletion Protection"
+    - "Multi-Panelist Data Carry-Over Feature"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
