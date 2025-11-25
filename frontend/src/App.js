@@ -181,6 +181,23 @@ function App() {
       setTargetPanelistCount(session.targetPanelistCount);
       setSessionBallots(session.ballots);
       setCurrentPanelistNumber(session.ballots.length + 1);
+      
+      // If there's at least one ballot, use its data as template for the new panelist
+      if (session.ballots && session.ballots.length > 0) {
+        const firstBallot = session.ballots[0];
+        const templateData = {
+          productType: firstBallot.productType,
+          otherProductType: firstBallot.otherProductType,
+          productVariant: firstBallot.productVariant,
+          otherProductVariant: firstBallot.otherProductVariant,
+          productCode: firstBallot.productCode,
+          dateOfMfg: firstBallot.dateOfMfg,
+          controlSampleCode: firstBallot.controlSampleCode,
+          productTime: firstBallot.productTime,
+        };
+        setLastBallotData(templateData);
+      }
+      
       setView(AppView.BALLOT_ENTRY);
       setShowSessionCodeInput(false);
     } catch (error) {
