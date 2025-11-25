@@ -263,6 +263,7 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                     <SelectItem value="Raw Water">Raw Water</SelectItem>
                     <SelectItem value="Treated Water">Treated Water</SelectItem>
                     <SelectItem value="Finished Goods">Finished Goods</SelectItem>
+                    <SelectItem value="CIP Final Rinse Water">CIP Final Rinse Water</SelectItem>
                     <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
