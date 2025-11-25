@@ -120,7 +120,11 @@ const DailySummarySheet = () => {
 
   if (!summaryData) {
     return <div className="min-h-screen flex items-center justify-center">
-      <p>No data available</p>
+      <div className="text-center">
+        <p className="text-lg font-semibold text-gray-700 mb-2">No data available</p>
+        {message && <p className="text-sm text-red-600">{message}</p>}
+        <Button onClick={() => navigate(-1)} className="mt-4">Go Back</Button>
+      </div>
     </div>;
   }
 
