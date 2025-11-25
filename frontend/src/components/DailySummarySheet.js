@@ -254,12 +254,16 @@ const DailySummarySheet = () => {
             <tbody>
               {summaryData.sessions.map((session, index) => {
                 const firstBallot = session.ballots[0] || {};
+                const lastBallot = session.ballots[session.ballots.length - 1] || {};
                 const allPassed = session.ballots.every(ballot => 
                   ballot.appearance.status === "IN" && 
                   ballot.odour.status === "IN" && 
-                  (ballot.taste?.status === "IN" || ballot.productType === "Raw Water")
+                  (ballot.taste?.status === "IN" || ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water")
                 );
                 const panelResult = allPassed ? "IN" : "OUT";
+                const sensoryDoneDateTime = lastBallot.testingCompletionDate && lastBallot.testingCompletionTime 
+                  ? `${lastBallot.testingCompletionDate} ${lastBallot.testingCompletionTime}`
+                  : formatDate(session.completedAt);
                 
                 return (
                   <tr key={session.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
@@ -275,25 +279,28 @@ const DailySummarySheet = () => {
                     <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-mono">
                       {firstBallot.productCode}
                     </td>
+                    <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
+                      {sensoryDoneDateTime}
+                    </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
                       {session.ballots[0]?.panelistName || "-"}
                       <br/>
                       <span className="text-xs text-gray-600">
-                        {session.ballots[0] && `A:${session.ballots[0].appearance.status} O:${session.ballots[0].odour.status}${session.ballots[0].productType !== "Raw Water" ? ` T:${session.ballots[0].taste.status}` : ""}`}
+                        {session.ballots[0] && `A:${session.ballots[0].appearance.status} O:${session.ballots[0].odour.status}${session.ballots[0].productType !== "Raw Water" && session.ballots[0].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[0].taste.status}` : ""}`}
                       </span>
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
                       {session.ballots[1]?.panelistName || "-"}
                       <br/>
                       {session.ballots[1] && <span className="text-xs text-gray-600">
-                        A:{session.ballots[1].appearance.status} O:{session.ballots[1].odour.status}{session.ballots[1].productType !== "Raw Water" ? ` T:${session.ballots[1].taste.status}` : ""}
+                        A:{session.ballots[1].appearance.status} O:{session.ballots[1].odour.status}{session.ballots[1].productType !== "Raw Water" && session.ballots[1].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[1].taste.status}` : ""}
                       </span>}
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
                       {session.ballots[2]?.panelistName || "-"}
                       <br/>
                       {session.ballots[2] && <span className="text-xs text-gray-600">
-                        A:{session.ballots[2].appearance.status} O:{session.ballots[2].odour.status}{session.ballots[2].productType !== "Raw Water" ? ` T:${session.ballots[2].taste.status}` : ""}
+                        A:{session.ballots[2].appearance.status} O:{session.ballots[2].odour.status}{session.ballots[2].productType !== "Raw Water" && session.ballots[2].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[2].taste.status}` : ""}
                       </span>}
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-center">
@@ -307,6 +314,34 @@ const DailySummarySheet = () => {
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
                       {session.ballots.map(b => b.remarks).filter(r => r).join("; ") || "-"}
+                    </td>
+                    <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
+                      {session.verifiedBy ? (
+                        <div>
+                          <p className="font-semibold text-green-700">{session.verifiedByName}</p>
+                          <p className="text-xs text-gray-500">{formatDate(session.verificationTimestamp)}</p>
+                        </div>
+                      ) : (
+                        <span className="text-orange-600 font-semibold">Pending</span>
+                      )}
+                    </td>
+                    <td className="border-2 border-gray-900 px-3 py-2 text-center">
+                      {session.verifiedBy && session.verificationSignature ? (
+                        <img 
+                          src={session.verificationSignature} 
+                          alt="Signature" 
+                          className="mx-auto"
+                          style={{ maxWidth: '100px', maxHeight: '50px' }}
+                        />
+                      ) : (
+                        <Button
+                          onClick={() => setVerifyingSession(session.sessionCode)}
+                          className="bg-blue-600 hover:bg-blue-700 text-xs px-2 py-1 no-print"
+                          size="sm"
+                        >
+                          Verify
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 );
