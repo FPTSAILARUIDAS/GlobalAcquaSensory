@@ -7,9 +7,6 @@ import PrintableReport from "@/components/PrintableReport";
 import SummaryReport from "@/components/SummaryReport";
 import DailySummarySheet from "@/components/DailySummarySheet";
 
-// Get auth token from localStorage for protected routes
-const getAuthToken = () => localStorage.getItem("auth_token");
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -17,7 +14,7 @@ root.render(
       <Routes>
         <Route path="/report/:sessionCode" element={<PrintableReport />} />
         <Route path="/summary/:sessionCode" element={<SummaryReport />} />
-        <Route path="/daily-summary/:date" element={<DailySummarySheet authToken={getAuthToken()} />} />
+        <Route path="/daily-summary/:date" element={<DailySummarySheet />} />
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
