@@ -199,7 +199,22 @@ function App() {
       
       const updatedSession = response.data;
       setSessionBallots(updatedSession.ballots);
-      setLastBallotData(ballotData);
+      
+      // For the first panelist, store their data as template for subsequent panelists
+      // Only store common product information, not individual test results
+      if (updatedSession.ballots.length === 1) {
+        const templateData = {
+          productType: ballotData.productType,
+          otherProductType: ballotData.otherProductType,
+          productVariant: ballotData.productVariant,
+          otherProductVariant: ballotData.otherProductVariant,
+          productCode: ballotData.productCode,
+          dateOfMfg: ballotData.dateOfMfg,
+          controlSampleCode: ballotData.controlSampleCode,
+          productTime: ballotData.productTime,
+        };
+        setLastBallotData(templateData);
+      }
 
       if (updatedSession.status === "completed") {
         setSelectedSession(updatedSession);
