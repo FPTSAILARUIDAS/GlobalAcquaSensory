@@ -221,7 +221,7 @@ const DailySummarySheet = () => {
       <style>{`
         @media print {
           @page {
-            size: A3 landscape;
+            size: A4 landscape;
             margin: 0.5in;
           }
           
@@ -235,11 +235,13 @@ const DailySummarySheet = () => {
             width: 100%;
             margin: 0;
             padding: 0;
+            background: white !important;
           }
           
           .min-h-screen {
-            padding: 20px !important;
+            padding: 15px !important;
             margin: 0 !important;
+            background: white !important;
           }
           
           .max-w-7xl {
@@ -248,97 +250,113 @@ const DailySummarySheet = () => {
             margin: 0 auto !important;
           }
           
-          /* Header styles - MATCH SCREEN SIZES */
+          /* Header styles */
           h1 { 
-            font-size: 30px !important; 
-            margin-bottom: 8px !important; 
+            font-size: 26px !important; 
+            margin-bottom: 6px !important; 
             font-weight: bold !important;
-            color: #111827 !important;
+            color: #000 !important;
           }
           
           h2 { 
-            font-size: 24px !important; 
-            margin-bottom: 12px !important; 
+            font-size: 20px !important; 
+            margin-bottom: 10px !important; 
             font-weight: 600 !important;
             color: #2563eb !important;
           }
           
           .text-lg {
-            font-size: 18px !important;
+            font-size: 16px !important;
+            color: #000 !important;
           }
           
           .text-sm {
-            font-size: 14px !important;
+            font-size: 13px !important;
+            color: #000 !important;
           }
           
           p {
-            margin: 4px 0 !important;
+            margin: 3px 0 !important;
+            color: #000 !important;
           }
           
           .border-b-4 {
-            margin-bottom: 20px !important;
-            padding-bottom: 16px !important;
+            margin-bottom: 15px !important;
+            padding-bottom: 12px !important;
+            border-bottom: 3px solid #2563eb !important;
           }
           
-          /* Table styles - MATCH SCREEN SIZES */
+          /* Table styles */
           table {
             width: 100% !important;
             border-collapse: collapse !important;
             page-break-inside: avoid !important;
-            font-size: 12px !important;
+            font-size: 11px !important;
             table-layout: fixed !important;
+            background: white !important;
           }
           
           table th {
             background-color: #2563eb !important;
             color: white !important;
             font-weight: bold !important;
-            padding: 8px 12px !important;
-            font-size: 12px !important;
-            line-height: 1.4 !important;
-            border: 2px solid #1f2937 !important;
+            padding: 6px 8px !important;
+            font-size: 10px !important;
+            line-height: 1.3 !important;
+            border: 1.5px solid #000 !important;
             text-align: left !important;
           }
           
           table td {
-            padding: 8px 12px !important;
-            font-size: 12px !important;
-            line-height: 1.5 !important;
-            border: 2px solid #1f2937 !important;
+            padding: 6px 8px !important;
+            font-size: 10px !important;
+            line-height: 1.4 !important;
+            border: 1.5px solid #000 !important;
             vertical-align: middle !important;
+            background: white !important;
+            color: #000 !important;
+          }
+          
+          /* Alternating row colors */
+          tbody tr:nth-child(odd) td {
+            background-color: #f9fafb !important;
+          }
+          
+          tbody tr:nth-child(even) td {
+            background-color: white !important;
           }
           
           /* Column widths */
-          table th:nth-child(1), table td:nth-child(1) { width: 8% !important; } /* Product */
-          table th:nth-child(2), table td:nth-child(2) { width: 6% !important; } /* Control */
-          table th:nth-child(3), table td:nth-child(3) { width: 5% !important; } /* Time */
-          table th:nth-child(4), table td:nth-child(4) { width: 7% !important; } /* Sample */
-          table th:nth-child(5), table td:nth-child(5) { width: 9% !important; } /* Sensory Done */
-          table th:nth-child(6), table td:nth-child(6) { width: 10% !important; } /* Panelist 1 */
-          table th:nth-child(7), table td:nth-child(7) { width: 10% !important; } /* Panelist 2 */
-          table th:nth-child(8), table td:nth-child(8) { width: 10% !important; } /* Panelist 3 */
-          table th:nth-child(9), table td:nth-child(9) { width: 7% !important; } /* Panel Result */
-          table th:nth-child(10), table td:nth-child(10) { width: 10% !important; } /* Comments */
-          table th:nth-child(11), table td:nth-child(11) { width: 9% !important; } /* Verified By */
-          table th:nth-child(12), table td:nth-child(12) { width: 9% !important; } /* Signature */
+          table th:nth-child(1), table td:nth-child(1) { width: 8% !important; }
+          table th:nth-child(2), table td:nth-child(2) { width: 6% !important; }
+          table th:nth-child(3), table td:nth-child(3) { width: 5% !important; }
+          table th:nth-child(4), table td:nth-child(4) { width: 6% !important; }
+          table th:nth-child(5), table td:nth-child(5) { width: 10% !important; }
+          table th:nth-child(6), table td:nth-child(6) { width: 10% !important; }
+          table th:nth-child(7), table td:nth-child(7) { width: 10% !important; }
+          table th:nth-child(8), table td:nth-child(8) { width: 10% !important; }
+          table th:nth-child(9), table td:nth-child(9) { width: 7% !important; }
+          table th:nth-child(10), table td:nth-child(10) { width: 10% !important; }
+          table th:nth-child(11), table td:nth-child(11) { width: 9% !important; }
+          table th:nth-child(12), table td:nth-child(12) { width: 9% !important; }
           
-          /* Badge styles - MATCH SCREEN */
+          /* Badge styles */
           .px-3 {
-            padding-left: 12px !important;
-            padding-right: 12px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
           }
           
           .py-1 {
-            padding-top: 4px !important;
-            padding-bottom: 4px !important;
+            padding-top: 3px !important;
+            padding-bottom: 3px !important;
           }
           
           .rounded-full {
-            border-radius: 9999px !important;
+            border-radius: 12px !important;
           }
           
           .text-xs {
-            font-size: 12px !important;
+            font-size: 10px !important;
           }
           
           .font-bold {
@@ -347,22 +365,20 @@ const DailySummarySheet = () => {
           
           .bg-green-200 {
             background-color: #bbf7d0 !important;
-            color: #15803d !important;
-            border: 2px solid #15803d !important;
+            border: 1.5px solid #15803d !important;
           }
           
           .text-green-900 {
-            color: #14532d !important;
+            color: #15803d !important;
           }
           
           .bg-red-200 {
             background-color: #fecaca !important;
-            color: #991b1b !important;
-            border: 2px solid #991b1b !important;
+            border: 1.5px solid #991b1b !important;
           }
           
           .text-red-900 {
-            color: #7f1d1d !important;
+            color: #991b1b !important;
           }
           
           .text-orange-600 {
@@ -372,56 +388,70 @@ const DailySummarySheet = () => {
           
           .text-green-700 {
             color: #15803d !important;
+            font-weight: 600 !important;
           }
           
-          .text-gray-500 {
-            color: #6b7280 !important;
+          .text-gray-500, .text-gray-600 {
+            color: #666 !important;
           }
           
-          .text-gray-600 {
-            color: #4b5563 !important;
-          }
-          
-          /* Signature images - ENSURE VISIBILITY */
-          img {
-            max-width: 100px !important;
-            max-height: 50px !important;
+          /* CRITICAL: Signature images - Force display */
+          img[alt="Signature"] {
             display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            max-width: 80px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            height: auto !important;
             margin: 0 auto !important;
+            background: white !important;
+            border: 1px solid #ccc !important;
+            padding: 2px !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
-            opacity: 1 !important;
-            visibility: visible !important;
+            color-adjust: exact !important;
           }
           
-          /* Force image rendering */
-          td img, .border-2 img {
+          /* Ensure signature cell visibility */
+          td:nth-child(12) {
+            background: white !important;
+            text-align: center !important;
+          }
+          
+          /* Force all images to print */
+          img {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
           
-          /* Button in print - hide */
-          button, .no-print {
+          /* Hide buttons and no-print elements */
+          button, .no-print, .fixed {
             display: none !important;
+            visibility: hidden !important;
           }
           
-          /* Footer - MATCH SCREEN */
+          /* Footer */
           .border-t-2 {
-            margin-top: 32px !important;
-            padding-top: 24px !important;
-            border-top: 2px solid #1f2937 !important;
+            margin-top: 25px !important;
+            padding-top: 15px !important;
+            border-top: 2px solid #000 !important;
           }
           
           .font-semibold {
             font-weight: 600 !important;
+            color: #000 !important;
           }
           
           .mt-2 {
-            margin-top: 8px !important;
+            margin-top: 6px !important;
           }
           
           .text-gray-700 {
-            color: #374151 !important;
+            color: #333 !important;
           }
         }
       `}</style>
