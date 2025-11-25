@@ -222,7 +222,7 @@ const DailySummarySheet = () => {
         @media print {
           @page {
             size: A3 landscape;
-            margin: 0.4in 0.3in;
+            margin: 0.5in;
           }
           
           * {
@@ -238,7 +238,7 @@ const DailySummarySheet = () => {
           }
           
           .min-h-screen {
-            padding: 0 !important;
+            padding: 20px !important;
             margin: 0 !important;
           }
           
@@ -248,31 +248,44 @@ const DailySummarySheet = () => {
             margin: 0 auto !important;
           }
           
-          /* Header styles */
+          /* Header styles - MATCH SCREEN SIZES */
           h1 { 
-            font-size: 22px !important; 
-            margin-bottom: 6px !important; 
+            font-size: 30px !important; 
+            margin-bottom: 8px !important; 
             font-weight: bold !important;
-          }
-          h2 { 
-            font-size: 16px !important; 
-            margin-bottom: 6px !important; 
-            font-weight: 600 !important;
-          }
-          h3 { 
-            font-size: 14px !important; 
-            margin-bottom: 4px !important;
-          }
-          p {
-            margin: 2px 0 !important;
+            color: #111827 !important;
           }
           
-          /* Table styles */
+          h2 { 
+            font-size: 24px !important; 
+            margin-bottom: 12px !important; 
+            font-weight: 600 !important;
+            color: #2563eb !important;
+          }
+          
+          .text-lg {
+            font-size: 18px !important;
+          }
+          
+          .text-sm {
+            font-size: 14px !important;
+          }
+          
+          p {
+            margin: 4px 0 !important;
+          }
+          
+          .border-b-4 {
+            margin-bottom: 20px !important;
+            padding-bottom: 16px !important;
+          }
+          
+          /* Table styles - MATCH SCREEN SIZES */
           table {
             width: 100% !important;
             border-collapse: collapse !important;
             page-break-inside: avoid !important;
-            font-size: 8px !important;
+            font-size: 12px !important;
             table-layout: fixed !important;
           }
           
@@ -280,17 +293,17 @@ const DailySummarySheet = () => {
             background-color: #2563eb !important;
             color: white !important;
             font-weight: bold !important;
-            padding: 6px 4px !important;
-            font-size: 8px !important;
-            line-height: 1.3 !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            line-height: 1.4 !important;
             border: 2px solid #1f2937 !important;
-            text-align: center !important;
+            text-align: left !important;
           }
           
           table td {
-            padding: 5px 3px !important;
-            font-size: 7.5px !important;
-            line-height: 1.3 !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
             border: 2px solid #1f2937 !important;
             vertical-align: middle !important;
           }
@@ -309,32 +322,82 @@ const DailySummarySheet = () => {
           table th:nth-child(11), table td:nth-child(11) { width: 9% !important; } /* Verified By */
           table th:nth-child(12), table td:nth-child(12) { width: 9% !important; } /* Signature */
           
-          /* Badge styles */
-          .bg-green-200, .bg-red-200, .bg-green-100, .bg-orange-600 {
-            padding: 2px 4px !important;
-            border-radius: 4px !important;
-            font-size: 7px !important;
-            font-weight: bold !important;
+          /* Badge styles - MATCH SCREEN */
+          .px-3 {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+          }
+          
+          .py-1 {
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+          }
+          
+          .rounded-full {
+            border-radius: 9999px !important;
+          }
+          
+          .text-xs {
+            font-size: 12px !important;
+          }
+          
+          .font-bold {
+            font-weight: 700 !important;
           }
           
           .bg-green-200 {
             background-color: #bbf7d0 !important;
             color: #15803d !important;
-            border: 1px solid #15803d !important;
+            border: 2px solid #15803d !important;
+          }
+          
+          .text-green-900 {
+            color: #14532d !important;
           }
           
           .bg-red-200 {
             background-color: #fecaca !important;
             color: #991b1b !important;
-            border: 1px solid #991b1b !important;
+            border: 2px solid #991b1b !important;
           }
           
-          /* Signature images */
+          .text-red-900 {
+            color: #7f1d1d !important;
+          }
+          
+          .text-orange-600 {
+            color: #ea580c !important;
+            font-weight: 600 !important;
+          }
+          
+          .text-green-700 {
+            color: #15803d !important;
+          }
+          
+          .text-gray-500 {
+            color: #6b7280 !important;
+          }
+          
+          .text-gray-600 {
+            color: #4b5563 !important;
+          }
+          
+          /* Signature images - ENSURE VISIBILITY */
           img {
-            max-width: 70px !important;
-            max-height: 35px !important;
+            max-width: 100px !important;
+            max-height: 50px !important;
             display: block !important;
             margin: 0 auto !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          }
+          
+          /* Force image rendering */
+          td img, .border-2 img {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
           
           /* Button in print - hide */
@@ -342,10 +405,23 @@ const DailySummarySheet = () => {
             display: none !important;
           }
           
-          /* Footer */
+          /* Footer - MATCH SCREEN */
           .border-t-2 {
-            margin-top: 10px !important;
-            padding-top: 8px !important;
+            margin-top: 32px !important;
+            padding-top: 24px !important;
+            border-top: 2px solid #1f2937 !important;
+          }
+          
+          .font-semibold {
+            font-weight: 600 !important;
+          }
+          
+          .mt-2 {
+            margin-top: 8px !important;
+          }
+          
+          .text-gray-700 {
+            color: #374151 !important;
           }
         }
       `}</style>
