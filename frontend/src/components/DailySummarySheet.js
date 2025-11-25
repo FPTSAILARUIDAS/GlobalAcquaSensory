@@ -88,7 +88,18 @@ const DailySummarySheet = () => {
     }
 
     try {
-      const token = localStorage.getItem("auth_token");
+      const storedAuth = localStorage.getItem("auth");
+      let token = null;
+      
+      if (storedAuth) {
+        try {
+          const auth = JSON.parse(storedAuth);
+          token = auth.token;
+        } catch (e) {
+          console.error("Failed to parse auth");
+        }
+      }
+      
       if (!token) {
         alert("Please login first");
         return;
