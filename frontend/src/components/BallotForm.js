@@ -109,7 +109,7 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
 
       <div className="space-y-4">
         <div>
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Status *</Label>
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Status</Label>
           <RadioGroup
             value={formData[testName].status}
             onValueChange={(value) => handleTestChange(testName, "status", value)}
