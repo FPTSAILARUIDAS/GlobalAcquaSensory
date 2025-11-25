@@ -221,38 +221,131 @@ const DailySummarySheet = () => {
       <style>{`
         @media print {
           @page {
-            size: A4 landscape;
-            margin: 0.3in;
+            size: A3 landscape;
+            margin: 0.4in 0.3in;
           }
           
-          body {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
           }
           
-          table {
-            font-size: 7px !important;
-            page-break-inside: avoid;
+          body, html {
+            width: 100%;
+            margin: 0;
+            padding: 0;
           }
           
-          table th, table td {
-            padding: 3px 2px !important;
-            font-size: 7px !important;
-            line-height: 1.2 !important;
+          .min-h-screen {
+            padding: 0 !important;
+            margin: 0 !important;
           }
           
           .max-w-7xl {
             max-width: 100% !important;
             padding: 0 !important;
+            margin: 0 auto !important;
           }
           
-          h1 { font-size: 18px !important; margin-bottom: 4px !important; }
-          h2 { font-size: 14px !important; margin-bottom: 4px !important; }
-          h3 { font-size: 12px !important; }
+          /* Header styles */
+          h1 { 
+            font-size: 22px !important; 
+            margin-bottom: 6px !important; 
+            font-weight: bold !important;
+          }
+          h2 { 
+            font-size: 16px !important; 
+            margin-bottom: 6px !important; 
+            font-weight: 600 !important;
+          }
+          h3 { 
+            font-size: 14px !important; 
+            margin-bottom: 4px !important;
+          }
+          p {
+            margin: 2px 0 !important;
+          }
           
+          /* Table styles */
+          table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            page-break-inside: avoid !important;
+            font-size: 8px !important;
+            table-layout: fixed !important;
+          }
+          
+          table th {
+            background-color: #2563eb !important;
+            color: white !important;
+            font-weight: bold !important;
+            padding: 6px 4px !important;
+            font-size: 8px !important;
+            line-height: 1.3 !important;
+            border: 2px solid #1f2937 !important;
+            text-align: center !important;
+          }
+          
+          table td {
+            padding: 5px 3px !important;
+            font-size: 7.5px !important;
+            line-height: 1.3 !important;
+            border: 2px solid #1f2937 !important;
+            vertical-align: middle !important;
+          }
+          
+          /* Column widths */
+          table th:nth-child(1), table td:nth-child(1) { width: 8% !important; } /* Product */
+          table th:nth-child(2), table td:nth-child(2) { width: 6% !important; } /* Control */
+          table th:nth-child(3), table td:nth-child(3) { width: 5% !important; } /* Time */
+          table th:nth-child(4), table td:nth-child(4) { width: 7% !important; } /* Sample */
+          table th:nth-child(5), table td:nth-child(5) { width: 9% !important; } /* Sensory Done */
+          table th:nth-child(6), table td:nth-child(6) { width: 10% !important; } /* Panelist 1 */
+          table th:nth-child(7), table td:nth-child(7) { width: 10% !important; } /* Panelist 2 */
+          table th:nth-child(8), table td:nth-child(8) { width: 10% !important; } /* Panelist 3 */
+          table th:nth-child(9), table td:nth-child(9) { width: 7% !important; } /* Panel Result */
+          table th:nth-child(10), table td:nth-child(10) { width: 10% !important; } /* Comments */
+          table th:nth-child(11), table td:nth-child(11) { width: 9% !important; } /* Verified By */
+          table th:nth-child(12), table td:nth-child(12) { width: 9% !important; } /* Signature */
+          
+          /* Badge styles */
+          .bg-green-200, .bg-red-200, .bg-green-100, .bg-orange-600 {
+            padding: 2px 4px !important;
+            border-radius: 4px !important;
+            font-size: 7px !important;
+            font-weight: bold !important;
+          }
+          
+          .bg-green-200 {
+            background-color: #bbf7d0 !important;
+            color: #15803d !important;
+            border: 1px solid #15803d !important;
+          }
+          
+          .bg-red-200 {
+            background-color: #fecaca !important;
+            color: #991b1b !important;
+            border: 1px solid #991b1b !important;
+          }
+          
+          /* Signature images */
           img {
-            max-width: 80px !important;
-            max-height: 40px !important;
+            max-width: 70px !important;
+            max-height: 35px !important;
+            display: block !important;
+            margin: 0 auto !important;
+          }
+          
+          /* Button in print - hide */
+          button, .no-print {
+            display: none !important;
+          }
+          
+          /* Footer */
+          .border-t-2 {
+            margin-top: 10px !important;
+            padding-top: 8px !important;
           }
         }
       `}</style>
