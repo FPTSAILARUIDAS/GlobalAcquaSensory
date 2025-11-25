@@ -157,50 +157,17 @@ backend:
           comment: "✅ COMPREHENSIVE TEST PASSED: Default admin deletion protection working correctly. Test scenario: 1) Login as different admin user (Saila Ruidas), 2) Attempt DELETE /api/admin/users/admin, 3) Verified 400 Bad Request response, 4) Confirmed exact error message 'Cannot delete the default admin account', 5) Verified admin user still exists in database after failed deletion. All 5 test steps passed successfully. Protection mechanism properly implemented at backend/server.py lines 211-212."
 
 frontend:
-  - task: "Summary Report - Remove Made with Emergent Badge"
+  - task: "Multi-Panelist Data Carry-Over Feature"
     implemented: true
-    working: true
-    file: "frontend/src/components/SummaryReport.js"
+    working: "NA"
+    file: "frontend/src/components/BallotForm.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
-          agent: "main"
-          comment: "Need to verify that 'Made with Emergent' badge has been removed from all pages including printed reports"
-        - working: true
           agent: "testing"
-          comment: "✅ VERIFIED: No 'Made with Emergent' badge found anywhere on the Summary Report page. Badge removal is working correctly."
-        
-  - task: "Summary Report - Add Product Time Column"
-    implemented: true
-    working: true
-    file: "frontend/src/components/SummaryReport.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: "NA"
-          agent: "main"
-          comment: "Need to verify that 'Product Time' column has been added to the Summary Report table and displays correct values"
-        - working: true
-          agent: "testing"
-          comment: "✅ VERIFIED: 'Product Time' column successfully added to Summary Report table (3rd column). Data displays correctly (e.g., '10:20'). Also verified Product Time appears in Product Details section."
-        
-  - task: "Summary Report - Change Testing Date to Testing Date & Time"
-    implemented: true
-    working: true
-    file: "frontend/src/components/SummaryReport.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: "NA"
-          agent: "main"
-          comment: "Need to verify that 'Testing Date' column has been changed to 'Testing Date & Time' and shows both date and time for each panelist"
-        - working: true
-          agent: "testing"
-          comment: "✅ VERIFIED: Column header successfully changed from 'Testing Date' to 'Testing Date & Time' (9th column). Data correctly shows both date and time (e.g., '2025-11-23 10:10'). All panelist entries display complete date and time information."
+          comment: "Need to test data carry-over feature: Panelist 1 fills product details, Panelist 2 should see pre-filled product details but empty individual fields (panelist name, test results, remarks)"
 
 metadata:
   created_by: "testing_agent"
