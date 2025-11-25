@@ -12,14 +12,14 @@ const API = `${BACKEND_URL}/api`;
 const DailySummarySheet = () => {
   const { date } = useParams();
   const navigate = useNavigate();
-  const signatureRef = useRef();
   
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showSignature, setShowSignature] = useState(false);
-  const [verifierName, setVerifierName] = useState("");
-  const [comments, setComments] = useState("");
   const [message, setMessage] = useState("");
+  const [verifyingSession, setVerifyingSession] = useState(null);
+  const [verifierName, setVerifierName] = useState("");
+  const [signatureFile, setSignatureFile] = useState(null);
+  const [signaturePreview, setSignaturePreview] = useState(null);
 
   useEffect(() => {
     fetchDailySummary();
