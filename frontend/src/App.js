@@ -267,17 +267,28 @@ function App() {
 
   // Show login if not authenticated
   if (!isAuthenticated) {
-    return <Login onLogin={handleLogin} />;
+    return (
+      <>
+        <InstallPrompt />
+        <Login onLogin={handleLogin} />
+      </>
+    );
   }
 
   // Show admin dashboard for admin users
   if (userRole === "admin") {
-    return <AdminDashboard authToken={authToken} onLogout={handleLogout} username={username} />;
+    return (
+      <>
+        <InstallPrompt />
+        <AdminDashboard authToken={authToken} onLogout={handleLogout} username={username} />
+      </>
+    );
   }
 
   // Regular user interface
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 font-sans">
+      <InstallPrompt />
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-lg border-b border-blue-100 shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
