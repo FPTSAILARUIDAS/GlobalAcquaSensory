@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<canvas id="canvas192" width="192" height="192"></canvas>
+<canvas id="canvas512" width="512" height="512"></canvas>
+<script>
+function createIcon(canvasId, size) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, size, size);
+  gradient.addColorStop(0, '#3b82f6');
+  gradient.addColorStop(1, '#06b6d4');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  
+  // Water drop icon
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const radius = size / 3;
+  ctx.arc(centerX, centerY + radius/4, radius, 0, Math.PI, true);
+  ctx.quadraticCurveTo(centerX - radius, centerY - radius/2, centerX, centerY - radius);
+  ctx.quadraticCurveTo(centerX + radius, centerY - radius/2, centerX + radius, centerY + radius/4);
+  ctx.fill();
+  
+  // Text
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${size/8}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.fillText('GA', centerX, centerY + radius + size/6);
+  
+  return canvas.toDataURL('image/png');
+}
+
+const icon192 = createIcon('canvas192', 192);
+const icon512 = createIcon('canvas512', 512);
+
+console.log('Icons created');
+</script>
+</body>
+</html>
