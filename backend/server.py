@@ -419,6 +419,34 @@ async def get_verification(date: str):
         raise HTTPException(status_code=404, detail="No verification found for this date")
     return verification
 
+# Session verification endpoints
+@api_router.post("/admin/verify-session", dependencies=[Depends(get_admin_user)])
+async def verify_session(verification: SessionVerification, current_user: dict = Depends(get_admin_user)):
+    """BSL verifies a specific session with signature upload"""
+    # Find the session
+    session = await db.sessions.find_one({"sessionCode": verification.sessionCode})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    # Check if already verified
+    if session.get("verifiedBy"):
+        raise HTTPException(status_code=400, detail="Session already verified")
+    
+    # Update session with verification
+    update_data = {
+        "verifiedBy": current_user["username"],
+        "verifiedByName": verification.verifiedByName,
+        "verificationSignature": verification.signature,
+        "verificationTimestamp": datetime.now(timezone.utc).isoformat()
+    }
+    
+    await db.sessions.update_one(
+        {"sessionCode": verification.sessionCode},
+        {"$set": update_data}
+    )
+    
+    return {"message": "Session verified successfully", "sessionCode": verification.sessionCode}
+
 # Include the router in the main app
 app.include_router(api_router)
 
