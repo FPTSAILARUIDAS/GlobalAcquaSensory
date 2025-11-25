@@ -180,6 +180,21 @@ frontend:
         - working: "NA"
           agent: "testing"
           comment: "Need to test data carry-over feature: Panelist 1 fills product details, Panelist 2 should see pre-filled product details but empty individual fields (panelist name, test results, remarks)"
+  
+  - task: "Daily Summary PDF Export with Correct Formatting"
+    implemented: true
+    working: false
+    file: "frontend/src/components/DailySummarySheet.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "User reported PDF download doesn't match on-screen view. Issues: 1) Signature disappeared in PDF, 2) Font size too small and hard to read, 3) General formatting mismatch between screen and print"
+        - working: "NA"
+          agent: "main"
+          comment: "Fixed print CSS to match on-screen formatting. Changes: 1) Increased all font sizes to match screen (h1: 30px, h2: 24px, table text: 12px), 2) Enhanced signature image rendering with visibility and opacity rules, 3) Improved spacing and padding to match screen view, 4) Set A3 landscape with proper margins. On-screen view verified - signature visible, layout clean."
 
 metadata:
   created_by: "testing_agent"
