@@ -28,7 +28,17 @@ const DailySummarySheet = () => {
   const fetchDailySummary = async () => {
     try {
       // Get token from localStorage (works in new tab/window)
-      const token = localStorage.getItem("auth_token");
+      const storedAuth = localStorage.getItem("auth");
+      let token = null;
+      
+      if (storedAuth) {
+        try {
+          const auth = JSON.parse(storedAuth);
+          token = auth.token;
+        } catch (e) {
+          console.error("Failed to parse auth from localStorage");
+        }
+      }
       
       console.log("🔍 Daily Summary Debug:");
       console.log("  - Date:", date);
@@ -37,7 +47,7 @@ const DailySummarySheet = () => {
       
       if (!token) {
         console.error("❌ No authentication token found");
-        setMessage("Please login first");
+        setMessage("Please login first to view daily summary");
         setLoading(false);
         return;
       }
