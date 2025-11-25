@@ -241,11 +241,14 @@ const DailySummarySheet = () => {
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Control Batch/Lot</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Time</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Sample Batch/Lot</th>
+                <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Sensory Done Date & Time</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-left text-xs font-bold">Panelist 1</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-left text-xs font-bold">Panelist 2</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-left text-xs font-bold">Panelist 3</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Panel Result</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-left text-xs font-bold">Next Step/Comments</th>
+                <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Verified By</th>
+                <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Digital Signature</th>
               </tr>
             </thead>
             <tbody>
