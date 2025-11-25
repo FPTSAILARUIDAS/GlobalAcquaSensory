@@ -130,8 +130,44 @@ button:disabled {
   }
   
   @page {
-    margin: 0.5in;
+    margin: 0.3in 0.3in;
     size: A4 landscape;
+  }
+  
+  /* Table adjustments for print */
+  table {
+    font-size: 9px !important;
+    width: 100% !important;
+  }
+  
+  table th,
+  table td {
+    padding: 4px 2px !important;
+    font-size: 8px !important;
+  }
+  
+  /* Reduce header sizes for print */
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  h2 {
+    font-size: 16px !important;
+  }
+  
+  h3 {
+    font-size: 14px !important;
+  }
+  
+  /* Ensure landscape orientation */
+  html, body {
+    width: 297mm;
+    height: 210mm;
+  }
+  
+  /* Fit content to page */
+  .max-w-7xl {
+    max-width: 100% !important;
   }
 }
 
