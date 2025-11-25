@@ -208,7 +208,7 @@ async def login(user_login: UserLogin):
 
 # Admin routes - User management
 @api_router.post("/admin/users", dependencies=[Depends(get_admin_user)])
-async def create_user(user: UserCreate):
+async def create_user(user: UserCreate, current_user: dict = Depends(get_admin_user)):
     # Check if username already exists
     existing_user = await db.users.find_one({"username": user.username})
     if existing_user:
@@ -222,6 +222,15 @@ async def create_user(user: UserCreate):
         "createdAt": datetime.now(timezone.utc).isoformat()
     }
     await db.users.insert_one(new_user)
+    
+    # Auto-delete default 'admin' account when a custom admin is created
+    # Only delete if: 1) new user is admin role, 2) default admin exists, 3) current user is not the default admin
+    if user.role == "admin" and current_user["username"] != "admin":
+        default_admin = await db.users.find_one({"username": "admin"})
+        if default_admin:
+            await db.users.delete_one({"username": "admin"})
+            print(f"✅ Default 'admin' account automatically removed after creating custom admin '{user.username}'")
+    
     return {"message": "User created successfully", "username": user.username}
 
 @api_router.get("/admin/users", dependencies=[Depends(get_admin_user)])
