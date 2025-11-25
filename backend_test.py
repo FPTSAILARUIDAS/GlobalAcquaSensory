@@ -182,6 +182,9 @@ class AuthTester:
         print("-" * 40)
         self.test_default_admin_deletion_protection()
         
+        # Test Daily Summary endpoint
+        self.test_daily_summary_endpoint()
+        
         print("=" * 60)
         print("SUMMARY")
         print("=" * 60)
