@@ -100,13 +100,6 @@ const Login = ({ onLogin }) => {
             </Button>
           </form>
 
-          {/* Info */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-xs text-gray-600 text-center">
-              Default Admin: <span className="font-semibold">admin</span> / <span className="font-semibold">admin123</span>
-            </p>
-          </div>
-
           {/* Developer Credit */}
           <div className="mt-4 text-center">
             <p className="text-xs text-gray-500">
