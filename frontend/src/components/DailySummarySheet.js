@@ -218,13 +218,21 @@ const DailySummarySheet = () => {
   return (
     <div className="min-h-screen bg-white p-8">
       {/* Action Buttons - Hide on print */}
-      <div className="no-print fixed top-4 right-4 z-50 flex space-x-2">
+      <div className="no-print fixed top-4 right-4 z-50 flex flex-wrap gap-2 justify-end">
         <Button
           onClick={() => window.print()}
           className="bg-blue-600 hover:bg-blue-700 flex items-center space-x-2"
         >
           <Download className="w-4 h-4" />
           <span>Download PDF</span>
+        </Button>
+        <Button
+          onClick={handleClearAllSessions}
+          className="bg-red-600 hover:bg-red-700 flex items-center space-x-2"
+          disabled={!summaryData?.sessions || summaryData.sessions.length === 0}
+        >
+          <Trash2 className="w-4 h-4" />
+          <span>Clear All</span>
         </Button>
         <Button
           onClick={() => navigate(-1)}
