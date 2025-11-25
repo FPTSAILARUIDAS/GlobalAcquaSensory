@@ -337,6 +337,67 @@ async def clear_sessions():
     result = await db.sessions.delete_many({})
     return {"deleted_count": result.deleted_count, "message": "All sessions cleared"}
 
+# Daily Summary and BSL Verification endpoints
+@api_router.get("/admin/daily-summary/{date}", dependencies=[Depends(get_admin_user)])
+async def get_daily_summary(date: str):
+    """Get all completed sessions for a specific date"""
+    # Parse date and get start/end of day
+    try:
+        target_date = datetime.fromisoformat(date)
+        start_of_day = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_of_day = target_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        
+        # Find all completed sessions for this date
+        sessions = await db.sessions.find({
+            "status": "completed",
+            "completedAt": {
+                "$gte": start_of_day.isoformat(),
+                "$lte": end_of_day.isoformat()
+            }
+        }, {"_id": 0}).to_list(1000)
+        
+        # Check if there's already a verification for this date
+        verification = await db.verifications.find_one({"date": date}, {"_id": 0})
+        
+        return {
+            "date": date,
+            "sessions": sessions,
+            "verification": verification,
+            "totalSessions": len(sessions)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
+
+@api_router.post("/admin/verify-summary", dependencies=[Depends(get_admin_user)])
+async def verify_daily_summary(verification: VerificationCreate, current_user: dict = Depends(get_admin_user)):
+    """BSL verifies the daily summary with digital signature"""
+    # Check if already verified for this date
+    existing = await db.verifications.find_one({"date": verification.date})
+    if existing:
+        raise HTTPException(status_code=400, detail="Summary already verified for this date")
+    
+    verification_doc = {
+        "id": str(uuid.uuid4()),
+        "date": verification.date,
+        "verifiedBy": current_user["username"],
+        "verifiedByName": verification.verifiedByName,
+        "signature": verification.signature,
+        "verificationTimestamp": datetime.now(timezone.utc).isoformat(),
+        "sessionIds": verification.sessionIds,
+        "comments": verification.comments
+    }
+    
+    await db.verifications.insert_one(verification_doc)
+    return {"message": "Summary verified successfully", "verification": verification_doc}
+
+@api_router.get("/admin/verification/{date}", dependencies=[Depends(get_admin_user)])
+async def get_verification(date: str):
+    """Get verification status for a specific date"""
+    verification = await db.verifications.find_one({"date": date}, {"_id": 0})
+    if not verification:
+        raise HTTPException(status_code=404, detail="No verification found for this date")
+    return verification
+
 # Include the router in the main app
 app.include_router(api_router)
 
