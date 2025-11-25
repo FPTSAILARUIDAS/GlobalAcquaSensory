@@ -76,14 +76,28 @@ const DailySummarySheet = () => {
     }
   };
 
-  const handleVerify = async () => {
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSignatureFile(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignaturePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleVerifySession = async (sessionCode) => {
     if (!verifierName.trim()) {
       alert("Please enter your name (BSL)");
       return;
     }
 
-    if (!signatureRef.current || signatureRef.current.isEmpty()) {
-      alert("Please provide your signature");
+    if (!signatureFile) {
+      alert("Please upload your signature");
       return;
     }
 
@@ -105,26 +119,26 @@ const DailySummarySheet = () => {
         return;
       }
 
-      const signatureData = signatureRef.current.toDataURL();
-      const sessionIds = summaryData.sessions.map(s => s.id);
-
       await axios.post(
-        `${API}/admin/verify-summary`,
+        `${API}/admin/verify-session`,
         {
-          date: date,
+          sessionCode: sessionCode,
           verifiedByName: verifierName,
-          signature: signatureData,
-          sessionIds: sessionIds,
-          comments: comments || null
+          signature: signaturePreview
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setMessage("Summary verified successfully!");
-      setShowSignature(false);
+      setMessage(`Session ${sessionCode} verified successfully!`);
+      setVerifyingSession(null);
+      setVerifierName("");
+      setSignatureFile(null);
+      setSignaturePreview(null);
       fetchDailySummary();
+      
+      setTimeout(() => setMessage(""), 3000);
     } catch (error) {
-      setMessage(error.response?.data?.detail || "Failed to verify summary");
+      setMessage(error.response?.data?.detail || "Failed to verify session");
     }
   };
 
