@@ -7,6 +7,7 @@ import ReportView from "@/components/ReportView";
 import HistoryView from "@/components/HistoryView";
 import Login from "@/components/Login";
 import AdminDashboard from "@/components/AdminDashboard";
+import InstallPrompt from "@/components/InstallPrompt";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
