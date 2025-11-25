@@ -9,7 +9,7 @@ import SignatureCanvas from 'react-signature-canvas';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const DailySummarySheet = ({ authToken }) => {
+const DailySummarySheet = () => {
   const { date } = useParams();
   const navigate = useNavigate();
   const signatureRef = useRef();
@@ -27,13 +27,26 @@ const DailySummarySheet = ({ authToken }) => {
 
   const fetchDailySummary = async () => {
     try {
+      // Get token from localStorage (works in new tab/window)
+      const token = localStorage.getItem("auth_token");
+      
+      if (!token) {
+        setMessage("Please login first");
+        setLoading(false);
+        return;
+      }
+
       const response = await axios.get(`${API}/admin/daily-summary/${date}`, {
-        headers: { Authorization: `Bearer ${authToken}` }
+        headers: { Authorization: `Bearer ${token}` }
       });
       setSummaryData(response.data);
     } catch (error) {
       console.error("Failed to fetch daily summary:", error);
-      setMessage("Failed to load summary data");
+      if (error.response?.status === 401) {
+        setMessage("Authentication failed. Please login again.");
+      } else {
+        setMessage(error.response?.data?.detail || "Failed to load summary data");
+      }
     } finally {
       setLoading(false);
     }
