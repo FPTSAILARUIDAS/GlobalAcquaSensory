@@ -18,7 +18,8 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
   const { date: currentDate, time: currentTime } = getCurrentDateTime();
 
   const [formData, setFormData] = useState({
-    panelistName: initialData?.panelistName || "",
+    // Product information - pre-filled from first panelist
+    panelistName: "", // Always empty - each panelist enters their own name
     productType: initialData?.productType || "",
     otherProductType: initialData?.otherProductType || "",
     productVariant: initialData?.productVariant || "",
@@ -27,12 +28,13 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
     dateOfMfg: initialData?.dateOfMfg || "",
     controlSampleCode: initialData?.controlSampleCode || "",
     productTime: initialData?.productTime || "",
-    testingCompletionDate: initialData?.testingCompletionDate || currentDate,
-    testingCompletionTime: initialData?.testingCompletionTime || currentTime,
-    appearance: initialData?.appearance || { status: "IN", reason: "", otherReason: "" },
-    odour: initialData?.odour || { status: "IN", reason: "", otherReason: "" },
-    taste: initialData?.taste || { status: "IN", reason: "", otherReason: "" },
-    remarks: initialData?.remarks || "",
+    // Individual panelist data - always start fresh
+    testingCompletionDate: currentDate,
+    testingCompletionTime: currentTime,
+    appearance: { status: "IN", reason: "", otherReason: "" },
+    odour: { status: "IN", reason: "", otherReason: "" },
+    taste: { status: "IN", reason: "", otherReason: "" },
+    remarks: "",
   });
 
   const handleProductTypeChange = (value) => {
