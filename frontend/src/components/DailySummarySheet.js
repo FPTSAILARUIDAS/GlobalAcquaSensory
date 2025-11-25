@@ -140,6 +140,46 @@ const DailySummarySheet = () => {
     }
   };
 
+  const handleClearAllSessions = async () => {
+    if (!window.confirm(`Are you sure you want to delete ALL ${summaryData.sessions.length} session(s) for ${date}? This action cannot be undone!`)) {
+      return;
+    }
+
+    try {
+      const storedAuth = localStorage.getItem("auth");
+      let token = null;
+      
+      if (storedAuth) {
+        try {
+          const auth = JSON.parse(storedAuth);
+          token = auth.token;
+        } catch (e) {
+          console.error("Failed to parse auth");
+        }
+      }
+      
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
+
+      // Delete all sessions for this date
+      for (const session of summaryData.sessions) {
+        await axios.delete(
+          `${API}/admin/sessions/${session.sessionCode}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+
+      setMessage(`All ${summaryData.sessions.length} session(s) deleted successfully!`);
+      fetchDailySummary();
+      
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      setMessage(error.response?.data?.detail || "Failed to delete sessions");
+    }
+  };
+
   const formatDate = (isoString) => {
     if (!isoString) return "N/A";
     const date = new Date(isoString);
