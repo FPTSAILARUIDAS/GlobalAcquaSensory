@@ -350,8 +350,78 @@ const DailySummarySheet = () => {
           </table>
         </div>
 
-        {/* Verification Section */}
-        <div className="mt-8 border-t-2 border-gray-300 pt-6">
+        {/* Verification Modal */}
+        {verifyingSession && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 no-print">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
+                Verify Session: {verifyingSession}
+              </h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Your Name (BSL) *
+                  </label>
+                  <input
+                    type="text"
+                    value={verifierName}
+                    onChange={(e) => setVerifierName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Upload Signature *
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleSignatureUpload}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  {signaturePreview && (
+                    <div className="mt-3">
+                      <p className="text-sm text-gray-600 mb-2">Preview:</p>
+                      <img 
+                        src={signaturePreview} 
+                        alt="Signature preview" 
+                        className="border-2 border-gray-300 rounded"
+                        style={{ maxWidth: '200px', maxHeight: '100px' }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex space-x-3 mt-6">
+                  <Button
+                    onClick={() => handleVerifySession(verifyingSession)}
+                    className="flex-1 bg-green-600 hover:bg-green-700"
+                  >
+                    Confirm Verification
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setVerifyingSession(null);
+                      setVerifierName("");
+                      setSignatureFile(null);
+                      setSignaturePreview(null);
+                    }}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Old Verification Section - Removed */}
+        <div className="mt-8 border-t-2 border-gray-300 pt-6" style={{ display: 'none' }}>
           {summaryData.verification ? (
             <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
               <div className="flex items-center space-x-3 mb-4">
