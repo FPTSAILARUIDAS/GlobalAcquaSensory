@@ -401,7 +401,8 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
           
           {renderTestSection("appearance", "Appearance", appearanceReasons, "test-appearance")}
           {renderTestSection("odour", "Odour", odourReasons, "test-odour")}
-          {renderTestSection("taste", "Taste", tasteReasons, "test-taste")}
+          {/* Taste test is not required for Raw Water */}
+          {formData.productType !== "Raw Water" && renderTestSection("taste", "Taste", tasteReasons, "test-taste")}
         </div>
 
         {/* Remarks */}
