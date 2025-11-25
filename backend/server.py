@@ -341,32 +341,44 @@ async def clear_sessions():
 @api_router.get("/admin/daily-summary/{date}", dependencies=[Depends(get_admin_user)])
 async def get_daily_summary(date: str):
     """Get all completed sessions for a specific date"""
-    # Parse date and get start/end of day
     try:
-        target_date = datetime.fromisoformat(date)
-        start_of_day = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_of_day = target_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        # Get all completed sessions
+        all_sessions = await db.sessions.find({"status": "completed"}, {"_id": 0}).to_list(1000)
         
-        # Find all completed sessions for this date
-        sessions = await db.sessions.find({
-            "status": "completed",
-            "completedAt": {
-                "$gte": start_of_day.isoformat(),
-                "$lte": end_of_day.isoformat()
-            }
-        }, {"_id": 0}).to_list(1000)
+        # Filter by date (check if completedAt or createdAt matches the target date)
+        filtered_sessions = []
+        for session in all_sessions:
+            # Check completedAt first
+            session_date = None
+            if session.get("completedAt"):
+                try:
+                    session_date = session["completedAt"].split("T")[0]
+                except:
+                    pass
+            
+            # Fallback to createdAt if completedAt doesn't match
+            if not session_date or session_date != date:
+                if session.get("createdAt"):
+                    try:
+                        session_date = session["createdAt"].split("T")[0]
+                    except:
+                        pass
+            
+            # If either matches, include the session
+            if session_date == date:
+                filtered_sessions.append(session)
         
         # Check if there's already a verification for this date
         verification = await db.verifications.find_one({"date": date}, {"_id": 0})
         
         return {
             "date": date,
-            "sessions": sessions,
+            "sessions": filtered_sessions,
             "verification": verification,
-            "totalSessions": len(sessions)
+            "totalSessions": len(filtered_sessions)
         }
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Error fetching daily summary: {str(e)}")
 
 @api_router.post("/admin/verify-summary", dependencies=[Depends(get_admin_user)])
 async def verify_daily_summary(verification: VerificationCreate, current_user: dict = Depends(get_admin_user)):
