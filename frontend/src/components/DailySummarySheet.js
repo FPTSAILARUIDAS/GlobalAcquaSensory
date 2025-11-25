@@ -64,6 +64,12 @@ const DailySummarySheet = () => {
     }
 
     try {
+      const token = localStorage.getItem("auth_token");
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
+
       const signatureData = signatureRef.current.toDataURL();
       const sessionIds = summaryData.sessions.map(s => s.id);
 
@@ -76,7 +82,7 @@ const DailySummarySheet = () => {
           sessionIds: sessionIds,
           comments: comments || null
         },
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setMessage("Summary verified successfully!");
