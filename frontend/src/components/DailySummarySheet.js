@@ -30,7 +30,13 @@ const DailySummarySheet = () => {
       // Get token from localStorage (works in new tab/window)
       const token = localStorage.getItem("auth_token");
       
+      console.log("🔍 Daily Summary Debug:");
+      console.log("  - Date:", date);
+      console.log("  - Token exists:", !!token);
+      console.log("  - API URL:", `${API}/admin/daily-summary/${date}`);
+      
       if (!token) {
+        console.error("❌ No authentication token found");
         setMessage("Please login first");
         setLoading(false);
         return;
@@ -39,9 +45,17 @@ const DailySummarySheet = () => {
       const response = await axios.get(`${API}/admin/daily-summary/${date}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      console.log("✅ API Response:", response.data);
+      console.log("  - Total Sessions:", response.data.totalSessions);
+      console.log("  - Sessions Array:", response.data.sessions);
+      
       setSummaryData(response.data);
     } catch (error) {
-      console.error("Failed to fetch daily summary:", error);
+      console.error("❌ Failed to fetch daily summary:", error);
+      console.error("  - Status:", error.response?.status);
+      console.error("  - Data:", error.response?.data);
+      
       if (error.response?.status === 401) {
         setMessage("Authentication failed. Please login again.");
       } else {
