@@ -150,3 +150,19 @@ button:disabled {
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
+
+/* CRITICAL: Hide Taste parameter for Raw Water - Added as backup */
+.hide-taste-raw-water {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+@media print {
+  .hide-taste-raw-water {
+    display: none !important;
+    visibility: hidden !important;
+    page-break-inside: avoid !important;
+  }
+}
