@@ -559,6 +559,25 @@ const DailySummarySheet = () => {
           </div>
         )}
 
+        {/* Filter Section */}
+        <div className="mb-4 flex items-center justify-between no-print">
+          <div className="flex items-center space-x-3">
+            <label className="text-sm font-semibold text-gray-700">Filter by Product:</label>
+            <select
+              value={productFilter}
+              onChange={(e) => setProductFilter(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              {getProductTypes().map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+          <div className="text-sm text-gray-600">
+            Showing: <span className="font-semibold">{filteredSessions.length}</span> of <span className="font-semibold">{summaryData.totalSessions}</span> sessions
+          </div>
+        </div>
+
         {/* Summary Table */}
         <div className="mb-8 overflow-x-auto">
           <table className="w-full border-2 border-gray-900" style={{ borderCollapse: 'collapse' }}>
