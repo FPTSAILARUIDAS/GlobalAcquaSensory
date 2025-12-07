@@ -56,7 +56,8 @@ const SummaryReport = () => {
 
   const getFinalConclusion = (ballot) => {
     // For Raw Water and CIP Final Rinse Water, only check Appearance and Odour
-    const isRawWaterType = ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water";
+    const productType = ballot.productType || "";
+    const isRawWaterType = productType === "Raw Water" || productType === "CIP Final Rinse Water";
     
     if (isRawWaterType) {
       const allIn = ballot.appearance.status === "IN" && ballot.odour.status === "IN";
