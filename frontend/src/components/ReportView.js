@@ -178,20 +178,22 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                       )}
                     </div>
 
-                    {/* Taste */}
-                    <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.taste.status === "IN" ? "border-green-200" : "border-red-200"}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-semibold text-gray-700">Taste</p>
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${ballot.taste.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid={`ballot-${index}-taste-status`}>
-                          {ballot.taste.status}
-                        </span>
-                      </div>
-                      {ballot.taste.status === "OUT" && (
-                        <div className="mt-2 pt-2 border-t border-gray-200">
-                          <p className="text-xs text-gray-600">Reason: <span className="font-semibold text-gray-800" data-testid={`ballot-${index}-taste-reason`}>{ballot.taste.reason === "Other" ? ballot.taste.otherReason : ballot.taste.reason}</span></p>
+                    {/* Taste - Hide for Raw Water and CIP Final Rinse Water */}
+                    {ballot.productType !== "Raw Water" && ballot.productType !== "CIP Final Rinse Water" && ballot.taste && (
+                      <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.taste.status === "IN" ? "border-green-200" : "border-red-200"}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm font-semibold text-gray-700">Taste</p>
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${ballot.taste.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid={`ballot-${index}-taste-status`}>
+                            {ballot.taste.status}
+                          </span>
                         </div>
-                      )}
-                    </div>
+                        {ballot.taste.status === "OUT" && (
+                          <div className="mt-2 pt-2 border-t border-gray-200">
+                            <p className="text-xs text-gray-600">Reason: <span className="font-semibold text-gray-800" data-testid={`ballot-${index}-taste-reason`}>{ballot.taste.reason === "Other" ? ballot.taste.otherReason : ballot.taste.reason}</span></p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
 
