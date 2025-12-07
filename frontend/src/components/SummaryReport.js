@@ -157,8 +157,8 @@ const SummaryReport = () => {
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Product Time</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Appearance</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Odour</th>
-                {/* Hide Taste column for Raw Water and CIP Final Rinse Water */}
-                {session.ballots[0]?.productType !== "Raw Water" && session.ballots[0]?.productType !== "CIP Final Rinse Water" && (
+                {/* Hide Taste column for Raw Water only */}
+                {session.ballots[0]?.productType !== "Raw Water" && (
                   <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Taste</th>
                 )}
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Final Conclusion</th>
