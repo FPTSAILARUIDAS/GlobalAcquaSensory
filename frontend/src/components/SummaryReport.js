@@ -55,9 +55,17 @@ const SummaryReport = () => {
   };
 
   const getFinalConclusion = (ballot) => {
+    // For Raw Water and CIP Final Rinse Water, only check Appearance and Odour
+    const isRawWaterType = ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water";
+    
+    if (isRawWaterType) {
+      const allIn = ballot.appearance.status === "IN" && ballot.odour.status === "IN";
+      return allIn ? "ACCEPTED" : "REJECTED";
+    }
+    
     const allIn = ballot.appearance.status === "IN" && 
                   ballot.odour.status === "IN" && 
-                  ballot.taste.status === "IN";
+                  ballot.taste?.status === "IN";
     return allIn ? "ACCEPTED" : "REJECTED";
   };
 
@@ -65,7 +73,13 @@ const SummaryReport = () => {
     const failed = [];
     if (ballot.appearance.status === "OUT") failed.push("Appearance");
     if (ballot.odour.status === "OUT") failed.push("Odour");
-    if (ballot.taste.status === "OUT") failed.push("Taste");
+    
+    // Only include taste for non-Raw Water products
+    const isRawWaterType = ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water";
+    if (!isRawWaterType && ballot.taste?.status === "OUT") {
+      failed.push("Taste");
+    }
+    
     return failed.join(", ") || "-";
   };
 
