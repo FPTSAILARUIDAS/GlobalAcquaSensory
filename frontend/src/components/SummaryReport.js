@@ -171,7 +171,7 @@ const SummaryReport = () => {
                 const conclusion = getFinalConclusion(ballot);
                 const isAccepted = conclusion === "ACCEPTED";
                 const productType = ballot.productType || "";
-                const isRawWaterType = productType === "Raw Water" || productType === "CIP Final Rinse Water";
+                const isRawWaterType = productType === "Raw Water";
                 
                 return (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
