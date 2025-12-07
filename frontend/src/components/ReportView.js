@@ -183,10 +183,10 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                       )}
                     </div>
 
-                    {/* Taste - Hide for Raw Water and CIP Final Rinse Water */}
+                    {/* Taste - Hide for Raw Water only */}
                     {(() => {
                       const productType = ballot.productType || "";
-                      const isRawWaterType = productType === "Raw Water" || productType === "CIP Final Rinse Water";
+                      const isRawWaterType = productType === "Raw Water";
                       
                       // Debug log (will appear in browser console)
                       if (typeof window !== 'undefined' && index === 0) {
