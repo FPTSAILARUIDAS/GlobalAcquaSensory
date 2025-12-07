@@ -309,9 +309,18 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
           <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-blue-100">
             {/* Header with Search */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                All Sessions ({filteredSessions.length})
-              </h2>
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                  All Sessions ({filteredSessions.length})
+                </h2>
+                <Button
+                  onClick={handleFixSessionStatuses}
+                  className="bg-orange-600 hover:bg-orange-700 text-white text-xs px-3 py-1"
+                  size="sm"
+                >
+                  Fix Statuses
+                </Button>
+              </div>
               
               {/* Search Bar */}
               <div className="relative w-full sm:w-96">
