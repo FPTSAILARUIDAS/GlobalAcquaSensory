@@ -201,6 +201,48 @@ frontend:
         - working: "NA"
           agent: "main"
           comment: "Second fix applied with focus on signature rendering. Changes: 1) Changed from A3 to A4 landscape (better browser support), 2) Added explicit img[alt='Signature'] CSS rules with border and background, 3) Reduced font sizes for better fit (h1: 26px, h2: 20px, table: 10-11px), 4) Added force display rules for all images, 5) Simplified print CSS to avoid rendering errors. On-screen verified: 2 signatures visible and displaying correctly."
+  
+  - task: "Hide Taste Parameter for Raw Water Products"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/ReportView.js, frontend/src/components/SummaryReport.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "Taste parameter appearing in ballot reports and summary for Raw Water products even though only Appearance and Odour are being tested"
+        - working: "NA"
+          agent: "main"
+          comment: "Fixed Taste parameter display in all report views. Changes: 1) ReportView.js - Conditionally hide Taste section for Raw Water and CIP Final Rinse Water, 2) SummaryReport.js - Hide Taste column header and cells for Raw Water products, updated getFinalConclusion() to only check Appearance and Odour for Raw Water, updated getFailedTests() to exclude Taste for Raw Water. Ready for testing."
+  
+  - task: "Product Type Filter in Daily Summary"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/DailySummarySheet.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Added product type filter dropdown in Daily Summary page. Features: 1) Filter dropdown with dynamic product types from session data (All, Raw Water, CIP Final Rinse Water, etc.), 2) Shows filtered count (e.g., 'Showing: 3 of 5 sessions'), 3) Clear All button updates to show filtered count, 4) Can delete all sessions of a specific product type. Filter affects table display and PDF download. Tested: Filter shows 3 options, successfully filters Raw Water (3 of 5 sessions)."
+  
+  - task: "Session Status Fix Tool"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py, frontend/src/components/AdminDashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "Sessions showing 'In progress' status even after all panelists have completed their ballots"
+        - working: "NA"
+          agent: "main"
+          comment: "Added session status fix functionality. Backend: New endpoint /api/admin/fix-session-statuses that checks all sessions and corrects status based on ballot count vs target panelist count. Frontend: Added 'Fix Statuses' button in AdminDashboard Sessions tab. Admin can click to automatically fix all incorrect session statuses. Ready for testing."
 
 metadata:
   created_by: "testing_agent"
