@@ -170,7 +170,8 @@ const SummaryReport = () => {
               {session.ballots.map((ballot, index) => {
                 const conclusion = getFinalConclusion(ballot);
                 const isAccepted = conclusion === "ACCEPTED";
-                const isRawWaterType = ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water";
+                const productType = ballot.productType || "";
+                const isRawWaterType = productType === "Raw Water" || productType === "CIP Final Rinse Water";
                 
                 return (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
