@@ -198,21 +198,24 @@ const PrintableReport = () => {
                         ) : "-"}
                       </td>
                     </tr>
-                    <tr>
-                      <td className="border border-gray-300 px-4 py-2 font-medium">Taste</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          ballot.taste.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                        }`}>
-                          {ballot.taste.status}
-                        </span>
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2 text-sm">
-                        {ballot.taste.status === "OUT" ? (
-                          ballot.taste.reason === "Other" ? ballot.taste.otherReason : ballot.taste.reason
-                        ) : "-"}
-                      </td>
-                    </tr>
+                    {/* Hide Taste row for Raw Water and CIP Final Rinse Water */}
+                    {ballot.productType !== "Raw Water" && ballot.productType !== "CIP Final Rinse Water" && ballot.taste && (
+                      <tr>
+                        <td className="border border-gray-300 px-4 py-2 font-medium">Taste</td>
+                        <td className="border border-gray-300 px-4 py-2 text-center">
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            ballot.taste.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                          }`}>
+                            {ballot.taste.status}
+                          </span>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-sm">
+                          {ballot.taste.status === "OUT" ? (
+                            ballot.taste.reason === "Other" ? ballot.taste.otherReason : ballot.taste.reason
+                          ) : "-"}
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
