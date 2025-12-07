@@ -202,7 +202,7 @@ const SummaryReport = () => {
                         {ballot.odour.status}
                       </span>
                     </td>
-                    {/* Hide Taste cell for Raw Water and CIP Final Rinse Water */}
+                    {/* Hide Taste cell for Raw Water only */}
                     {!isRawWaterType && ballot.taste && (
                       <td className="border-2 border-gray-900 px-4 py-3 text-center">
                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${
