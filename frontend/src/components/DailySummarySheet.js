@@ -514,10 +514,10 @@ const DailySummarySheet = () => {
         <Button
           onClick={handleClearAllSessions}
           className="bg-red-600 hover:bg-red-700 flex items-center space-x-2"
-          disabled={!summaryData?.sessions || summaryData.sessions.length === 0}
+          disabled={!filteredSessions || filteredSessions.length === 0}
         >
           <Trash2 className="w-4 h-4" />
-          <span>Clear All</span>
+          <span>Clear {productFilter !== "All" ? productFilter : "All"} ({filteredSessions?.length || 0})</span>
         </Button>
         <Button
           onClick={() => navigate(-1)}
