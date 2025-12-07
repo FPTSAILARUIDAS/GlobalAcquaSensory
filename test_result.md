@@ -250,6 +250,18 @@ frontend:
           agent: "main"
           comment: "Added session status fix functionality. Backend: New endpoint /api/admin/fix-session-statuses that checks all sessions and corrects status based on ballot count vs target panelist count. Frontend: Added 'Fix Statuses' button in AdminDashboard Sessions tab. Admin can click to automatically fix all incorrect session statuses. Ready for testing."
 
+  - task: "CIP Component Dropdown for CIP Final Rinse Water"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/BallotForm.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Added CIP Component dropdown for CIP Final Rinse Water product type. When user selects 'CIP Final Rinse Water', a required dropdown appears with 3 options: 1) Filler Bowl, 2) Product Water Tank, 3) Other. If 'Other' is selected, a text field appears to specify the custom component. Implementation mirrors the existing Product Variant functionality for Finished Goods. Data is stored in productVariant field. Updated handleProductTypeChange to preserve variant data for CIP Final Rinse Water."
+
 metadata:
   created_by: "testing_agent"
   version: "1.3"
