@@ -205,8 +205,8 @@ frontend:
   - task: "Hide Taste Parameter for Raw Water Products"
     implemented: true
     working: "NA"
-    file: "frontend/src/components/ReportView.js, frontend/src/components/SummaryReport.js"
-    stuck_count: 0
+    file: "frontend/src/components/PrintableReport.js, frontend/src/components/ReportView.js, frontend/src/components/SummaryReport.js"
+    stuck_count: 3
     priority: "high"
     needs_retesting: true
     status_history:
@@ -216,6 +216,12 @@ frontend:
         - working: "NA"
           agent: "main"
           comment: "Fixed Taste parameter display in all report views. Changes: 1) ReportView.js - Conditionally hide Taste section for Raw Water and CIP Final Rinse Water, 2) SummaryReport.js - Hide Taste column header and cells for Raw Water products, updated getFinalConclusion() to only check Appearance and Odour for Raw Water, updated getFailedTests() to exclude Taste for Raw Water. Ready for testing."
+        - working: false
+          agent: "user"
+          comment: "User confirmed Taste parameter STILL showing in detailed report PDF download for Raw Water sessions"
+        - working: "NA"
+          agent: "main"
+          comment: "ROOT CAUSE FOUND: Was editing wrong component! The /report/{sessionCode} route uses PrintableReport.js (not ReportView.js). Fixed PrintableReport.js line 201-215 to conditionally hide Taste table row for Raw Water and CIP Final Rinse Water. This is the component that generates the PDF when user clicks 'Detailed' from Admin Dashboard."
   
   - task: "Product Type Filter in Daily Summary"
     implemented: true
