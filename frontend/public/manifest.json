@@ -1,7 +1,7 @@
 {
-  "name": "Global Acqua Sensory Analysis",
-  "short_name": "Sensory App",
-  "description": "Sensory Quality Control - Water Analysis System",
+  "name": "Acqua Sensory Analysis",
+  "short_name": "Acqua Sensory",
+  "description": "Water Sensory Quality Control & Analysis",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
