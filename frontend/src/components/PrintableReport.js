@@ -198,8 +198,8 @@ const PrintableReport = () => {
                         ) : "-"}
                       </td>
                     </tr>
-                    {/* Hide Taste row for Raw Water and CIP Final Rinse Water */}
-                    {ballot.productType !== "Raw Water" && ballot.productType !== "CIP Final Rinse Water" && ballot.taste && (
+                    {/* Hide Taste row for Raw Water only */}
+                    {ballot.productType !== "Raw Water" && ballot.taste && (
                       <tr>
                         <td className="border border-gray-300 px-4 py-2 font-medium">Taste</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">
