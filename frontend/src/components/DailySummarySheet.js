@@ -202,6 +202,45 @@ const DailySummarySheet = () => {
     });
   };
 
+  // Filter sessions by product type
+  useEffect(() => {
+    if (!summaryData) return;
+    
+    if (productFilter === "All") {
+      setFilteredSessions(summaryData.sessions);
+    } else {
+      const filtered = summaryData.sessions.filter(session => {
+        const firstBallot = session.ballots[0];
+        if (!firstBallot) return false;
+        
+        const productType = firstBallot.productType === "Other" 
+          ? firstBallot.otherProductType 
+          : firstBallot.productType;
+        
+        return productType === productFilter;
+      });
+      setFilteredSessions(filtered);
+    }
+  }, [productFilter, summaryData]);
+
+  // Get unique product types for filter
+  const getProductTypes = () => {
+    if (!summaryData) return [];
+    
+    const types = new Set(["All"]);
+    summaryData.sessions.forEach(session => {
+      const firstBallot = session.ballots[0];
+      if (firstBallot) {
+        const productType = firstBallot.productType === "Other" 
+          ? firstBallot.otherProductType 
+          : firstBallot.productType;
+        types.add(productType);
+      }
+    });
+    
+    return Array.from(types);
+  };
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
       <p>Loading daily summary...</p>
