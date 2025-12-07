@@ -12,6 +12,8 @@ const DailySummarySheet = () => {
   const navigate = useNavigate();
   
   const [summaryData, setSummaryData] = useState(null);
+  const [filteredSessions, setFilteredSessions] = useState([]);
+  const [productFilter, setProductFilter] = useState("All");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [verifyingSession, setVerifyingSession] = useState(null);
