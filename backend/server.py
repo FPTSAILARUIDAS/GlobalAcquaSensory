@@ -452,6 +452,48 @@ async def verify_session(verification: SessionVerification, current_user: dict =
     
     return {"message": "Session verified successfully", "sessionCode": verification.sessionCode}
 
+@api_router.post("/admin/fix-session-statuses", dependencies=[Depends(get_admin_user)])
+async def fix_session_statuses(current_user: dict = Depends(get_admin_user)):
+    """Fix session statuses based on ballot count"""
+    sessions = await db.sessions.find({}).to_list(1000)
+    fixed_count = 0
+    
+    for session in sessions:
+        ballots = session.get("ballots", [])
+        target_count = session.get("targetPanelistCount", 1)
+        current_status = session.get("status", "in_progress")
+        
+        # Determine correct status
+        correct_status = "completed" if len(ballots) >= target_count else "in_progress"
+        
+        # Update if status is incorrect
+        if current_status != correct_status:
+            update_data = {"status": correct_status}
+            
+            # Set completedAt if completing
+            if correct_status == "completed" and not session.get("completedAt"):
+                # Use the last ballot's timestamp or current time
+                if ballots:
+                    last_ballot = ballots[-1]
+                    completion_date = last_ballot.get("testingCompletionDate")
+                    completion_time = last_ballot.get("testingCompletionTime")
+                    if completion_date and completion_time:
+                        try:
+                            completed_at = f"{completion_date}T{completion_time}"
+                            update_data["completedAt"] = completed_at
+                        except:
+                            update_data["completedAt"] = datetime.now(timezone.utc).isoformat()
+                    else:
+                        update_data["completedAt"] = datetime.now(timezone.utc).isoformat()
+            
+            await db.sessions.update_one(
+                {"sessionCode": session["sessionCode"]},
+                {"$set": update_data}
+            )
+            fixed_count += 1
+    
+    return {"message": f"Fixed {fixed_count} session(s)", "total_sessions": len(sessions)}
+
 # Include the router in the main app
 app.include_router(api_router)
 
