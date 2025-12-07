@@ -144,7 +144,10 @@ const DailySummarySheet = () => {
   };
 
   const handleClearAllSessions = async () => {
-    if (!window.confirm(`Are you sure you want to delete ALL ${summaryData.sessions.length} session(s) for ${date}? This action cannot be undone!`)) {
+    const sessionsToDelete = productFilter === "All" ? summaryData.sessions : filteredSessions;
+    const filterText = productFilter === "All" ? "ALL" : `all ${productFilter}`;
+    
+    if (!window.confirm(`Are you sure you want to delete ${filterText} ${sessionsToDelete.length} session(s) for ${date}? This action cannot be undone!`)) {
       return;
     }
 
@@ -166,16 +169,17 @@ const DailySummarySheet = () => {
         return;
       }
 
-      // Delete all sessions for this date
-      for (const session of summaryData.sessions) {
+      // Delete filtered sessions
+      for (const session of sessionsToDelete) {
         await axios.delete(
           `${API}/admin/sessions/${session.sessionCode}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       }
 
-      setMessage(`All ${summaryData.sessions.length} session(s) deleted successfully!`);
+      setMessage(`${sessionsToDelete.length} session(s) deleted successfully!`);
       fetchDailySummary();
+      setProductFilter("All");
       
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
