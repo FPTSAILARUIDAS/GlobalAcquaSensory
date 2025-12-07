@@ -42,7 +42,7 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
       ...prev,
       productType: value,
       otherProductType: value === "Other" ? prev.otherProductType : "",
-      productVariant: value === "Finished Goods" ? prev.productVariant : "",
+      productVariant: (value === "Finished Goods" || value === "CIP Final Rinse Water") ? prev.productVariant : "",
       otherProductVariant: "",
     }));
   };
