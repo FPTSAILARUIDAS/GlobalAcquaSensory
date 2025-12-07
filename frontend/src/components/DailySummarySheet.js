@@ -61,6 +61,7 @@ const DailySummarySheet = () => {
       console.log("  - Sessions Array:", response.data.sessions);
       
       setSummaryData(response.data);
+      setFilteredSessions(response.data.sessions);
     } catch (error) {
       console.error("❌ Failed to fetch daily summary:", error);
       console.error("  - Status:", error.response?.status);
