@@ -238,7 +238,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
             ))}
           </div>
 
