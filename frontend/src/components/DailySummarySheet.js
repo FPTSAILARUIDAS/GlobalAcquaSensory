@@ -598,7 +598,7 @@ const DailySummarySheet = () => {
               </tr>
             </thead>
             <tbody>
-              {summaryData.sessions.map((session, index) => {
+              {filteredSessions.map((session, index) => {
                 const firstBallot = session.ballots[0] || {};
                 const lastBallot = session.ballots[session.ballots.length - 1] || {};
                 const allPassed = session.ballots.every(ballot => 
