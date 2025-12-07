@@ -288,7 +288,7 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
               )}
             </div>
 
-            {/* Product Variant Section - Show only for Finished Goods */}
+            {/* Product Variant Section - Show for Finished Goods */}
             {formData.productType === "Finished Goods" && (
               <div className="grid md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="space-y-2">
@@ -326,6 +326,51 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
                       value={formData.otherProductVariant}
                       onChange={(e) => handleChange("otherProductVariant", e.target.value)}
                       placeholder="Enter variant..."
+                      className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* CIP Component Section - Show for CIP Final Rinse Water */}
+            {formData.productType === "CIP Final Rinse Water" && (
+              <div className="grid md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="space-y-2">
+                  <Label htmlFor="productVariant" className="text-sm font-semibold text-gray-700">
+                    CIP Component *
+                  </Label>
+                  <Select value={formData.productVariant} onValueChange={(value) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      productVariant: value,
+                      otherProductVariant: value === "Other" ? prev.otherProductVariant : ""
+                    }));
+                  }} required>
+                    <SelectTrigger data-testid="select-cip-component" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                      <SelectValue placeholder="Select CIP component" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Filler Bowl">Filler Bowl</SelectItem>
+                      <SelectItem value="Product Water Tank">Product Water Tank</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Other CIP Component - Show only when Other is selected */}
+                {formData.productVariant === "Other" && (
+                  <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Label htmlFor="otherProductVariant" className="text-sm font-semibold text-gray-700">
+                      Specify CIP Component *
+                    </Label>
+                    <Input
+                      id="otherProductVariant"
+                      data-testid="input-other-cip-component"
+                      value={formData.otherProductVariant}
+                      onChange={(e) => handleChange("otherProductVariant", e.target.value)}
+                      placeholder="Enter CIP component..."
+                      required={formData.productVariant === "Other"}
                       className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
