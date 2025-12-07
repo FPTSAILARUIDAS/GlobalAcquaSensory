@@ -155,7 +155,10 @@ const SummaryReport = () => {
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Product Time</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Appearance</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Odour</th>
-                <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Taste</th>
+                {/* Hide Taste column for Raw Water and CIP Final Rinse Water */}
+                {session.ballots[0]?.productType !== "Raw Water" && session.ballots[0]?.productType !== "CIP Final Rinse Water" && (
+                  <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Taste</th>
+                )}
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Final Conclusion</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-left font-bold text-sm">Failed Tests</th>
                 <th className="border-2 border-gray-900 px-4 py-3 text-center font-bold text-sm">Testing Date & Time</th>
@@ -165,6 +168,7 @@ const SummaryReport = () => {
               {session.ballots.map((ballot, index) => {
                 const conclusion = getFinalConclusion(ballot);
                 const isAccepted = conclusion === "ACCEPTED";
+                const isRawWaterType = ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water";
                 
                 return (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
@@ -195,15 +199,18 @@ const SummaryReport = () => {
                         {ballot.odour.status}
                       </span>
                     </td>
-                    <td className="border-2 border-gray-900 px-4 py-3 text-center">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                        ballot.taste.status === "IN" 
-                          ? "bg-green-200 text-green-900 border border-green-900" 
-                          : "bg-red-200 text-red-900 border border-red-900"
-                      }`}>
-                        {ballot.taste.status}
-                      </span>
-                    </td>
+                    {/* Hide Taste cell for Raw Water and CIP Final Rinse Water */}
+                    {!isRawWaterType && ballot.taste && (
+                      <td className="border-2 border-gray-900 px-4 py-3 text-center">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                          ballot.taste.status === "IN" 
+                            ? "bg-green-200 text-green-900 border border-green-900" 
+                            : "bg-red-200 text-red-900 border border-red-900"
+                        }`}>
+                          {ballot.taste.status}
+                        </span>
+                      </td>
+                    )}
                     <td className="border-2 border-gray-900 px-4 py-3 text-center">
                       <span className={`px-4 py-2 rounded-lg text-sm font-black ${
                         isAccepted 
