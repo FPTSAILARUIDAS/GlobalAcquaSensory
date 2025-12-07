@@ -77,7 +77,7 @@ const SummaryReport = () => {
     
     // Only include taste for non-Raw Water products
     const productType = ballot.productType || "";
-    const isRawWaterType = productType === "Raw Water" || productType === "CIP Final Rinse Water";
+    const isRawWaterType = productType === "Raw Water";
     if (!isRawWaterType && ballot.taste?.status === "OUT") {
       failed.push("Taste");
     }
