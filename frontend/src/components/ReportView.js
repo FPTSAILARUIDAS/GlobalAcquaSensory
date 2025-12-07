@@ -90,8 +90,10 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
 
           {/* Panelist Ballots */}
           <div className="space-y-8">
-            {session.ballots.map((ballot, index) => (
-              <div key={index} className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
+            {session.ballots.map((ballot, index) => {
+              const productType = ballot.productType || "";
+              return (
+              <div key={index} className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200" data-product-type={productType}>
                 <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                   <span className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mr-3 text-sm">
                     {index + 1}
