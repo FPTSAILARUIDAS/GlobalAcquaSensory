@@ -151,30 +151,25 @@ button:disabled {
   animation: slide-up 0.3s ease-out;
 }
 
-/* CRITICAL: Hide Taste parameter for Raw Water products */
+/* CRITICAL: Hide Taste parameter for Raw Water products only */
 [data-product-type="Raw Water"] p.font-semibold:has-text("Taste"),
-[data-product-type="Raw Water"] div:has(> p.font-semibold:contains("Taste")),
-[data-product-type="CIP Final Rinse Water"] p.font-semibold:has-text("Taste"),
-[data-product-type="CIP Final Rinse Water"] div:has(> p.font-semibold:contains("Taste")) {
+[data-product-type="Raw Water"] div:has(> p.font-semibold:contains("Taste")) {
   display: none !important;
   visibility: hidden !important;
 }
 
 /* CSS-based hiding for Raw Water Taste sections */
-div[data-product-type="Raw Water"] > div > div > div:nth-child(3),
-div[data-product-type="CIP Final Rinse Water"] > div > div > div:nth-child(3) {
+div[data-product-type="Raw Water"] > div > div > div:nth-child(3) {
   display: none !important;
 }
 
 @media print {
-  [data-product-type="Raw Water"] p:contains("Taste"),
-  [data-product-type="CIP Final Rinse Water"] p:contains("Taste") {
+  [data-product-type="Raw Water"] p:contains("Taste") {
     display: none !important;
     visibility: hidden !important;
   }
   
-  div[data-product-type="Raw Water"] > div > div > div:nth-child(3),
-  div[data-product-type="CIP Final Rinse Water"] > div > div > div:nth-child(3) {
+  div[data-product-type="Raw Water"] > div > div > div:nth-child(3) {
     display: none !important;
     page-break-inside: avoid !important;
   }
