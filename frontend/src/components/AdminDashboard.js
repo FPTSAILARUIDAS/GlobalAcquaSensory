@@ -135,6 +135,20 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
     }
   };
 
+  const handleFixSessionStatuses = async () => {
+    if (window.confirm("This will update all session statuses based on ballot count. Continue?")) {
+      try {
+        const response = await axios.post(`${API}/admin/fix-session-statuses`, {}, axiosConfig);
+        setMessage(response.data.message);
+        fetchSessions();
+        setTimeout(() => setMessage(""), 5000);
+      } catch (error) {
+        setMessage(error.response?.data?.detail || "Failed to fix session statuses");
+        setTimeout(() => setMessage(""), 3000);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
       {/* Header - Mobile Responsive */}
