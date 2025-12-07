@@ -146,7 +146,10 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
 
                 {/* Test Results */}
                 <div>
-                  <h4 className="text-sm font-bold text-gray-700 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Test Results</h4>
+                  <h4 className="text-sm font-bold text-gray-700 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                    Test Results 
+                    {ballot.productType === "Raw Water" && <span className="ml-2 text-xs text-red-600">(Raw Water - Taste Hidden)</span>}
+                  </h4>
                   <div className="space-y-3">
                     {/* Appearance */}
                     <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.appearance.status === "IN" ? "border-green-200" : "border-red-200"}`}>
