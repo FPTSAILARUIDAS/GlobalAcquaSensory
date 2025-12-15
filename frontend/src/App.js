@@ -44,6 +44,10 @@ function App() {
   const [sessionCode, setSessionCode] = useState("");
   const [activeSessionCode, setActiveSessionCode] = useState("");
   const [showSessionCodeInput, setShowSessionCodeInput] = useState(false);
+  
+  // Test type selection for 1 panelist
+  const [showTestTypeSelection, setShowTestTypeSelection] = useState(false);
+  const [selectedTestType, setSelectedTestType] = useState("");
 
   // Check for stored auth on mount
   useEffect(() => {
