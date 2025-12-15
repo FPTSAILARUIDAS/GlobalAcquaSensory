@@ -93,6 +93,7 @@ class BatchSession(BaseModel):
     sessionCode: Optional[str] = None  # For collaborative sessions
     status: str = "in_progress"  # "in_progress" or "completed"
     targetPanelistCount: int = 1
+    testType: str = "regular"  # "regular", "blind", or "proficiency"
     ballots: List[BallotData] = []
     createdBy: Optional[str] = None  # Username of creator
     createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
