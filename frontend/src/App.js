@@ -225,7 +225,8 @@ function App() {
       
       // For the first panelist, store their data as template for subsequent panelists
       // Only store common product information, not individual test results
-      if (updatedSession.ballots.length === 1) {
+      // Note: Blind test and proficiency test are always single panelist, so this won't apply
+      if (updatedSession.ballots.length === 1 && selectedTestType === "regular") {
         const templateData = {
           productType: ballotData.productType,
           otherProductType: ballotData.otherProductType,
