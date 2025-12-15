@@ -84,22 +84,20 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     }));
   };
 
-  const calculateOverallScore = () => {
-    let totalScores = 0;
-    let scoreCount = 0;
-    
-    formData.samples.forEach(sample => {
-      const appearance = parseFloat(sample.appearanceScore) || 0;
-      const odour = parseFloat(sample.odourScore) || 0;
-      const taste = parseFloat(sample.tasteScore) || 0;
-      
-      if (appearance > 0) { totalScores += appearance; scoreCount++; }
-      if (odour > 0) { totalScores += odour; scoreCount++; }
-      if (taste > 0) { totalScores += taste; scoreCount++; }
-    });
-    
-    if (scoreCount === 0) return "0.00";
-    return (totalScores / scoreCount).toFixed(2);
+  // Get background color for each sample code
+  const getColorStyle = (colorCode) => {
+    const colorMap = {
+      "Control": { backgroundColor: "#e5e7eb", color: "#000" },
+      "Yellow": { backgroundColor: "#fef08a", color: "#000" },
+      "Brown": { backgroundColor: "#a16207", color: "#fff" },
+      "Blue": { backgroundColor: "#3b82f6", color: "#fff" },
+      "Green": { backgroundColor: "#22c55e", color: "#000" },
+      "Red": { backgroundColor: "#ef4444", color: "#fff" },
+      "Purple": { backgroundColor: "#a855f7", color: "#fff" },
+      "White": { backgroundColor: "#ffffff", color: "#000", border: "2px solid #000" },
+      "Black": { backgroundColor: "#000000", color: "#fff" },
+    };
+    return colorMap[colorCode] || {};
   };
 
   const handleSubmit = (e) => {
