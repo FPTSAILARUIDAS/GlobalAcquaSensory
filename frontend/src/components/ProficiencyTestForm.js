@@ -110,10 +110,27 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Validate all samples have scores
+    const allSamplesComplete = formData.samples.every(s => 
+      s.appearanceScore !== "" && s.odourScore !== "" && s.tasteScore !== ""
+    );
+    
+    if (!allSamplesComplete) {
+      alert("Please provide scores for all parameters in all samples");
+      return;
+    }
+    
+    // Validate signature
+    if (!formData.signaturePreview) {
+      alert("Please upload your signature");
+      return;
+    }
+    
     const overallScore = calculateOverallScore();
     const submissionData = {
       ...formData,
       overallScore: overallScore,
+      signature: formData.signaturePreview
     };
     
     onSubmit(submissionData);
