@@ -92,6 +92,76 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
           <div className="space-y-8">
             {session.ballots.map((ballot, index) => {
               const productType = ballot.productType || "";
+              const isBlindOrProficiencyTest = ballot.samples && Array.isArray(ballot.samples);
+              
+              // For blind test or proficiency test, show different format
+              if (isBlindOrProficiencyTest) {
+                return (
+                  <div key={index} className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-purple-700" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                          Panelist {index + 1}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          <strong>Name:</strong> {ballot.panelistName}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>Test Date:</strong> {ballot.testDate} | <strong>Round No:</strong> {ballot.roundNo}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Sample Results Table */}
+                    <div className="overflow-x-auto mt-4">
+                      <table className="w-full border-collapse border-2 border-gray-300">
+                        <thead>
+                          <tr className="bg-purple-600 text-white">
+                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sample Code</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-center font-bold">Result</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">OFF Note</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {ballot.samples.map((sample, sIdx) => (
+                            <tr key={sIdx} className={sIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                              <td className="border-2 border-gray-300 px-4 py-2 font-semibold">
+                                {sample.colorCode}
+                              </td>
+                              <td className="border-2 border-gray-300 px-4 py-2 text-center">
+                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                  sample.status === "IN" 
+                                    ? "bg-green-100 text-green-700" 
+                                    : "bg-red-100 text-red-700"
+                                }`}>
+                                  {sample.status}
+                                </span>
+                              </td>
+                              <td className="border-2 border-gray-300 px-4 py-2 text-sm">
+                                {sample.offNote || "-"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    {/* Signature */}
+                    {ballot.signature && (
+                      <div className="mt-4">
+                        <p className="text-sm font-semibold text-gray-700 mb-2">Signature:</p>
+                        <img 
+                          src={ballot.signature} 
+                          alt="Signature" 
+                          className="max-w-xs h-20 border-2 border-purple-300 rounded-lg object-contain bg-white p-2"
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              
+              // Regular sensory test format
               return (
               <div key={index} className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200" data-product-type={productType}>
                 <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
