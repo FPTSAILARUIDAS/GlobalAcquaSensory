@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { CheckCircle, ArrowLeft } from "lucide-react";
+import { CheckCircle, ArrowLeft, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
   const getCurrentDateTime = () => {
@@ -16,21 +15,37 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
 
   const { date: currentDate, time: currentTime } = getCurrentDateTime();
 
+  // Color codes for proficiency test - same as blind test
+  const colorCodes = [
+    { id: "control", label: "Control", color: "Control" },
+    { id: "yellow", label: "Yellow", color: "Yellow" },
+    { id: "brown", label: "Brown", color: "Brown" },
+    { id: "blue", label: "Blue", color: "Blue" },
+    { id: "green", label: "Green", color: "Green" },
+    { id: "red", label: "Red", color: "Red" },
+    { id: "purple", label: "Purple", color: "Purple" },
+    { id: "white", label: "White", color: "White" },
+    { id: "black", label: "Black", color: "Black" },
+  ];
+
   const [formData, setFormData] = useState({
     panelistName: "",
     testDate: currentDate,
     testTime: currentTime,
     testCode: "",
     provider: "",
-    sampleId: "",
-    batchNo: "",
-    // Test parameters - similar to regular test but with scoring
-    appearance: { score: "", observation: "" },
-    odour: { score: "", observation: "" },
-    taste: { score: "", observation: "" },
-    overallScore: "",
+    roundNo: "",
+    samples: colorCodes.map(code => ({
+      id: code.id,
+      colorCode: code.color,
+      appearanceScore: "",
+      odourScore: "",
+      tasteScore: "",
+      observation: ""
+    })),
     comments: "",
-    signature: "",
+    signatureFile: null,
+    signaturePreview: null,
   });
 
   const handleChange = (field, value) => {
