@@ -255,6 +255,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                         </div>
                       )}
                     </div>
+                    )}
 
                     {/* Taste - Hide for Raw Water only */}
                     {(() => {
