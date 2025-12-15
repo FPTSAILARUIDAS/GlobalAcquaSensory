@@ -199,17 +199,18 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
           </div>
         </div>
 
-        {/* Scoring Guide */}
+        {/* Test Objective */}
         <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-          <h4 className="font-semibold text-blue-900 mb-2">Scoring Guide (0-10 scale):</h4>
-          <div className="text-sm text-blue-800 grid grid-cols-2 gap-2">
-            <div>• 0-3: Poor/Unacceptable</div>
-            <div>• 4-6: Fair/Acceptable</div>
-            <div>• 7-8: Good</div>
-            <div>• 9-10: Excellent</div>
-          </div>
-          <p className="text-sm text-green-700 font-semibold mt-2">
-            Score each parameter (Appearance, Odour, Taste) for all color-coded samples
+          <h4 className="font-semibold text-blue-900 mb-2">Test Objective:</h4>
+          <p className="text-sm text-blue-800">
+            A Sample is judged as being "IN" or "OUT" using a control reference.
+          </p>
+          <ul className="text-sm text-blue-800 mt-2 space-y-1 ml-4">
+            <li>• <strong>IN:</strong> Sample is identical to control or within acceptable variability</li>
+            <li>• <strong>OUT:</strong> Sample is different and unacceptable</li>
+          </ul>
+          <p className="text-sm text-red-600 font-semibold mt-2">
+            For OUT Samples, OFF Note description is MANDATORY
           </p>
         </div>
 
@@ -220,67 +221,54 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
               <tr className="bg-green-600 text-white">
                 <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Sl No</th>
                 <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Sample Color Code</th>
-                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Appearance Score (0-10)</th>
-                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Odour Score (0-10)</th>
-                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Taste Score (0-10)</th>
-                <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Observation</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">IN/OUT</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">OFF Note Description</th>
               </tr>
             </thead>
             <tbody>
               {formData.samples.map((sample, index) => (
                 <tr key={sample.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold">
+                  <td className="border-2 border-gray-300 px-4 py-3">
                     {sample.id === "control" ? "Control" : index}
                   </td>
-                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold">
+                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold" style={getColorStyle(sample.colorCode)}>
                     {sample.colorCode}
                   </td>
-                  <td className="border-2 border-gray-300 px-2 py-3">
-                    <Input
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={sample.appearanceScore}
-                      onChange={(e) => handleSampleChange(sample.id, "appearanceScore", e.target.value)}
-                      placeholder="0-10"
-                      required
-                      className="border-green-300 focus:border-green-500 text-center"
-                    />
-                  </td>
-                  <td className="border-2 border-gray-300 px-2 py-3">
-                    <Input
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={sample.odourScore}
-                      onChange={(e) => handleSampleChange(sample.id, "odourScore", e.target.value)}
-                      placeholder="0-10"
-                      required
-                      className="border-green-300 focus:border-green-500 text-center"
-                    />
-                  </td>
-                  <td className="border-2 border-gray-300 px-2 py-3">
-                    <Input
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={sample.tasteScore}
-                      onChange={(e) => handleSampleChange(sample.id, "tasteScore", e.target.value)}
-                      placeholder="0-10"
-                      required
-                      className="border-green-300 focus:border-green-500 text-center"
-                    />
+                  <td className="border-2 border-gray-300 px-4 py-3">
+                    {sample.id === "control" ? (
+                      <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                        IN (Control)
+                      </span>
+                    ) : (
+                      <Select
+                        value={sample.status}
+                        onValueChange={(value) => handleSampleChange(sample.id, "status", value)}
+                        required
+                      >
+                        <SelectTrigger className="border-gray-300">
+                          <SelectValue placeholder="Select" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="IN">IN</SelectItem>
+                          <SelectItem value="OUT">OUT</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
                   </td>
                   <td className="border-2 border-gray-300 px-4 py-3">
-                    <Input
-                      value={sample.observation}
-                      onChange={(e) => handleSampleChange(sample.id, "observation", e.target.value)}
-                      placeholder="Optional notes"
-                      className="border-green-300 focus:border-green-500"
-                    />
+                    {sample.id === "control" ? (
+                      <span className="text-gray-400 text-sm">N/A</span>
+                    ) : sample.status === "OUT" ? (
+                      <Input
+                        value={sample.offNote}
+                        onChange={(e) => handleSampleChange(sample.id, "offNote", e.target.value)}
+                        placeholder="Describe OFF note (Mandatory)"
+                        required
+                        className="border-red-300 focus:border-red-500"
+                      />
+                    ) : (
+                      <span className="text-gray-400 text-sm">-</span>
+                    )}
                   </td>
                 </tr>
               ))}
