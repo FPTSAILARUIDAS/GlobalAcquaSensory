@@ -52,24 +52,59 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleTestChange = (testName, field, value) => {
+  const handleSampleChange = (sampleId, field, value) => {
     setFormData((prev) => ({
       ...prev,
-      [testName]: {
-        ...prev[testName],
-        [field]: value,
-      },
+      samples: prev.samples.map(sample =>
+        sample.id === sampleId ? { ...sample, [field]: value } : sample
+      )
+    }));
+  };
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size should be less than 5MB");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          signatureFile: file,
+          signaturePreview: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeSignature = () => {
+    setFormData(prev => ({
+      ...prev,
+      signatureFile: null,
+      signaturePreview: null
     }));
   };
 
   const calculateOverallScore = () => {
-    const scores = [
-      parseFloat(formData.appearance.score) || 0,
-      parseFloat(formData.odour.score) || 0,
-      parseFloat(formData.taste.score) || 0,
-    ];
-    const avg = scores.reduce((a, b) => a + b, 0) / 3;
-    return avg.toFixed(2);
+    let totalScores = 0;
+    let scoreCount = 0;
+    
+    formData.samples.forEach(sample => {
+      const appearance = parseFloat(sample.appearanceScore) || 0;
+      const odour = parseFloat(sample.odourScore) || 0;
+      const taste = parseFloat(sample.tasteScore) || 0;
+      
+      if (appearance > 0) { totalScores += appearance; scoreCount++; }
+      if (odour > 0) { totalScores += odour; scoreCount++; }
+      if (taste > 0) { totalScores += taste; scoreCount++; }
+    });
+    
+    if (scoreCount === 0) return "0.00";
+    return (totalScores / scoreCount).toFixed(2);
   };
 
   const handleSubmit = (e) => {
