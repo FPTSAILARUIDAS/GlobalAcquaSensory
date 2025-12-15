@@ -68,23 +68,33 @@ class TestResult(BaseModel):
     otherReason: Optional[str] = None
 
 class BallotData(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")  # Allow extra fields for blind test and proficiency test
     
     panelistName: Optional[str] = "Unknown"
-    productType: str
+    productType: Optional[str] = None
     otherProductType: Optional[str] = None
     productVariant: Optional[str] = None
     otherProductVariant: Optional[str] = None
-    productCode: str
-    dateOfMfg: str
-    controlSampleCode: str
-    productTime: str
+    productCode: Optional[str] = None
+    dateOfMfg: Optional[str] = None
+    controlSampleCode: Optional[str] = None
+    productTime: Optional[str] = None
     testingCompletionDate: Optional[str] = None
     testingCompletionTime: Optional[str] = None
-    appearance: TestResult
-    odour: TestResult
-    taste: TestResult
+    appearance: Optional[TestResult] = None
+    odour: Optional[TestResult] = None
+    taste: Optional[TestResult] = None
     remarks: Optional[str] = None
+    
+    # Fields for blind test and proficiency test
+    testDate: Optional[str] = None
+    testTime: Optional[str] = None
+    roundNo: Optional[str] = None
+    samples: Optional[List[Dict[str, Any]]] = None
+    signature: Optional[str] = None
+    testCode: Optional[str] = None
+    provider: Optional[str] = None
+    comments: Optional[str] = None
 
 class BatchSession(BaseModel):
     model_config = ConfigDict(extra="ignore")
