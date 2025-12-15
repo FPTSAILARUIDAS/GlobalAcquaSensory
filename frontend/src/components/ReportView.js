@@ -238,8 +238,10 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                         </div>
                       )}
                     </div>
+                    )}
 
                     {/* Odour */}
+                    {ballot.odour && (
                     <div className={`bg-white rounded-lg p-4 shadow-sm border-2 ${ballot.odour.status === "IN" ? "border-green-200" : "border-red-200"}`}>
                       <div className="flex items-center justify-between mb-2">
                         <p className="text-sm font-semibold text-gray-700">Odour</p>
