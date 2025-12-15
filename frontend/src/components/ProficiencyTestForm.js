@@ -276,69 +276,40 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
           </table>
         </div>
 
-        {/* Overall Assessment */}
+        {/* Signature Upload */}
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
-          <h4 className="text-lg font-bold text-gray-800 mb-4">Overall Assessment</h4>
-          <div className="space-y-4">
-            <div className="bg-white rounded-lg p-4">
-              <Label className="text-sm font-semibold text-gray-700 mb-2 block">
-                Calculated Overall Score
-              </Label>
-              <div className="text-3xl font-bold text-green-600">
-                {calculateOverallScore()} / 10
+          <div className="space-y-2">
+            <Label htmlFor="signature" className="text-sm font-semibold text-gray-700">
+              Upload Signature *
+            </Label>
+            {!formData.signaturePreview ? (
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="signature"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleSignatureUpload}
+                  className="border-green-300 focus:border-green-500"
+                />
+                <Upload className="w-5 h-5 text-green-600" />
               </div>
-              <p className="text-sm text-gray-600 mt-1">
-                Average of all parameter scores across all samples
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="comments" className="text-sm font-semibold text-gray-700">
-                Additional Comments
-              </Label>
-              <Textarea
-                id="comments"
-                value={formData.comments}
-                onChange={(e) => handleChange("comments", e.target.value)}
-                placeholder="Enter any additional observations or comments"
-                rows={4}
-                className="border-green-300 focus:border-green-500"
-              />
-            </div>
-            
-            {/* Signature Upload */}
-            <div className="space-y-2">
-              <Label htmlFor="signature" className="text-sm font-semibold text-gray-700">
-                Upload Signature *
-              </Label>
-              {!formData.signaturePreview ? (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="signature"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleSignatureUpload}
-                    className="border-green-300 focus:border-green-500"
-                  />
-                  <Upload className="w-5 h-5 text-green-600" />
-                </div>
-              ) : (
-                <div className="relative inline-block">
-                  <img
-                    src={formData.signaturePreview}
-                    alt="Signature preview"
-                    className="max-w-xs h-24 border-2 border-green-300 rounded-lg object-contain bg-white p-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={removeSignature}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-              <p className="text-xs text-gray-500">Upload your signature image (Max 5MB)</p>
-            </div>
+            ) : (
+              <div className="relative inline-block">
+                <img
+                  src={formData.signaturePreview}
+                  alt="Signature preview"
+                  className="max-w-xs h-24 border-2 border-green-300 rounded-lg object-contain bg-white p-2"
+                />
+                <button
+                  type="button"
+                  onClick={removeSignature}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+            <p className="text-xs text-gray-500">Upload your signature image (Max 5MB)</p>
           </div>
         </div>
 
