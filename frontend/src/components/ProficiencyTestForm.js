@@ -1,0 +1,344 @@
+import { useState } from "react";
+import { CheckCircle, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const time = now.toTimeString().slice(0, 5);
+    return { date, time };
+  };
+
+  const { date: currentDate, time: currentTime } = getCurrentDateTime();
+
+  const [formData, setFormData] = useState({
+    panelistName: "",
+    testDate: currentDate,
+    testTime: currentTime,
+    testCode: "",
+    provider: "",
+    sampleId: "",
+    batchNo: "",
+    // Test parameters - similar to regular test but with scoring
+    appearance: { score: "", observation: "" },
+    odour: { score: "", observation: "" },
+    taste: { score: "", observation: "" },
+    overallScore: "",
+    comments: "",
+    signature: "",
+  });
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleTestChange = (testName, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [testName]: {
+        ...prev[testName],
+        [field]: value,
+      },
+    }));
+  };
+
+  const calculateOverallScore = () => {
+    const scores = [
+      parseFloat(formData.appearance.score) || 0,
+      parseFloat(formData.odour.score) || 0,
+      parseFloat(formData.taste.score) || 0,
+    ];
+    const avg = scores.reduce((a, b) => a + b, 0) / 3;
+    return avg.toFixed(2);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const overallScore = calculateOverallScore();
+    const submissionData = {
+      ...formData,
+      overallScore: overallScore,
+    };
+    
+    onSubmit(submissionData);
+  };
+
+  return (
+    <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
+      <div className="mb-6">
+        <h2 className="text-3xl font-bold text-green-700 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          ⭐ Proficiency Test
+        </h2>
+        <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
+          Standard proficiency testing for sensory analysis skills
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Panelist Information */}
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Test Information
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="panelistName" className="text-sm font-semibold text-gray-700">
+                Panelist Name *
+              </Label>
+              <Input
+                id="panelistName"
+                value={formData.panelistName}
+                onChange={(e) => handleChange("panelistName", e.target.value)}
+                placeholder="Enter panelist name"
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="testDate" className="text-sm font-semibold text-gray-700">
+                Test Date *
+              </Label>
+              <Input
+                id="testDate"
+                type="date"
+                value={formData.testDate}
+                onChange={(e) => handleChange("testDate", e.target.value)}
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="testCode" className="text-sm font-semibold text-gray-700">
+                Proficiency Test Code *
+              </Label>
+              <Input
+                id="testCode"
+                value={formData.testCode}
+                onChange={(e) => handleChange("testCode", e.target.value)}
+                placeholder="e.g., PT-2025-001"
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="provider" className="text-sm font-semibold text-gray-700">
+                Test Provider *
+              </Label>
+              <Input
+                id="provider"
+                value={formData.provider}
+                onChange={(e) => handleChange("provider", e.target.value)}
+                placeholder="e.g., External Lab / Internal"
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sampleId" className="text-sm font-semibold text-gray-700">
+                Sample ID *
+              </Label>
+              <Input
+                id="sampleId"
+                value={formData.sampleId}
+                onChange={(e) => handleChange("sampleId", e.target.value)}
+                placeholder="Enter sample ID"
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="batchNo" className="text-sm font-semibold text-gray-700">
+                Batch No
+              </Label>
+              <Input
+                id="batchNo"
+                value={formData.batchNo}
+                onChange={(e) => handleChange("batchNo", e.target.value)}
+                placeholder="Enter batch number"
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Scoring Guide */}
+        <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+          <h4 className="font-semibold text-blue-900 mb-2">Scoring Guide (0-10 scale):</h4>
+          <div className="text-sm text-blue-800 grid grid-cols-2 gap-2">
+            <div>• 0-3: Poor/Unacceptable</div>
+            <div>• 4-6: Fair/Acceptable</div>
+            <div>• 7-8: Good</div>
+            <div>• 9-10: Excellent</div>
+          </div>
+        </div>
+
+        {/* Test Parameters */}
+        <div className="space-y-4">
+          {/* Appearance */}
+          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
+            <h4 className="text-lg font-bold text-gray-800 mb-4">Appearance</h4>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={formData.appearance.score}
+                  onChange={(e) => handleTestChange("appearance", "score", e.target.value)}
+                  placeholder="Enter score"
+                  required
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
+                <Input
+                  value={formData.appearance.observation}
+                  onChange={(e) => handleTestChange("appearance", "observation", e.target.value)}
+                  placeholder="Describe appearance"
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Odour */}
+          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
+            <h4 className="text-lg font-bold text-gray-800 mb-4">Odour</h4>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={formData.odour.score}
+                  onChange={(e) => handleTestChange("odour", "score", e.target.value)}
+                  placeholder="Enter score"
+                  required
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
+                <Input
+                  value={formData.odour.observation}
+                  onChange={(e) => handleTestChange("odour", "observation", e.target.value)}
+                  placeholder="Describe odour"
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Taste */}
+          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
+            <h4 className="text-lg font-bold text-gray-800 mb-4">Taste</h4>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={formData.taste.score}
+                  onChange={(e) => handleTestChange("taste", "score", e.target.value)}
+                  placeholder="Enter score"
+                  required
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
+                <Input
+                  value={formData.taste.observation}
+                  onChange={(e) => handleTestChange("taste", "observation", e.target.value)}
+                  placeholder="Describe taste"
+                  className="border-green-300 focus:border-green-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Overall Assessment */}
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+          <h4 className="text-lg font-bold text-gray-800 mb-4">Overall Assessment</h4>
+          <div className="space-y-4">
+            <div className="bg-white rounded-lg p-4">
+              <Label className="text-sm font-semibold text-gray-700 mb-2 block">
+                Calculated Overall Score
+              </Label>
+              <div className="text-3xl font-bold text-green-600">
+                {calculateOverallScore()} / 10
+              </div>
+              <p className="text-sm text-gray-600 mt-1">
+                Average of all parameter scores
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="comments" className="text-sm font-semibold text-gray-700">
+                Additional Comments
+              </Label>
+              <Textarea
+                id="comments"
+                value={formData.comments}
+                onChange={(e) => handleChange("comments", e.target.value)}
+                placeholder="Enter any additional observations or comments"
+                rows={4}
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="signature" className="text-sm font-semibold text-gray-700">
+                Signature *
+              </Label>
+              <Input
+                id="signature"
+                value={formData.signature}
+                onChange={(e) => handleChange("signature", e.target.value)}
+                placeholder="Enter your signature"
+                required
+                className="border-green-300 focus:border-green-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex items-center justify-between pt-4">
+          {onBack && (
+            <Button
+              type="button"
+              onClick={onBack}
+              variant="outline"
+              className="flex items-center space-x-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back</span>
+            </Button>
+          )}
+          <Button
+            type="submit"
+            className="ml-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 flex items-center space-x-2 px-8"
+          >
+            <CheckCircle className="w-5 h-5" />
+            <span>Submit Proficiency Test</span>
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default ProficiencyTestForm;
