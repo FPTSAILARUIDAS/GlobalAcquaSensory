@@ -132,19 +132,32 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     
     try {
       const storedAuth = localStorage.getItem("auth");
-      if (!storedAuth) return;
+      if (!storedAuth) {
+        alert("Please login first");
+        return;
+      }
       
       const auth = JSON.parse(storedAuth);
       const token = auth.token;
       
-      await axios.post(`${API}/users/signature`, 
+      if (!token) {
+        alert("Authentication token not found. Please login again.");
+        return;
+      }
+      
+      const response = await axios.post(`${API}/users/signature`, 
         { signature: formData.signaturePreview },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        } }
       );
       
       alert("Signature saved successfully! It will be automatically loaded for future tests.");
     } catch (error) {
-      alert("Failed to save signature");
+      console.error("Signature save error:", error);
+      const errorMsg = error.response?.data?.detail || error.message || "Failed to save signature";
+      alert(`Failed to save signature: ${errorMsg}`);
     }
   };
 
