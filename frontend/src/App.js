@@ -512,6 +512,7 @@ function App() {
                 onSubmit={handleBallotSubmit}
                 initialData={lastBallotData}
                 onBack={currentPanelistNumber > 1 ? handleBackToPrevious : undefined}
+                testType={selectedTestType}
               />
             </div>
           </div>
