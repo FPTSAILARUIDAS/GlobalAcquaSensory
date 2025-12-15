@@ -107,6 +107,30 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     }
   };
 
+  const saveSignatureForFutureUse = async () => {
+    if (!formData.signaturePreview) {
+      alert("Please upload a signature first");
+      return;
+    }
+    
+    try {
+      const storedAuth = localStorage.getItem("auth");
+      if (!storedAuth) return;
+      
+      const auth = JSON.parse(storedAuth);
+      const token = auth.token;
+      
+      await axios.post(`${API}/users/signature`, 
+        { signature: formData.signaturePreview },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      alert("Signature saved successfully! It will be automatically loaded for future tests.");
+    } catch (error) {
+      alert("Failed to save signature");
+    }
+  };
+
   const removeSignature = () => {
     setFormData(prev => ({
       ...prev,
