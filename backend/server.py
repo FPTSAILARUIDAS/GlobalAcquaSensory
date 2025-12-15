@@ -508,6 +508,35 @@ async def fix_session_statuses(current_user: dict = Depends(get_admin_user)):
     
     return {"message": f"Fixed {fixed_count} session(s)", "total_sessions": len(sessions)}
 
+@api_router.post("/users/signature", dependencies=[Depends(get_current_user)])
+async def update_signature(signature: dict, current_user: dict = Depends(get_current_user)):
+    """Update user's stored signature"""
+    signature_data = signature.get("signature")
+    
+    if not signature_data:
+        raise HTTPException(status_code=400, detail="Signature data is required")
+    
+    # Update user's signature in database
+    result = await db.users.update_one(
+        {"username": current_user["username"]},
+        {"$set": {"signature": signature_data}}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"message": "Signature updated successfully"}
+
+@api_router.get("/users/signature", dependencies=[Depends(get_current_user)])
+async def get_signature(current_user: dict = Depends(get_current_user)):
+    """Get user's stored signature"""
+    user = await db.users.find_one({"username": current_user["username"]}, {"_id": 0, "signature": 1})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"signature": user.get("signature")}
+
 # Include the router in the main app
 app.include_router(api_router)
 
