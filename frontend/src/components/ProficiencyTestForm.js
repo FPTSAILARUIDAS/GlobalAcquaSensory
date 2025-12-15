@@ -152,12 +152,12 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
         {/* Panelist Information */}
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200 shadow-sm">
           <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-            Test Information
+            Panelist Information
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="panelistName" className="text-sm font-semibold text-gray-700">
-                Panelist Name *
+                Name of the Panelist *
               </Label>
               <Input
                 id="panelistName"
@@ -170,39 +170,13 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="testDate" className="text-sm font-semibold text-gray-700">
-                Test Date *
+                Date of Evaluation *
               </Label>
               <Input
                 id="testDate"
                 type="date"
                 value={formData.testDate}
                 onChange={(e) => handleChange("testDate", e.target.value)}
-                required
-                className="border-green-300 focus:border-green-500"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="testCode" className="text-sm font-semibold text-gray-700">
-                Proficiency Test Code *
-              </Label>
-              <Input
-                id="testCode"
-                value={formData.testCode}
-                onChange={(e) => handleChange("testCode", e.target.value)}
-                placeholder="e.g., PT-2025-001"
-                required
-                className="border-green-300 focus:border-green-500"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="provider" className="text-sm font-semibold text-gray-700">
-                Test Provider *
-              </Label>
-              <Input
-                id="provider"
-                value={formData.provider}
-                onChange={(e) => handleChange("provider", e.target.value)}
-                placeholder="e.g., External Lab / Internal"
                 required
                 className="border-green-300 focus:border-green-500"
               />
