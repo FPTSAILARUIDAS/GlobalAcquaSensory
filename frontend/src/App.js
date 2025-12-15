@@ -250,7 +250,8 @@ function App() {
       }
     } catch (error) {
       console.error("Failed to submit ballot:", error);
-      alert("Failed to submit ballot. Please try again.");
+      const errorMsg = error.response?.data?.detail || error.message || "Failed to submit ballot. Please try again.";
+      alert(errorMsg);
     }
   };
 
