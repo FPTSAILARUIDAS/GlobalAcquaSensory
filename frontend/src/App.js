@@ -146,13 +146,14 @@ function App() {
     }
   }, [sessionBallots, view, targetPanelistCount, lastBallotData]);
 
-  const handleStartSession = async (count) => {
+  const handleStartSession = async (count, testType = "regular") => {
     setTargetPanelistCount(count);
+    setSelectedTestType(testType);
     
     // Create a collaborative session
     try {
       const response = await axios.post(`${API}/sessions/create`, 
-        { targetPanelistCount: count },
+        { targetPanelistCount: count, testType: testType },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
       
