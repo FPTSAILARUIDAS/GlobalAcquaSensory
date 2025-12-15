@@ -45,6 +45,7 @@ class User(BaseModel):
     username: str
     password: str  # Will be hashed
     role: str = "user"  # "admin" or "user"
+    signature: Optional[str] = None  # Stored signature (base64)
     createdAt: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class UserCreate(BaseModel):
