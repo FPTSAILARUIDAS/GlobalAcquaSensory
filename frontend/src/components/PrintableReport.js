@@ -111,7 +111,97 @@ const PrintableReport = () => {
 
         {/* Panelist Results */}
         <div className="space-y-8">
-          {session.ballots.map((ballot, index) => (
+          {session.ballots.map((ballot, index) => {
+            const isBlindOrProficiencyTest = ballot.samples && Array.isArray(ballot.samples);
+            
+            // Get background color for each sample code
+            const getColorStyle = (colorCode) => {
+              const colorMap = {
+                "Control": { backgroundColor: "#e5e7eb", color: "#000" },
+                "Yellow": { backgroundColor: "#fef08a", color: "#000" },
+                "Brown": { backgroundColor: "#a16207", color: "#fff" },
+                "Blue": { backgroundColor: "#3b82f6", color: "#fff" },
+                "Green": { backgroundColor: "#22c55e", color: "#000" },
+                "Red": { backgroundColor: "#ef4444", color: "#fff" },
+                "Purple": { backgroundColor: "#a855f7", color: "#fff" },
+                "White": { backgroundColor: "#ffffff", color: "#000", border: "2px solid #000" },
+                "Black": { backgroundColor: "#000000", color: "#fff" },
+              };
+              return colorMap[colorCode] || {};
+            };
+            
+            // For blind test or proficiency test, render different format
+            if (isBlindOrProficiencyTest) {
+              return (
+                <div key={index} className="border-2 border-gray-300 rounded-lg p-6 break-inside-avoid">
+                  <div className="bg-purple-50 -m-6 mb-4 p-4 rounded-t-lg border-b-2 border-purple-200">
+                    <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                      Panelist {index + 1}: {ballot.panelistName || "Unknown"}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Test Date: {ballot.testDate} | Round No: {ballot.roundNo}
+                    </p>
+                  </div>
+
+                  {/* Sample Results Table */}
+                  <table className="w-full border-collapse border-2 border-gray-300 mt-4">
+                    <thead>
+                      <tr className="bg-purple-600 text-white">
+                        <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sl No</th>
+                        <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sample Color Code</th>
+                        <th className="border-2 border-gray-300 px-4 py-2 text-center font-bold">IN/OUT</th>
+                        <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">OFF Note Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ballot.samples.map((sample, sIdx) => (
+                        <tr key={sIdx}>
+                          <td className="border-2 border-gray-300 px-4 py-2">
+                            {sample.colorCode === "Control" ? "Control" : sIdx}
+                          </td>
+                          <td className="border-2 border-gray-300 px-4 py-2 font-semibold" style={getColorStyle(sample.colorCode)}>
+                            {sample.colorCode}
+                          </td>
+                          <td className="border-2 border-gray-300 px-4 py-2 text-center">
+                            {sample.colorCode === "Control" ? (
+                              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                                IN (Control)
+                              </span>
+                            ) : (
+                              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                sample.status === "IN" 
+                                  ? "bg-green-100 text-green-700" 
+                                  : "bg-red-100 text-red-700"
+                              }`}>
+                                {sample.status}
+                              </span>
+                            )}
+                          </td>
+                          <td className="border-2 border-gray-300 px-4 py-2 text-sm">
+                            {sample.colorCode === "Control" ? "N/A" : (sample.offNote || "-")}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {/* Signature */}
+                  {ballot.signature && (
+                    <div className="mt-4">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">Signature:</p>
+                      <img 
+                        src={ballot.signature} 
+                        alt="Signature" 
+                        className="max-w-xs h-20 border-2 border-purple-300 rounded-lg object-contain bg-white p-2"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            
+            // Regular sensory test format
+            return (
             <div key={index} className="border-2 border-gray-300 rounded-lg p-6 break-inside-avoid">
               <div className="bg-blue-50 -m-6 mb-4 p-4 rounded-t-lg border-b-2 border-blue-200">
                 <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
