@@ -363,14 +363,43 @@ function App() {
                   Create a collaborative session
                 </p>
                 <div className="space-y-3">
-                  <button
-                    data-testid="start-session-1-btn"
-                    onClick={() => handleStartSession(1)}
-                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
-                  >
-                    <Users className="w-5 h-5" />
-                    <span>1 Panelist</span>
-                  </button>
+                  {!showTestTypeSelection ? (
+                    <button
+                      data-testid="start-session-1-btn"
+                      onClick={() => setShowTestTypeSelection(true)}
+                      className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                    >
+                      <Users className="w-5 h-5" />
+                      <span>1 Panelist</span>
+                    </button>
+                  ) : (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <button
+                        onClick={() => handleStartSession(1, "regular")}
+                        className="w-full bg-white border-2 border-blue-500 text-blue-600 px-4 py-2.5 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-200 text-sm"
+                      >
+                        📋 Regular Sensory Test
+                      </button>
+                      <button
+                        onClick={() => handleStartSession(1, "blind")}
+                        className="w-full bg-white border-2 border-purple-500 text-purple-600 px-4 py-2.5 rounded-lg font-semibold hover:bg-purple-50 transition-all duration-200 text-sm"
+                      >
+                        🎯 Sensory Blind Test
+                      </button>
+                      <button
+                        onClick={() => handleStartSession(1, "proficiency")}
+                        className="w-full bg-white border-2 border-green-500 text-green-600 px-4 py-2.5 rounded-lg font-semibold hover:bg-green-50 transition-all duration-200 text-sm"
+                      >
+                        ⭐ Proficiency Test
+                      </button>
+                      <button
+                        onClick={() => setShowTestTypeSelection(false)}
+                        className="w-full text-sm text-gray-600 hover:text-gray-800 py-1"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                   <button
                     data-testid="start-session-2-btn"
                     onClick={() => handleStartSession(2)}
