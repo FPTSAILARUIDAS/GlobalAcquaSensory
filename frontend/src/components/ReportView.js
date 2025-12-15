@@ -151,16 +151,22 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                                 {sample.colorCode}
                               </td>
                               <td className="border-2 border-gray-300 px-4 py-2 text-center">
-                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                  sample.status === "IN" 
-                                    ? "bg-green-100 text-green-700" 
-                                    : "bg-red-100 text-red-700"
-                                }`}>
-                                  {sample.status}
-                                </span>
+                                {sample.colorCode === "Control" ? (
+                                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                                    IN (Control)
+                                  </span>
+                                ) : (
+                                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                    sample.status === "IN" 
+                                      ? "bg-green-100 text-green-700" 
+                                      : "bg-red-100 text-red-700"
+                                  }`}>
+                                    {sample.status}
+                                  </span>
+                                )}
                               </td>
                               <td className="border-2 border-gray-300 px-4 py-2 text-sm">
-                                {sample.offNote || "-"}
+                                {sample.colorCode === "Control" ? "N/A" : (sample.offNote || "-")}
                               </td>
                             </tr>
                           ))}
