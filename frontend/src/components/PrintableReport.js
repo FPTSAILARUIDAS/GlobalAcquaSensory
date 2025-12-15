@@ -332,7 +332,8 @@ const PrintableReport = () => {
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Footer */}
