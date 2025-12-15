@@ -103,13 +103,23 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate all samples have scores
+    // Validate all samples have status
     const allSamplesComplete = formData.samples.every(s => 
-      s.appearanceScore !== "" && s.odourScore !== "" && s.tasteScore !== ""
+      s.id === "control" || s.status !== ""
     );
     
     if (!allSamplesComplete) {
-      alert("Please provide scores for all parameters in all samples");
+      alert("Please mark all samples as IN or OUT");
+      return;
+    }
+    
+    // Validate OUT samples have off notes
+    const outSamplesValid = formData.samples.every(s =>
+      s.status !== "OUT" || (s.status === "OUT" && s.offNote.trim() !== "")
+    );
+    
+    if (!outSamplesValid) {
+      alert("Please provide OFF Note description for all OUT samples (Mandatory)");
       return;
     }
     
@@ -119,10 +129,8 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
       return;
     }
     
-    const overallScore = calculateOverallScore();
     const submissionData = {
       ...formData,
-      overallScore: overallScore,
       signature: formData.signaturePreview
     };
     
