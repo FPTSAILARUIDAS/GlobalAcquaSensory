@@ -40,7 +40,8 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
       status: code.id === "control" ? "IN" : "",
       offNote: ""
     })),
-    signature: "",
+    signatureFile: null,
+    signaturePreview: null,
   });
 
   const handleChange = (field, value) => {
