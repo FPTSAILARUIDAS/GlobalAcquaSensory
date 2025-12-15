@@ -233,99 +233,84 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
             <div>• 7-8: Good</div>
             <div>• 9-10: Excellent</div>
           </div>
+          <p className="text-sm text-green-700 font-semibold mt-2">
+            Score each parameter (Appearance, Odour, Taste) for all color-coded samples
+          </p>
         </div>
 
-        {/* Test Parameters */}
-        <div className="space-y-4">
-          {/* Appearance */}
-          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
-            <h4 className="text-lg font-bold text-gray-800 mb-4">Appearance</h4>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={formData.appearance.score}
-                  onChange={(e) => handleTestChange("appearance", "score", e.target.value)}
-                  placeholder="Enter score"
-                  required
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
-                <Input
-                  value={formData.appearance.observation}
-                  onChange={(e) => handleTestChange("appearance", "observation", e.target.value)}
-                  placeholder="Describe appearance"
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Odour */}
-          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
-            <h4 className="text-lg font-bold text-gray-800 mb-4">Odour</h4>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={formData.odour.score}
-                  onChange={(e) => handleTestChange("odour", "score", e.target.value)}
-                  placeholder="Enter score"
-                  required
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
-                <Input
-                  value={formData.odour.observation}
-                  onChange={(e) => handleTestChange("odour", "observation", e.target.value)}
-                  placeholder="Describe odour"
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Taste */}
-          <div className="bg-white rounded-xl p-6 border-2 border-green-200">
-            <h4 className="text-lg font-bold text-gray-800 mb-4">Taste</h4>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Score (0-10) *</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={formData.taste.score}
-                  onChange={(e) => handleTestChange("taste", "score", e.target.value)}
-                  placeholder="Enter score"
-                  required
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Observation</Label>
-                <Input
-                  value={formData.taste.observation}
-                  onChange={(e) => handleTestChange("taste", "observation", e.target.value)}
-                  placeholder="Describe taste"
-                  className="border-green-300 focus:border-green-500"
-                />
-              </div>
-            </div>
-          </div>
+        {/* Samples Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse border-2 border-gray-300">
+            <thead>
+              <tr className="bg-green-600 text-white">
+                <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Sl No</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Sample Color Code</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Appearance Score (0-10)</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Odour Score (0-10)</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-center font-bold">Taste Score (0-10)</th>
+                <th className="border-2 border-gray-300 px-4 py-3 text-left font-bold">Observation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {formData.samples.map((sample, index) => (
+                <tr key={sample.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold">
+                    {sample.id === "control" ? "Control" : index}
+                  </td>
+                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold">
+                    {sample.colorCode}
+                  </td>
+                  <td className="border-2 border-gray-300 px-2 py-3">
+                    <Input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      value={sample.appearanceScore}
+                      onChange={(e) => handleSampleChange(sample.id, "appearanceScore", e.target.value)}
+                      placeholder="0-10"
+                      required
+                      className="border-green-300 focus:border-green-500 text-center"
+                    />
+                  </td>
+                  <td className="border-2 border-gray-300 px-2 py-3">
+                    <Input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      value={sample.odourScore}
+                      onChange={(e) => handleSampleChange(sample.id, "odourScore", e.target.value)}
+                      placeholder="0-10"
+                      required
+                      className="border-green-300 focus:border-green-500 text-center"
+                    />
+                  </td>
+                  <td className="border-2 border-gray-300 px-2 py-3">
+                    <Input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      value={sample.tasteScore}
+                      onChange={(e) => handleSampleChange(sample.id, "tasteScore", e.target.value)}
+                      placeholder="0-10"
+                      required
+                      className="border-green-300 focus:border-green-500 text-center"
+                    />
+                  </td>
+                  <td className="border-2 border-gray-300 px-4 py-3">
+                    <Input
+                      value={sample.observation}
+                      onChange={(e) => handleSampleChange(sample.id, "observation", e.target.value)}
+                      placeholder="Optional notes"
+                      className="border-green-300 focus:border-green-500"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         {/* Overall Assessment */}
