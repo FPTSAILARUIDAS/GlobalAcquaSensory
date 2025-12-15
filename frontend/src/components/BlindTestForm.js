@@ -57,6 +57,22 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     }));
   };
 
+  // Get background color for each sample code
+  const getColorStyle = (colorCode) => {
+    const colorMap = {
+      "Control": { backgroundColor: "#e5e7eb", color: "#000" },
+      "Yellow": { backgroundColor: "#fef08a", color: "#000" },
+      "Brown": { backgroundColor: "#a16207", color: "#fff" },
+      "Blue": { backgroundColor: "#3b82f6", color: "#fff" },
+      "Green": { backgroundColor: "#22c55e", color: "#000" },
+      "Red": { backgroundColor: "#ef4444", color: "#fff" },
+      "Purple": { backgroundColor: "#a855f7", color: "#fff" },
+      "White": { backgroundColor: "#ffffff", color: "#000", border: "2px solid #000" },
+      "Black": { backgroundColor: "#000000", color: "#fff" },
+    };
+    return colorMap[colorCode] || {};
+  };
+
   const handleSignatureUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
