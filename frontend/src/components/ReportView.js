@@ -135,14 +135,18 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                       <table className="w-full border-collapse border-2 border-gray-300">
                         <thead>
                           <tr className="bg-purple-600 text-white">
-                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sample Code</th>
-                            <th className="border-2 border-gray-300 px-4 py-2 text-center font-bold">Result</th>
-                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">OFF Note</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sl No</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">Sample Color Code</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-center font-bold">IN/OUT</th>
+                            <th className="border-2 border-gray-300 px-4 py-2 text-left font-bold">OFF Note Description</th>
                           </tr>
                         </thead>
                         <tbody>
                           {ballot.samples.map((sample, sIdx) => (
                             <tr key={sIdx} className={sIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                              <td className="border-2 border-gray-300 px-4 py-2">
+                                {sample.colorCode === "Control" ? "Control" : sIdx}
+                              </td>
                               <td className="border-2 border-gray-300 px-4 py-2 font-semibold" style={getColorStyle(sample.colorCode)}>
                                 {sample.colorCode}
                               </td>
