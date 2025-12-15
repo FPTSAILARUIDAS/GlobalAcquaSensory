@@ -144,7 +144,7 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
           ⭐ Proficiency Test
         </h2>
         <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
-          Standard proficiency testing for sensory analysis skills
+          Compare samples against control reference using color codes
         </p>
       </div>
 
