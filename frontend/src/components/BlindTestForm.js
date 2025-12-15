@@ -232,7 +232,7 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
                   <td className="border-2 border-gray-300 px-4 py-3">
                     {sample.id === "control" ? "Control" : index}
                   </td>
-                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold">
+                  <td className="border-2 border-gray-300 px-4 py-3 font-semibold" style={getColorStyle(sample.colorCode)}>
                     {sample.colorCode}
                   </td>
                   <td className="border-2 border-gray-300 px-4 py-3">
