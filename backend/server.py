@@ -106,6 +106,7 @@ class BatchSession(BaseModel):
 
 class BatchSessionCreate(BaseModel):
     targetPanelistCount: int
+    testType: str = "regular"  # "regular", "blind", or "proficiency"
     sessionCode: Optional[str] = None
 
 class BallotSubmit(BaseModel):
