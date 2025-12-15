@@ -349,18 +349,27 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
                 <Upload className="w-5 h-5 text-green-600" />
               </div>
             ) : (
-              <div className="relative inline-block">
-                <img
-                  src={formData.signaturePreview}
-                  alt="Signature preview"
-                  className="max-w-xs h-24 border-2 border-green-300 rounded-lg object-contain bg-white p-2"
-                />
+              <div className="space-y-2">
+                <div className="relative inline-block">
+                  <img
+                    src={formData.signaturePreview}
+                    alt="Signature preview"
+                    className="max-w-xs h-24 border-2 border-green-300 rounded-lg object-contain bg-white p-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeSignature}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
                 <button
                   type="button"
-                  onClick={removeSignature}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  onClick={saveSignatureForFutureUse}
+                  className="text-xs text-green-600 hover:text-green-800 underline"
                 >
-                  <X className="w-4 h-4" />
+                  💾 Save this signature for future use
                 </button>
               </div>
             )}
