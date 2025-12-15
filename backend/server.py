@@ -516,14 +516,16 @@ async def update_signature(signature: dict, current_user: dict = Depends(get_cur
     if not signature_data:
         raise HTTPException(status_code=400, detail="Signature data is required")
     
+    # Check if user exists first
+    user = await db.users.find_one({"username": current_user["username"]})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
     # Update user's signature in database
     result = await db.users.update_one(
         {"username": current_user["username"]},
         {"$set": {"signature": signature_data}}
     )
-    
-    if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="User not found")
     
     return {"message": "Signature updated successfully"}
 
