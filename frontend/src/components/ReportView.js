@@ -141,7 +141,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                         <tbody>
                           {ballot.samples.map((sample, sIdx) => (
                             <tr key={sIdx} className={sIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                              <td className="border-2 border-gray-300 px-4 py-2 font-semibold">
+                              <td className="border-2 border-gray-300 px-4 py-2 font-semibold" style={getColorStyle(sample.colorCode)}>
                                 {sample.colorCode}
                               </td>
                               <td className="border-2 border-gray-300 px-4 py-2 text-center">
