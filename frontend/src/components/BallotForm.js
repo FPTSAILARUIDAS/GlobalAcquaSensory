@@ -6,8 +6,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import BlindTestForm from "@/components/BlindTestForm";
+import ProficiencyTestForm from "@/components/ProficiencyTestForm";
 
-const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack }) => {
+const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = "regular" }) => {
+  // If it's a blind test or proficiency test, render specialized form
+  if (testType === "blind") {
+    return <BlindTestForm panelistNumber={panelistNumber} onSubmit={onSubmit} onBack={onBack} />;
+  }
+  
+  if (testType === "proficiency") {
+    return <ProficiencyTestForm panelistNumber={panelistNumber} onSubmit={onSubmit} onBack={onBack} />;
+  }
+  
+  // Regular sensory test form continues below
   const getCurrentDateTime = () => {
     const now = new Date();
     const date = now.toISOString().split('T')[0];
