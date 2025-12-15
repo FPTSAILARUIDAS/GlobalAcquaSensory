@@ -269,6 +269,7 @@ async def create_session(input: BatchSessionCreate, current_user: dict = Depends
         sessionCode=session_code,
         status="in_progress",
         targetPanelistCount=input.targetPanelistCount,
+        testType=input.testType,
         ballots=[],
         createdBy=current_user["username"]
     )
