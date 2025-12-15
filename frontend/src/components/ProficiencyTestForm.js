@@ -207,27 +207,17 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sampleId" className="text-sm font-semibold text-gray-700">
-                Sample ID *
+              <Label htmlFor="roundNo" className="text-sm font-semibold text-gray-700">
+                Round No *
               </Label>
               <Input
-                id="sampleId"
-                value={formData.sampleId}
-                onChange={(e) => handleChange("sampleId", e.target.value)}
-                placeholder="Enter sample ID"
+                id="roundNo"
+                type="number"
+                value={formData.roundNo}
+                onChange={(e) => handleChange("roundNo", e.target.value)}
+                placeholder="Enter round number"
                 required
-                className="border-green-300 focus:border-green-500"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="batchNo" className="text-sm font-semibold text-gray-700">
-                Batch No
-              </Label>
-              <Input
-                id="batchNo"
-                value={formData.batchNo}
-                onChange={(e) => handleChange("batchNo", e.target.value)}
-                placeholder="Enter batch number"
+                min="1"
                 className="border-green-300 focus:border-green-500"
               />
             </div>
