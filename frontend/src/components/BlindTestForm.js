@@ -108,7 +108,18 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
       return;
     }
     
-    onSubmit(formData);
+    // Validate signature
+    if (!formData.signaturePreview) {
+      alert("Please upload your signature");
+      return;
+    }
+    
+    const submissionData = {
+      ...formData,
+      signature: formData.signaturePreview
+    };
+    
+    onSubmit(submissionData);
   };
 
   return (
