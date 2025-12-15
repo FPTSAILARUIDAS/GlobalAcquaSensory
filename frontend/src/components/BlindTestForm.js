@@ -261,20 +261,40 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
           </table>
         </div>
 
-        {/* Signature */}
+        {/* Signature Upload */}
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
           <div className="space-y-2">
             <Label htmlFor="signature" className="text-sm font-semibold text-gray-700">
-              Signature *
+              Upload Signature *
             </Label>
-            <Input
-              id="signature"
-              value={formData.signature}
-              onChange={(e) => handleChange("signature", e.target.value)}
-              placeholder="Enter your signature"
-              required
-              className="border-purple-300 focus:border-purple-500"
-            />
+            {!formData.signaturePreview ? (
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="signature"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleSignatureUpload}
+                  className="border-purple-300 focus:border-purple-500"
+                />
+                <Upload className="w-5 h-5 text-purple-600" />
+              </div>
+            ) : (
+              <div className="relative inline-block">
+                <img
+                  src={formData.signaturePreview}
+                  alt="Signature preview"
+                  className="max-w-xs h-24 border-2 border-purple-300 rounded-lg object-contain bg-white p-2"
+                />
+                <button
+                  type="button"
+                  onClick={removeSignature}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+            <p className="text-xs text-gray-500">Upload your signature image (Max 5MB)</p>
           </div>
         </div>
 
