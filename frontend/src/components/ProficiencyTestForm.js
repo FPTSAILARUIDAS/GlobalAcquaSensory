@@ -331,7 +331,7 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
             className="ml-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 flex items-center space-x-2 px-8"
           >
             <CheckCircle className="w-5 h-5" />
-            <span>Submit Proficiency Test</span>
+            <span>Submit Test</span>
           </Button>
         </div>
       </form>
