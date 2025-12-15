@@ -3,7 +3,7 @@ import { CheckCircle, ArrowLeft, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
   const getCurrentDateTime = () => {
@@ -15,7 +15,7 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
 
   const { date: currentDate, time: currentTime } = getCurrentDateTime();
 
-  // Color codes for proficiency test - same as blind test
+  // Color codes for proficiency test
   const colorCodes = [
     { id: "control", label: "Control", color: "Control" },
     { id: "yellow", label: "Yellow", color: "Yellow" },
@@ -32,18 +32,13 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     panelistName: "",
     testDate: currentDate,
     testTime: currentTime,
-    testCode: "",
-    provider: "",
     roundNo: "",
     samples: colorCodes.map(code => ({
       id: code.id,
       colorCode: code.color,
-      appearanceScore: "",
-      odourScore: "",
-      tasteScore: "",
-      observation: ""
+      status: code.id === "control" ? "IN" : "",
+      offNote: ""
     })),
-    comments: "",
     signatureFile: null,
     signaturePreview: null,
   });
