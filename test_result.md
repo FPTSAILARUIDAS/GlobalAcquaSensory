@@ -274,6 +274,18 @@ frontend:
           agent: "main"
           comment: "Created professional app icon for PWA. Design features: 1) Blue gradient background (#0369a1), 2) Large water droplet in center (cyan/sky blue #38bdf8), 3) Six checkmarks on sides representing sensory evaluation criteria, 4) 'ACQUA' branding badge at bottom, 5) Clean, modern design optimized for small sizes. Generated multiple icon sizes: 512x512, 192x192, 180x180 (Apple), 32x32, 16x16. Updated manifest.json and index.html with proper icon references. Icon represents water quality testing and sensory analysis professionally."
 
+  - task: "Sensory Blind Test and Proficiency Test for 1 Panelist"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/BlindTestForm.js, frontend/src/components/ProficiencyTestForm.js, frontend/src/components/BallotForm.js, frontend/src/App.js, backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented test type selection for 1 Panelist sessions. Changes: 1) Added dropdown with 3 options: Regular Sensory Test, Sensory Blind Test (purple), Proficiency Test (green). 2) Created BlindTestForm with color-coded samples (Control, Yellow, Brown, Blue, Green, Red, Purple, White, Black) and IN/OUT evaluation with mandatory OFF note descriptions. 3) Created ProficiencyTestForm with 0-10 scoring scale for Appearance, Odour, Taste with automatic overall score calculation. 4) Backend updated to store testType in sessions. 5) Only 1 Panelist option shows test type selection; 2 and 3 Panelist options remain unchanged. Forms styled with appropriate colors (purple for blind, green for proficiency)."
+
 metadata:
   created_by: "testing_agent"
   version: "1.3"
