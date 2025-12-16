@@ -110,6 +110,71 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
     }));
   };
 
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size should be less than 5MB");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          signatureFile: file,
+          signaturePreview: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const saveSignatureForFutureUse = async () => {
+    if (!formData.signaturePreview) {
+      alert("Please upload a signature first");
+      return;
+    }
+    
+    try {
+      const storedAuth = localStorage.getItem("auth");
+      if (!storedAuth) {
+        alert("Please login first");
+        return;
+      }
+      
+      const auth = JSON.parse(storedAuth);
+      const token = auth.token;
+      
+      if (!token) {
+        alert("Authentication token not found. Please login again.");
+        return;
+      }
+      
+      const response = await axios.post(`${API}/users/signature`, 
+        { signature: formData.signaturePreview },
+        { headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        } }
+      );
+      
+      alert("Signature saved successfully! It will be automatically loaded for future tests.");
+    } catch (error) {
+      console.error("Signature save error:", error);
+      const errorMsg = error.response?.data?.detail || error.message || "Failed to save signature";
+      alert(`Failed to save signature: ${errorMsg}`);
+    }
+  };
+
+  const removeSignature = () => {
+    setFormData(prev => ({
+      ...prev,
+      signatureFile: null,
+      signaturePreview: null
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
