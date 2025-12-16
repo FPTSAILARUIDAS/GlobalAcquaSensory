@@ -339,8 +339,7 @@ metadata:
 
 test_plan:
   current_focus: 
-    - "Dynamic Report Title Implementation"
-    - "Daily Summary Page Crash Fix"
+    - "Signature Upload and Display for Regular Sensory Test"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
