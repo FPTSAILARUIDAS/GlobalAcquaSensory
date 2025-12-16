@@ -43,15 +43,15 @@ const BlindTestDailySummary = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      // Filter only blind and proficiency tests
-      const blindProfSessions = response.data.sessions.filter(s => 
-        s.testType === "blind" || s.testType === "proficiency"
+      // Filter ONLY blind tests
+      const blindSessions = response.data.sessions.filter(s => 
+        s.testType === "blind"
       );
       
       setSummaryData({
         ...response.data,
-        sessions: blindProfSessions,
-        totalSessions: blindProfSessions.length
+        sessions: blindSessions,
+        totalSessions: blindSessions.length
       });
     } catch (error) {
       console.error("Failed to fetch daily summary:", error);
