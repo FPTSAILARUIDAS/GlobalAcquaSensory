@@ -605,11 +605,27 @@ const DailySummarySheet = () => {
               {filteredSessions.map((session, index) => {
                 const firstBallot = session.ballots[0] || {};
                 const lastBallot = session.ballots[session.ballots.length - 1] || {};
-                const allPassed = session.ballots.every(ballot => 
-                  ballot.appearance.status === "IN" && 
-                  ballot.odour.status === "IN" && 
-                  (ballot.taste?.status === "IN" || ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water")
-                );
+                
+                // For blind/proficiency tests, check samples. For regular tests, check appearance/odour/taste
+                const isBlindOrProficiencyTest = session.testType === "blind" || session.testType === "proficiency";
+                let allPassed = false;
+                
+                if (isBlindOrProficiencyTest) {
+                  // For blind/proficiency tests, check if all samples are "IN"
+                  allPassed = session.ballots.every(ballot => 
+                    ballot.samples && ballot.samples.every(sample => 
+                      sample.colorCode === "Control" || sample.status === "IN"
+                    )
+                  );
+                } else {
+                  // For regular tests, check appearance/odour/taste with safety checks
+                  allPassed = session.ballots.every(ballot => 
+                    ballot.appearance?.status === "IN" && 
+                    ballot.odour?.status === "IN" && 
+                    (ballot.taste?.status === "IN" || ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water")
+                  );
+                }
+                
                 const panelResult = allPassed ? "IN" : "OUT";
                 const sensoryDoneDateTime = lastBallot.testingCompletionDate && lastBallot.testingCompletionTime 
                   ? `${lastBallot.testingCompletionDate} ${lastBallot.testingCompletionTime}`
