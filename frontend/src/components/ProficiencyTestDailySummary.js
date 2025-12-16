@@ -210,17 +210,21 @@ const ProficiencyTestDailySummary = () => {
               </tr>
             </thead>
             <tbody>
-              {summaryData.sessions.map((session, sessionIndex) => {
-                return session.ballots.map((ballot, ballotIndex) => {
-                  // For each ballot, show all samples
-                  return ballot.samples && ballot.samples.map((sample, sampleIndex) => {
-                    const slNo = sessionIndex * 100 + ballotIndex * 10 + sampleIndex + 1;
-                    const isControl = sample.colorCode === "Control";
-                    const meetsRequirement = isControl || (sample.status === "IN" && sample.offNote && sample.offNote.trim() !== "");
-                    
-                    return (
-                      <tr key={`${session.id}-${ballotIndex}-${sampleIndex}`} className={slNo % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? slNo : ""}</td>
+              {(() => {
+                let rowCounter = 0;
+                return summaryData.sessions.map((session, sessionIndex) => {
+                  return session.ballots.map((ballot, ballotIndex) => {
+                    const ballotStartRow = rowCounter + 1; // Store the starting row for this ballot
+                    // For each ballot, show all samples
+                    return ballot.samples && ballot.samples.map((sample, sampleIndex) => {
+                      rowCounter++; // Increment for each row
+                      const slNo = rowCounter;
+                      const isControl = sample.colorCode === "Control";
+                      const meetsRequirement = isControl || (sample.status === "IN" && sample.offNote && sample.offNote.trim() !== "");
+                      
+                      return (
+                        <tr key={`${session.id}-${ballotIndex}-${sampleIndex}`} className={slNo % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                          <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? ballotStartRow : ""}</td>
                         <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? ballot.panelistName : ""}</td>
                         <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.testDate : ""}</td>
                         <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.roundNo : ""}</td>
