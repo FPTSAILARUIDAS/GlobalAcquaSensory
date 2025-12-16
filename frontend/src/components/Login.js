@@ -30,14 +30,78 @@ const Login = ({ onLogin }) => {
         <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-              <LogIn className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            {/* Circular Logo with Water Bottle */}
+            <div className="flex justify-center mb-4">
+              <svg width="160" height="160" viewBox="0 0 160 160" className="drop-shadow-lg">
+                {/* Outer Circle */}
+                <circle cx="80" cy="80" r="75" fill="url(#gradient1)" stroke="#1e40af" strokeWidth="2"/>
+                
+                {/* Gradient Definitions */}
+                <defs>
+                  <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
+                    <stop offset="100%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+                  </linearGradient>
+                  <linearGradient id="bottleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#bfdbfe', stopOpacity: 0.9 }} />
+                    <stop offset="50%" style={{ stopColor: '#60a5fa', stopOpacity: 0.7 }} />
+                    <stop offset="100%" style={{ stopColor: '#3b82f6', stopOpacity: 0.8 }} />
+                  </linearGradient>
+                  <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#dbeafe', stopOpacity: 0.9 }} />
+                    <stop offset="100%" style={{ stopColor: '#93c5fd', stopOpacity: 0.7 }} />
+                  </linearGradient>
+                </defs>
+                
+                {/* Circular Text Path */}
+                <defs>
+                  <path id="circlePath" d="M 80, 80 m -65, 0 a 65,65 0 1,1 130,0 a 65,65 0 1,1 -130,0" fill="none"/>
+                </defs>
+                
+                {/* Circular Text */}
+                <text fill="white" fontSize="13" fontWeight="bold" fontFamily="Space Grotesk, sans-serif">
+                  <textPath href="#circlePath" startOffset="5%">
+                    GLOBAL ACQUA PVT LTD • QUALITY CONTROL •
+                  </textPath>
+                </text>
+                
+                {/* Water Bottle in Center */}
+                <g transform="translate(80, 80)">
+                  {/* Bottle Cap */}
+                  <rect x="-8" y="-35" width="16" height="8" rx="2" fill="#1e40af"/>
+                  <rect x="-6" y="-32" width="12" height="3" fill="#1e3a8a"/>
+                  
+                  {/* Bottle Neck */}
+                  <path d="M -6,-27 L -8,-15 L 8,-15 L 6,-27 Z" fill="url(#bottleGradient)" stroke="#1e40af" strokeWidth="1"/>
+                  
+                  {/* Bottle Body */}
+                  <rect x="-12" y="-15" width="24" height="40" rx="3" fill="url(#bottleGradient)" stroke="#1e40af" strokeWidth="1.5"/>
+                  
+                  {/* Water Inside Bottle */}
+                  <rect x="-10" y="-10" width="20" height="30" rx="2" fill="url(#waterGradient)" opacity="0.8"/>
+                  
+                  {/* Water Wave Effect */}
+                  <path d="M -10,-10 Q -5,-8 0,-10 T 10,-10 L 10,20 L -10,20 Z" fill="#dbeafe" opacity="0.5"/>
+                  
+                  {/* Bottle Highlights */}
+                  <ellipse cx="-6" cy="-5" rx="3" ry="8" fill="white" opacity="0.3"/>
+                  <ellipse cx="6" cy="5" rx="2" ry="6" fill="white" opacity="0.2"/>
+                  
+                  {/* Label on Bottle */}
+                  <rect x="-9" y="0" width="18" height="12" rx="1" fill="white" opacity="0.7"/>
+                  <text x="0" y="8" textAnchor="middle" fontSize="6" fontWeight="bold" fill="#1e40af" fontFamily="Arial">KINLEY</text>
+                  
+                  {/* Bottle Base */}
+                  <ellipse cx="0" cy="25" rx="12" ry="3" fill="#1e40af" opacity="0.3"/>
+                </g>
+                
+                {/* Inner Circle Border */}
+                <circle cx="80" cy="80" r="50" fill="none" stroke="white" strokeWidth="1" opacity="0.3"/>
+              </svg>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              Global Acqua Pvt Ltd
-            </h1>
-            <p className="text-sm sm:text-base text-gray-600 mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Sensory Quality Control
+            
+            <p className="text-sm sm:text-base text-gray-600 mb-2 font-semibold" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Sensory Quality Control System
             </p>
             <p className="text-xs sm:text-sm text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
               Sign in to continue
