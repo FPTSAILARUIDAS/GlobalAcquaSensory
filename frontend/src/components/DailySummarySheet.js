@@ -563,6 +563,45 @@ const DailySummarySheet = () => {
           </div>
         )}
 
+        {/* Date Navigation */}
+        <div className="mb-4 flex items-center justify-center space-x-4 no-print bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <button
+            onClick={() => {
+              const currentDate = new Date(date);
+              currentDate.setDate(currentDate.getDate() - 1);
+              navigate(`/daily-summary/${currentDate.toISOString().split('T')[0]}`);
+            }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+          >
+            ← Previous Day
+          </button>
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-semibold text-gray-700">Select Date:</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => navigate(`/daily-summary/${e.target.value}`)}
+              max={new Date().toISOString().split('T')[0]}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            onClick={() => {
+              const currentDate = new Date(date);
+              currentDate.setDate(currentDate.getDate() + 1);
+              const today = new Date().toISOString().split('T')[0];
+              const nextDay = currentDate.toISOString().split('T')[0];
+              if (nextDay <= today) {
+                navigate(`/daily-summary/${nextDay}`);
+              }
+            }}
+            disabled={date >= new Date().toISOString().split('T')[0]}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Next Day →
+          </button>
+        </div>
+
         {/* Filter Section */}
         <div className="mb-4 flex items-center justify-between no-print">
           <div className="flex items-center space-x-3">
