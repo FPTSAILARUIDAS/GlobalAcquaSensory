@@ -319,23 +319,17 @@ frontend:
           agent: "testing"
           comment: "✅ CRITICAL FIX VERIFIED: PrintableReport rendering working perfectly. Tested blind test session 07433190 - report renders completely without crashes, sample table with 9 color-coded cells visible, signatures display correctly, dynamic report title shows 'Sensory Blind Test Report'. Only minor WebSocket connection error (non-critical). All major functionality working as expected."
   
-  - task: "Signature Saving Feature for Blind/Proficiency Tests"
+  - task: "Signature Upload and Display for Regular Sensory Test"
     implemented: true
-    working: true
-    file: "frontend/src/components/BlindTestForm.js, frontend/src/components/ProficiencyTestForm.js, backend/server.py"
-    stuck_count: 1
+    working: "NA"
+    file: "frontend/src/components/BallotForm.js, frontend/src/components/ReportView.js, frontend/src/components/PrintableReport.js, frontend/src/components/SummaryReport.js"
+    stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-        - working: false
-          agent: "user"
-          comment: "User reported signature saving feature not working. When clicking 'Save for future use' checkbox, signature is not being stored in user profile."
         - working: "NA"
-          agent: "main"
-          comment: "Fixed signature saving issues: 1) Backend API fix in server.py - Removed result.modified_count check that was causing 404 errors when updating with same signature. Now checks if user exists first, then updates without validation of modified_count. 2) Frontend API endpoint fix - Corrected BlindTestForm.js and ProficiencyTestForm.js to use proper BACKEND_URL constant with /api suffix (was using process.env.REACT_APP_BACKEND_URL directly without /api). This ensures API calls go to correct endpoint: https://watertestapp.preview.emergentagent.com/api/users/signature. Ready for testing."
-        - working: true
           agent: "testing"
-          comment: "✅ VERIFIED: Signature display working correctly in PrintableReport. Found 1 signature displayed properly in blind test session 07433190. Signature rendering and display functionality confirmed working."
+          comment: "Need to test signature upload and display functionality for Regular Sensory Test. Test scenario: 1) Login with panelist account (SC/sc123, RM/rm123, SM/sm123, or customadmin/custom123), 2) Start new 1 Panelist session with Regular Sensory Test, 3) Fill ballot form including signature upload, 4) Verify signature appears in all report views (ReportView, PrintableReport, SummaryReport). Focus on verifying signature upload area, preview, and display in all three report formats."
 
 metadata:
   created_by: "testing_agent"
