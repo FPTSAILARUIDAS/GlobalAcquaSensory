@@ -32,65 +32,68 @@ const Login = ({ onLogin }) => {
           <div className="text-center mb-6 sm:mb-8">
             {/* Circular Logo with Kinley Bottle Image */}
             <div className="flex justify-center mb-4">
-              <svg width="180" height="180" viewBox="0 0 180 180" className="drop-shadow-lg">
-                {/* Outer Circle */}
-                <circle cx="90" cy="90" r="85" fill="url(#gradient1)" stroke="#1e40af" strokeWidth="2.5"/>
-                
-                {/* Gradient Definitions */}
-                <defs>
-                  <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
-                    <stop offset="100%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
-                  </linearGradient>
+              <div className="relative">
+                <svg width="200" height="200" viewBox="0 0 200 200" className="drop-shadow-xl">
+                  {/* Outer Circle */}
+                  <circle cx="100" cy="100" r="95" fill="url(#gradient1)" stroke="#1e40af" strokeWidth="3"/>
                   
-                  {/* Clip path for circular image */}
-                  <clipPath id="circleClip">
-                    <circle cx="90" cy="90" r="55"/>
-                  </clipPath>
-                </defs>
-                
-                {/* Circular Text Path - Top Half */}
-                <defs>
-                  <path id="circlePathTop" d="M 90, 90 m -72, 0 a 72,72 0 0,1 144,0" fill="none"/>
-                </defs>
-                
-                {/* Circular Text - Top */}
-                <text fill="white" fontSize="14" fontWeight="bold" fontFamily="Space Grotesk, sans-serif" letterSpacing="1">
-                  <textPath href="#circlePathTop" startOffset="50%" textAnchor="middle">
-                    GLOBAL ACQUA PVT LTD
-                  </textPath>
-                </text>
-                
-                {/* Circular Text Path - Bottom Half */}
-                <defs>
-                  <path id="circlePathBottom" d="M 90, 90 m -72, 0 a 72,72 0 0,0 144,0" fill="none"/>
-                </defs>
-                
-                {/* Circular Text - Bottom */}
-                <text fill="white" fontSize="14" fontWeight="bold" fontFamily="Space Grotesk, sans-serif" letterSpacing="1">
-                  <textPath href="#circlePathBottom" startOffset="50%" textAnchor="middle">
-                    QUALITY • SENSORY TEST
-                  </textPath>
-                </text>
-                
-                {/* White background circle for bottle */}
-                <circle cx="90" cy="90" r="55" fill="white" opacity="0.95"/>
-                
-                {/* Kinley Bottle Image */}
-                <image 
-                  href="https://customer-assets.emergentagent.com/job_watertestapp/artifacts/ggyi19mv_265718-2_5-kinley-drinking-water-with-added-minerals.webp"
-                  x="55" 
-                  y="30" 
-                  width="70" 
-                  height="120"
-                  clipPath="url(#circleClip)"
-                  preserveAspectRatio="xMidYMid meet"
-                />
-                
-                {/* Inner Circle Border */}
-                <circle cx="90" cy="90" r="55" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4"/>
-                <circle cx="90" cy="90" r="60" fill="none" stroke="white" strokeWidth="1.5" opacity="0.5"/>
-              </svg>
+                  {/* Gradient Definitions */}
+                  <defs>
+                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+                    </linearGradient>
+                    
+                    {/* Clip path for circular image */}
+                    <clipPath id="circleClip">
+                      <circle cx="100" cy="100" r="65"/>
+                    </clipPath>
+                  </defs>
+                  
+                  {/* Circular Text Path - Top Half */}
+                  <defs>
+                    <path id="circlePathTop" d="M 100, 100 m -80, 0 a 80,80 0 0,1 160,0" fill="none"/>
+                  </defs>
+                  
+                  {/* Circular Text - Top */}
+                  <text fill="white" fontSize="15" fontWeight="bold" fontFamily="Space Grotesk, sans-serif" letterSpacing="1.5">
+                    <textPath href="#circlePathTop" startOffset="50%" textAnchor="middle">
+                      GLOBAL ACQUA PVT LTD
+                    </textPath>
+                  </text>
+                  
+                  {/* Circular Text Path - Bottom Half */}
+                  <defs>
+                    <path id="circlePathBottom" d="M 100, 100 m -80, 0 a 80,80 0 0,0 160,0" fill="none"/>
+                  </defs>
+                  
+                  {/* Circular Text - Bottom */}
+                  <text fill="white" fontSize="15" fontWeight="bold" fontFamily="Space Grotesk, sans-serif" letterSpacing="1.5">
+                    <textPath href="#circlePathBottom" startOffset="50%" textAnchor="middle">
+                      QUALITY • SENSORY TEST
+                    </textPath>
+                  </text>
+                  
+                  {/* White background circle for bottle */}
+                  <circle cx="100" cy="100" r="65" fill="white" opacity="1"/>
+                  
+                  {/* Kinley Bottle Image - Much Larger */}
+                  <image 
+                    href="https://customer-assets.emergentagent.com/job_watertestapp/artifacts/ggyi19mv_265718-2_5-kinley-drinking-water-with-added-minerals.webp"
+                    x="45" 
+                    y="20" 
+                    width="110" 
+                    height="160"
+                    clipPath="url(#circleClip)"
+                    preserveAspectRatio="xMidYMid meet"
+                    style={{ mixBlendMode: 'multiply' }}
+                  />
+                  
+                  {/* Inner Circle Border */}
+                  <circle cx="100" cy="100" r="65" fill="none" stroke="#3b82f6" strokeWidth="2.5" opacity="0.5"/>
+                  <circle cx="100" cy="100" r="70" fill="none" stroke="white" strokeWidth="2" opacity="0.6"/>
+                </svg>
+              </div>
             </div>
             
             <p className="text-sm sm:text-base text-gray-600 mb-2 font-semibold" style={{ fontFamily: 'Inter, sans-serif' }}>
