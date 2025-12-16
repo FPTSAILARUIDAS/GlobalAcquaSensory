@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { CheckCircle, ArrowLeft, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle, ArrowLeft, AlertCircle, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import BlindTestForm from "@/components/BlindTestForm";
 import ProficiencyTestForm from "@/components/ProficiencyTestForm";
+import axios from "axios";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = "regular" }) => {
   // If it's a blind test or proficiency test, render specialized form
