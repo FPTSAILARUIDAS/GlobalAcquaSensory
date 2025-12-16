@@ -673,7 +673,10 @@ const DailySummarySheet = () => {
                       {session.ballots[2]?.panelistName || "-"}
                       <br/>
                       {session.ballots[2] && <span className="text-xs text-gray-600">
-                        A:{session.ballots[2].appearance.status} O:{session.ballots[2].odour.status}{session.ballots[2].productType !== "Raw Water" && session.ballots[2].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[2].taste.status}` : ""}
+                        {isBlindOrProficiencyTest 
+                          ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
+                          : `A:${session.ballots[2].appearance?.status || "N/A"} O:${session.ballots[2].odour?.status || "N/A"}${session.ballots[2].productType !== "Raw Water" && session.ballots[2].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[2].taste?.status || "N/A"}` : ""}`
+                        }
                       </span>}
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-center">
