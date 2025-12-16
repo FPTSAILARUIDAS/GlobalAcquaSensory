@@ -549,7 +549,7 @@ const DailySummarySheet = () => {
             Sensory Quality Control
           </p>
           <h2 className="text-2xl font-semibold text-blue-600 mb-3">
-            Daily Sensory Data Summary
+            Daily Sensory Data Summary (Regular Tests)
           </h2>
           <div className="flex justify-between items-center text-sm text-gray-700 max-w-4xl mx-auto">
             <div>
