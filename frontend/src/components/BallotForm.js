@@ -178,6 +178,12 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Validate signature
+    if (!formData.signaturePreview) {
+      alert("Please upload your signature before submitting");
+      return;
+    }
+    
     // For Raw Water, taste test is not required, so we ensure it's marked as IN with no reason
     const submissionData = { ...formData };
     if (formData.productType === "Raw Water") {
