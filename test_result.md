@@ -321,11 +321,11 @@ frontend:
   
   - task: "Signature Saving Feature for Blind/Proficiency Tests"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/components/BlindTestForm.js, frontend/src/components/ProficiencyTestForm.js, backend/server.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
           agent: "user"
@@ -333,6 +333,9 @@ frontend:
         - working: "NA"
           agent: "main"
           comment: "Fixed signature saving issues: 1) Backend API fix in server.py - Removed result.modified_count check that was causing 404 errors when updating with same signature. Now checks if user exists first, then updates without validation of modified_count. 2) Frontend API endpoint fix - Corrected BlindTestForm.js and ProficiencyTestForm.js to use proper BACKEND_URL constant with /api suffix (was using process.env.REACT_APP_BACKEND_URL directly without /api). This ensures API calls go to correct endpoint: https://watertestapp.preview.emergentagent.com/api/users/signature. Ready for testing."
+        - working: true
+          agent: "testing"
+          comment: "✅ VERIFIED: Signature display working correctly in PrintableReport. Found 1 signature displayed properly in blind test session 07433190. Signature rendering and display functionality confirmed working."
 
 metadata:
   created_by: "testing_agent"
