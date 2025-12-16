@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the Daily Summary endpoint for the Global Acqua Sensory App"
+user_problem_statement: "Test the signature upload and display functionality for Regular Sensory Test in the Global Acqua Sensory App"
 
 backend:
   - task: "Authentication System - Login Endpoint"
