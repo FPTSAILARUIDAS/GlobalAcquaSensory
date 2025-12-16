@@ -652,14 +652,21 @@ const DailySummarySheet = () => {
                       {session.ballots[0]?.panelistName || "-"}
                       <br/>
                       <span className="text-xs text-gray-600">
-                        {session.ballots[0] && `A:${session.ballots[0].appearance.status} O:${session.ballots[0].odour.status}${session.ballots[0].productType !== "Raw Water" && session.ballots[0].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[0].taste.status}` : ""}`}
+                        {session.ballots[0] && (
+                          isBlindOrProficiencyTest 
+                            ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
+                            : `A:${session.ballots[0].appearance?.status || "N/A"} O:${session.ballots[0].odour?.status || "N/A"}${session.ballots[0].productType !== "Raw Water" && session.ballots[0].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[0].taste?.status || "N/A"}` : ""}`
+                        )}
                       </span>
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
                       {session.ballots[1]?.panelistName || "-"}
                       <br/>
                       {session.ballots[1] && <span className="text-xs text-gray-600">
-                        A:{session.ballots[1].appearance.status} O:{session.ballots[1].odour.status}{session.ballots[1].productType !== "Raw Water" && session.ballots[1].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[1].taste.status}` : ""}
+                        {isBlindOrProficiencyTest 
+                          ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
+                          : `A:${session.ballots[1].appearance?.status || "N/A"} O:${session.ballots[1].odour?.status || "N/A"}${session.ballots[1].productType !== "Raw Water" && session.ballots[1].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[1].taste?.status || "N/A"}` : ""}`
+                        }
                       </span>}
                     </td>
                     <td className="border-2 border-gray-900 px-3 py-2 text-xs">
