@@ -300,6 +300,36 @@ frontend:
         - working: true
           agent: "testing"
           comment: "CODE ANALYSIS VERIFIED: Complete implementation confirmed. App.js lines 48-50 handle test type selection, BallotForm.js lines 14-20 route to specialized forms, BlindTestForm.js implements color-coded sample table with IN/OUT evaluation and signature upload, ProficiencyTestForm.js provides identical functionality with green styling. Both forms include signature saving feature (lines 111-163), proper validation, and backend integration. Test type selection UI properly implemented with conditional rendering. All components are structurally sound and ready for use."
+  
+  - task: "PrintableReport Runtime Error Fix for Blind/Proficiency Tests"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/PrintableReport.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "User reported runtime error 'Cannot read properties of null (reading status)' when admin views detailed report for Blind Test or Proficiency Test sessions. App crashes in admin account report view."
+        - working: "NA"
+          agent: "main"
+          comment: "Fixed critical runtime crash in PrintableReport.js. Root cause: Component was trying to access ballot.appearance.status, ballot.odour.status, and ballot.taste.status without checking if these objects exist. Blind/Proficiency tests don't have these fields (they have samples array instead). Solution: Added safety checks - wrapped each test result section (Appearance, Odour, Taste) in conditional rendering: {ballot.appearance && (...)}. This mirrors the fix already applied in ReportView.js. Also fixed syntax error (missing closing parenthesis) at line 335. Frontend compiled successfully after fix."
+  
+  - task: "Signature Saving Feature for Blind/Proficiency Tests"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/BlindTestForm.js, frontend/src/components/ProficiencyTestForm.js, backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "User reported signature saving feature not working. When clicking 'Save for future use' checkbox, signature is not being stored in user profile."
+        - working: "NA"
+          agent: "main"
+          comment: "Fixed signature saving issues: 1) Backend API fix in server.py - Removed result.modified_count check that was causing 404 errors when updating with same signature. Now checks if user exists first, then updates without validation of modified_count. 2) Frontend API endpoint fix - Corrected BlindTestForm.js and ProficiencyTestForm.js to use proper BACKEND_URL constant with /api suffix (was using process.env.REACT_APP_BACKEND_URL directly without /api). This ensures API calls go to correct endpoint: https://watertestapp.preview.emergentagent.com/api/users/signature. Ready for testing."
 
 metadata:
   created_by: "testing_agent"
