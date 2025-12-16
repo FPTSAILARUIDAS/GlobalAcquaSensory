@@ -345,7 +345,8 @@ metadata:
 
 test_plan:
   current_focus: 
-    - "Daily Summary Endpoint"
+    - "Dynamic Report Title Implementation"
+    - "Daily Summary Page Crash Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
