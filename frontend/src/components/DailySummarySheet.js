@@ -60,8 +60,17 @@ const DailySummarySheet = () => {
       console.log("  - Total Sessions:", response.data.totalSessions);
       console.log("  - Sessions Array:", response.data.sessions);
       
-      setSummaryData(response.data);
-      setFilteredSessions(response.data.sessions);
+      // Filter to show ONLY regular sensory tests (exclude blind and proficiency tests)
+      const regularSessions = response.data.sessions.filter(s => 
+        !s.testType || s.testType === "regular"
+      );
+      
+      setSummaryData({
+        ...response.data,
+        sessions: regularSessions,
+        totalSessions: regularSessions.length
+      });
+      setFilteredSessions(regularSessions);
     } catch (error) {
       console.error("❌ Failed to fetch daily summary:", error);
       console.error("  - Status:", error.response?.status);
