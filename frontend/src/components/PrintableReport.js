@@ -333,6 +333,20 @@ const PrintableReport = () => {
                   </div>
                 )}
               </div>
+
+              {/* Signature */}
+              {ballot.signature && (
+                <div className="mt-4">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Panelist Signature:</p>
+                  <div className="border-2 border-blue-300 rounded-lg p-2 bg-white inline-block">
+                    <img 
+                      src={ballot.signature} 
+                      alt={`Signature of ${ballot.panelistName}`}
+                      className="max-w-xs h-20 object-contain"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             );
           })}
