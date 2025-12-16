@@ -190,6 +190,11 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
       submissionData.taste = { status: "IN", reason: "", otherReason: "" };
     }
     
+    // Map signaturePreview to signature for backend compatibility
+    submissionData.signature = formData.signaturePreview;
+    delete submissionData.signaturePreview;
+    delete submissionData.signatureFile;
+    
     onSubmit(submissionData);
   };
 
