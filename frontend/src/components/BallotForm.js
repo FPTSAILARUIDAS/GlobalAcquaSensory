@@ -51,7 +51,38 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
     odour: { status: "IN", reason: "", otherReason: "" },
     taste: { status: "IN", reason: "", otherReason: "" },
     remarks: "",
+    // Signature
+    signatureFile: null,
+    signaturePreview: null,
   });
+
+  // Load stored signature on mount
+  useEffect(() => {
+    const loadStoredSignature = async () => {
+      try {
+        const storedAuth = localStorage.getItem("auth");
+        if (!storedAuth) return;
+        
+        const auth = JSON.parse(storedAuth);
+        const token = auth.token;
+        
+        const response = await axios.get(`${API}/users/signature`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (response.data.signature) {
+          setFormData(prev => ({
+            ...prev,
+            signaturePreview: response.data.signature
+          }));
+        }
+      } catch (error) {
+        console.log("No stored signature found");
+      }
+    };
+    
+    loadStoredSignature();
+  }, []);
 
   const handleProductTypeChange = (value) => {
     setFormData((prev) => ({
