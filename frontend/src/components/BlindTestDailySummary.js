@@ -135,7 +135,7 @@ const BlindTestDailySummary = () => {
             Sensory Quality Control
           </p>
           <h2 className="text-2xl font-semibold text-purple-600 mb-3">
-            {summaryData.sessions[0]?.testType === "blind" ? "Sensory Blind Test" : "Proficiency Test"} Summary Report
+            Sensory Blind Test Summary Report
           </h2>
           <div className="flex justify-between items-center text-sm text-gray-700 max-w-4xl mx-auto">
             <div>
