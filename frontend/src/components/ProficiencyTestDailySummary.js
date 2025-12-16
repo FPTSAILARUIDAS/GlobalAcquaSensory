@@ -277,7 +277,8 @@ const ProficiencyTestDailySummary = () => {
                     );
                   });
                 });
-              }).flat().flat()}
+              }).flat().flat();
+              })()}
             </tbody>
           </table>
         </div>
