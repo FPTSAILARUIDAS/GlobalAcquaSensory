@@ -321,15 +321,18 @@ frontend:
   
   - task: "Signature Upload and Display for Regular Sensory Test"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/components/BallotForm.js, frontend/src/components/ReportView.js, frontend/src/components/PrintableReport.js, frontend/src/components/SummaryReport.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "testing"
           comment: "Need to test signature upload and display functionality for Regular Sensory Test. Test scenario: 1) Login with panelist account (SC/sc123, RM/rm123, SM/sm123, or customadmin/custom123), 2) Start new 1 Panelist session with Regular Sensory Test, 3) Fill ballot form including signature upload, 4) Verify signature appears in all report views (ReportView, PrintableReport, SummaryReport). Focus on verifying signature upload area, preview, and display in all three report formats."
+        - working: false
+          agent: "testing"
+          comment: "SIGNATURE TESTING COMPLETED - PARTIAL SUCCESS: ✅ Login successful with SC/123, ✅ Ballot form loads with pre-saved signature ('Somashree Ruidas' signature automatically loaded), ✅ Form submission successful, ✅ SummaryReport displays signature correctly in 'Panelist Signatures' section. ❌ CRITICAL ISSUES: 1) Signature NOT displayed in ReportView component, 2) Signature NOT displayed in PrintableReport component. The signature functionality works for saving/loading and displays in SummaryReport but fails to show in the other two critical report views. Session 467017D6 created successfully for testing."
 
 metadata:
   created_by: "testing_agent"
