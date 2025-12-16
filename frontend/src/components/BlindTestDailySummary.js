@@ -277,7 +277,8 @@ const BlindTestDailySummary = () => {
                     );
                   });
                 });
-              }).flat().flat()}
+              }).flat().flat();
+              })()}
             </tbody>
           </table>
         </div>
