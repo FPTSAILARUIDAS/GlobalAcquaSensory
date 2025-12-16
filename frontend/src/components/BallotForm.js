@@ -623,6 +623,58 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
           </div>
         </div>
 
+        {/* Signature Section */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Panelist Signature *
+          </h3>
+          
+          {!formData.signaturePreview ? (
+            <div className="space-y-3">
+              <Label htmlFor="signature-upload" className="cursor-pointer">
+                <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 hover:border-blue-500 hover:bg-blue-50 transition-all text-center">
+                  <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
+                  <p className="text-sm font-semibold text-gray-700 mb-1">Click to upload signature</p>
+                  <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                </div>
+              </Label>
+              <input
+                id="signature-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleSignatureUpload}
+                className="hidden"
+              />
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <div className="relative border-2 border-blue-300 rounded-lg p-4 bg-white">
+                <img
+                  src={formData.signaturePreview}
+                  alt="Signature"
+                  className="max-h-32 mx-auto"
+                />
+                <button
+                  type="button"
+                  onClick={removeSignature}
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              
+              <Button
+                type="button"
+                onClick={saveSignatureForFutureUse}
+                variant="outline"
+                className="w-full border-blue-300 text-blue-600 hover:bg-blue-50"
+              >
+                Save this signature for future use
+              </Button>
+            </div>
+          )}
+        </div>
+
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4">
           {onBack && (
