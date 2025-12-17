@@ -227,30 +227,72 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
             <span className="hidden xs:inline sm:inline">Daily Summary</span>
             <span className="xs:hidden sm:hidden">Summary</span>
           </Button>
-          <Button
-            data-testid="blind-test-summary-tab"
-            onClick={() => {
-              const today = new Date().toISOString().split('T')[0];
-              window.open(`/blind-test-summary/${today}`, '_blank');
-            }}
-            className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-purple-50 to-purple-100 text-gray-700 hover:from-purple-100 hover:to-purple-200 border border-purple-300"
-          >
-            <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
-            <span className="hidden xs:inline sm:inline">Blind Test Summary</span>
-            <span className="xs:hidden sm:hidden">Blind</span>
-          </Button>
-          <Button
-            data-testid="proficiency-test-summary-tab"
-            onClick={() => {
-              const today = new Date().toISOString().split('T')[0];
-              window.open(`/proficiency-test-summary/${today}`, '_blank');
-            }}
-            className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-emerald-50 to-emerald-100 text-gray-700 hover:from-emerald-100 hover:to-emerald-200 border border-emerald-300"
-          >
-            <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
-            <span className="hidden xs:inline sm:inline">Proficiency Test Summary</span>
-            <span className="xs:hidden sm:hidden">Proficiency</span>
-          </Button>
+          <div className="flex flex-col space-y-2">
+            <Button
+              data-testid="blind-test-summary-tab"
+              onClick={() => {
+                const today = new Date().toISOString().split('T')[0];
+                window.open(`/blind-test-summary/${today}`, '_blank');
+              }}
+              className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-purple-50 to-purple-100 text-gray-700 hover:from-purple-100 hover:to-purple-200 border border-purple-300"
+            >
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
+              <span className="hidden xs:inline sm:inline">Blind Test Summary</span>
+              <span className="xs:hidden sm:hidden">Blind</span>
+            </Button>
+            <div className="flex items-center space-x-2">
+              <input
+                type="date"
+                id="blind-test-date"
+                className="px-2 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                max={new Date().toISOString().split('T')[0]}
+              />
+              <Button
+                size="sm"
+                onClick={() => {
+                  const dateInput = document.getElementById('blind-test-date');
+                  const date = dateInput.value || new Date().toISOString().split('T')[0];
+                  window.open(`/blind-test-summary/${date}`, '_blank');
+                }}
+                className="px-3 py-1 text-xs bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                Go to Date
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-col space-y-2">
+            <Button
+              data-testid="proficiency-test-summary-tab"
+              onClick={() => {
+                const today = new Date().toISOString().split('T')[0];
+                window.open(`/proficiency-test-summary/${today}`, '_blank');
+              }}
+              className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-emerald-50 to-emerald-100 text-gray-700 hover:from-emerald-100 hover:to-emerald-200 border border-emerald-300"
+            >
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
+              <span className="hidden xs:inline sm:inline">Proficiency Test Summary</span>
+              <span className="xs:hidden sm:hidden">Proficiency</span>
+            </Button>
+            <div className="flex items-center space-x-2">
+              <input
+                type="date"
+                id="proficiency-test-date"
+                className="px-2 py-1 text-xs border border-emerald-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                max={new Date().toISOString().split('T')[0]}
+              />
+              <Button
+                size="sm"
+                onClick={() => {
+                  const dateInput = document.getElementById('proficiency-test-date');
+                  const date = dateInput.value || new Date().toISOString().split('T')[0];
+                  window.open(`/proficiency-test-summary/${date}`, '_blank');
+                }}
+                className="px-3 py-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                Go to Date
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* User Management Tab */}
