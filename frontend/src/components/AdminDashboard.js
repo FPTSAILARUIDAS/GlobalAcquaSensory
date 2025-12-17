@@ -215,18 +215,39 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
             <span className="hidden xs:inline sm:inline">All Sessions</span>
             <span className="xs:hidden sm:hidden">Sessions</span>
           </Button>
-          <Button
-            data-testid="daily-summary-tab"
-            onClick={() => {
-              const today = new Date().toISOString().split('T')[0];
-              window.open(`/daily-summary/${today}`, '_blank');
-            }}
-            className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-green-50 to-green-100 text-gray-700 hover:from-green-100 hover:to-green-200 border border-green-300"
-          >
-            <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
-            <span className="hidden xs:inline sm:inline">Daily Summary</span>
-            <span className="xs:hidden sm:hidden">Summary</span>
-          </Button>
+          <div className="flex flex-col space-y-2">
+            <Button
+              data-testid="daily-summary-tab"
+              onClick={() => {
+                const today = new Date().toISOString().split('T')[0];
+                window.open(`/daily-summary/${today}`, '_blank');
+              }}
+              className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-green-50 to-green-100 text-gray-700 hover:from-green-100 hover:to-green-200 border border-green-300"
+            >
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
+              <span className="hidden xs:inline sm:inline">Daily Summary</span>
+              <span className="xs:hidden sm:hidden">Summary</span>
+            </Button>
+            <div className="flex items-center space-x-2">
+              <input
+                type="date"
+                id="daily-summary-date"
+                className="px-2 py-1 text-xs border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                max={new Date().toISOString().split('T')[0]}
+              />
+              <Button
+                size="sm"
+                onClick={() => {
+                  const dateInput = document.getElementById('daily-summary-date');
+                  const date = dateInput.value || new Date().toISOString().split('T')[0];
+                  window.open(`/daily-summary/${date}`, '_blank');
+                }}
+                className="px-3 py-1 text-xs bg-green-600 hover:bg-green-700 text-white"
+              >
+                Go to Date
+              </Button>
+            </div>
+          </div>
           <div className="flex flex-col space-y-2">
             <Button
               data-testid="blind-test-summary-tab"
