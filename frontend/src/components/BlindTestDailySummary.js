@@ -96,6 +96,47 @@ const BlindTestDailySummary = () => {
     }));
   };
 
+  const calculatePanelistPercentages = (session, ballot) => {
+    const sessionIndex = summaryData.sessions.indexOf(session);
+    const ballotIndex = session.ballots.indexOf(ballot);
+    
+    let totalSamples = 0;
+    let offNoteMatches = 0;
+    let statusMatches = 0;
+    
+    ballot.samples && ballot.samples.forEach((sample, sampleIndex) => {
+      if (sample.colorCode === "Control") return; // Skip control
+      
+      const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
+      const actual = actualData[key] || {};
+      
+      if (actual.actualOffNote && actual.actualStatus) {
+        totalSamples++;
+        
+        // Check off-note match
+        const panelistOffNote = sample.offNote || "";
+        if (panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase())) {
+          offNoteMatches++;
+        }
+        
+        // Check status match
+        if (sample.status === actual.actualStatus) {
+          statusMatches++;
+        }
+      }
+    });
+    
+    if (totalSamples === 0) {
+      return { offNotePercentage: null, statusPercentage: null, totalSamples: 0 };
+    }
+    
+    return {
+      offNotePercentage: Math.round((offNoteMatches / totalSamples) * 100),
+      statusPercentage: Math.round((statusMatches / totalSamples) * 100),
+      totalSamples
+    };
+  };
+
   const calculatePercentages = (session, ballot, sampleIndex, sample) => {
     const key = `${summaryData.sessions.indexOf(session)}-${session.ballots.indexOf(ballot)}-${sampleIndex}`;
     const actual = actualData[key] || {};
