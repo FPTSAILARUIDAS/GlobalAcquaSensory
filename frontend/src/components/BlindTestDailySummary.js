@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Download, X, ArrowLeft } from "lucide-react";
+import { Download, X, ArrowLeft, Save, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -14,6 +14,8 @@ const BlindTestDailySummary = () => {
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [actualData, setActualData] = useState({}); // Store actual off notes and IN/OUT
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchDailySummary();
@@ -53,6 +55,9 @@ const BlindTestDailySummary = () => {
         sessions: blindSessions,
         totalSessions: blindSessions.length
       });
+      
+      // Initialize actual data from stored values or defaults
+      initializeActualData(blindSessions);
     } catch (error) {
       console.error("Failed to fetch daily summary:", error);
       if (error.response?.status === 401) {
