@@ -311,71 +311,137 @@ const BlindTestDailySummary = () => {
                 let rowCounter = 0;
                 return summaryData.sessions.map((session, sessionIndex) => {
                   return session.ballots.map((ballot, ballotIndex) => {
-                    const ballotStartRow = rowCounter + 1; // Store the starting row for this ballot
-                    // For each ballot, show all samples
+                    const ballotStartRow = rowCounter + 1;
                     return ballot.samples && ballot.samples.map((sample, sampleIndex) => {
-                      rowCounter++; // Increment for each row
+                      rowCounter++;
                       const slNo = rowCounter;
                       const isControl = sample.colorCode === "Control";
-                      const meetsRequirement = isControl || (sample.status === "IN" && sample.offNote && sample.offNote.trim() !== "");
+                      const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
+                      const actual = actualData[key] || { actualOffNote: "", actualStatus: "" };
+                      const percentages = calculatePercentages(session, ballot, sampleIndex, sample);
                       
                       return (
                         <tr key={`${session.id}-${ballotIndex}-${sampleIndex}`} className={slNo % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                           <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? ballotStartRow : ""}</td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? ballot.panelistName : ""}</td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.testDate : ""}</td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.roundNo : ""}</td>
-                        <td 
-                          className="border-2 border-gray-900 px-3 py-2 text-xs font-semibold"
-                          style={{
-                            backgroundColor: sample.colorCode === "Yellow" ? "#fef08a" :
-                                          sample.colorCode === "Brown" ? "#a16207" :
-                                          sample.colorCode === "Blue" ? "#3b82f6" :
-                                          sample.colorCode === "Green" ? "#22c55e" :
-                                          sample.colorCode === "Red" ? "#ef4444" :
-                                          sample.colorCode === "Purple" ? "#a855f7" :
-                                          sample.colorCode === "White" ? "#ffffff" :
-                                          sample.colorCode === "Black" ? "#000000" :
-                                          sample.colorCode === "Control" ? "#e5e7eb" : "#ffffff",
-                            color: sample.colorCode === "Brown" || sample.colorCode === "Blue" || sample.colorCode === "Red" || sample.colorCode === "Purple" || sample.colorCode === "Black" ? "#fff" : "#000",
-                            border: sample.colorCode === "White" ? "2px solid #000" : ""
-                          }}
-                        >
-                          {sample.colorCode}
-                        </td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-xs">{isControl ? "N/A" : "-"}</td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
-                          {isControl ? (
-                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">IN</span>
-                          ) : "-"}
-                        </td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-xs">{isControl ? "N/A" : (sample.offNote || "-")}</td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
-                          {isControl ? (
-                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">IN (Control)</span>
-                          ) : (
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                              sample.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                            }`}>
-                              {sample.status}
-                            </span>
-                          )}
-                        </td>
-                        <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
-                          {isControl ? (
-                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">✓</span>
-                          ) : meetsRequirement ? (
-                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">✓</span>
-                          ) : (
-                            <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">✗</span>
-                          )}
-                        </td>
-                      </tr>
-                    );
+                          <td className="border-2 border-gray-900 px-3 py-2 text-xs">{sampleIndex === 0 ? ballot.panelistName : ""}</td>
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.testDate : ""}</td>
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">{sampleIndex === 0 ? ballot.roundNo : ""}</td>
+                          <td 
+                            className="border-2 border-gray-900 px-3 py-2 text-xs font-semibold"
+                            style={{
+                              backgroundColor: sample.colorCode === "Yellow" ? "#fef08a" :
+                                            sample.colorCode === "Brown" ? "#a16207" :
+                                            sample.colorCode === "Blue" ? "#3b82f6" :
+                                            sample.colorCode === "Green" ? "#22c55e" :
+                                            sample.colorCode === "Red" ? "#ef4444" :
+                                            sample.colorCode === "Purple" ? "#a855f7" :
+                                            sample.colorCode === "White" ? "#ffffff" :
+                                            sample.colorCode === "Black" ? "#000000" :
+                                            sample.colorCode === "Control" ? "#e5e7eb" : "#ffffff",
+                              color: sample.colorCode === "Brown" || sample.colorCode === "Blue" || sample.colorCode === "Red" || sample.colorCode === "Purple" || sample.colorCode === "Black" ? "#fff" : "#000",
+                              border: sample.colorCode === "White" ? "2px solid #000" : ""
+                            }}
+                          >
+                            {sample.colorCode}
+                          </td>
+                          {/* Editable Actual Off Note */}
+                          <td className="border-2 border-gray-900 px-2 py-2 text-xs">
+                            {isControl ? "N/A" : (
+                              isEditing ? (
+                                <input
+                                  type="text"
+                                  value={actual.actualOffNote}
+                                  onChange={(e) => handleActualDataChange(key, 'actualOffNote', e.target.value)}
+                                  className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                  placeholder="Enter off note"
+                                />
+                              ) : (
+                                actual.actualOffNote || "-"
+                              )
+                            )}
+                          </td>
+                          {/* Editable Actual IN/OUT */}
+                          <td className="border-2 border-gray-900 px-2 py-2 text-center text-xs">
+                            {isControl ? (
+                              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">IN</span>
+                            ) : (
+                              isEditing ? (
+                                <select
+                                  value={actual.actualStatus}
+                                  onChange={(e) => handleActualDataChange(key, 'actualStatus', e.target.value)}
+                                  className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                >
+                                  <option value="">Select</option>
+                                  <option value="IN">IN</option>
+                                  <option value="OUT">OUT</option>
+                                </select>
+                              ) : (
+                                actual.actualStatus ? (
+                                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                                    actual.actualStatus === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                                  }`}>
+                                    {actual.actualStatus}
+                                  </span>
+                                ) : "-"
+                              )
+                            )}
+                          </td>
+                          {/* Panelist Submission Off Notes */}
+                          <td className="border-2 border-gray-900 px-3 py-2 text-xs">{isControl ? "N/A" : (sample.offNote || "-")}</td>
+                          {/* Panelist IN/OUT */}
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
+                            {isControl ? (
+                              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">IN (Control)</span>
+                            ) : (
+                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                                sample.status === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                              }`}>
+                                {sample.status}
+                              </span>
+                            )}
+                          </td>
+                          {/* % Off-Note Match */}
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">
+                            {isControl ? "N/A" : (
+                              percentages.offNoteMatch !== null ? (
+                                <span className={`px-2 py-1 rounded ${
+                                  percentages.offNoteMatch === 100 ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
+                                }`}>
+                                  {percentages.offNoteMatch}%
+                                </span>
+                              ) : "-"
+                            )}
+                          </td>
+                          {/* % IN/OUT Match */}
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">
+                            {isControl ? "N/A" : (
+                              percentages.statusMatch !== null ? (
+                                <span className={`px-2 py-1 rounded ${
+                                  percentages.statusMatch === 100 ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
+                                }`}>
+                                  {percentages.statusMatch}%
+                                </span>
+                              ) : "-"
+                            )}
+                          </td>
+                          {/* Meets Requirement */}
+                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
+                            {isControl ? (
+                              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">✓</span>
+                            ) : (
+                              percentages.offNoteMatch === 100 && percentages.statusMatch === 100 ? (
+                                <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">✓</span>
+                              ) : (
+                                <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">✗</span>
+                              )
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    });
                   });
-                });
-              }).flat().flat();
-              })()} 
+                }).flat().flat();
+              })()}
             </tbody>
           </table>
         </div>
