@@ -703,7 +703,7 @@ const DailySummarySheet = () => {
                         {session.ballots[0] && (
                           isBlindOrProficiencyTest 
                             ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
-                            : `A:${session.ballots[0].appearance?.status || "N/A"} O:${session.ballots[0].odour?.status || "N/A"}${session.ballots[0].productType !== "Raw Water" && session.ballots[0].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[0].taste?.status || "N/A"}` : ""}`
+                            : `A:${session.ballots[0].appearance?.status || "N/A"} O:${session.ballots[0].odour?.status || "N/A"}${session.ballots[0].productType !== "Raw Water" ? ` T:${session.ballots[0].taste?.status || "N/A"}` : ""}`
                         )}
                       </span>
                     </td>
@@ -713,7 +713,7 @@ const DailySummarySheet = () => {
                       {session.ballots[1] && <span className="text-xs text-gray-600">
                         {isBlindOrProficiencyTest 
                           ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
-                          : `A:${session.ballots[1].appearance?.status || "N/A"} O:${session.ballots[1].odour?.status || "N/A"}${session.ballots[1].productType !== "Raw Water" && session.ballots[1].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[1].taste?.status || "N/A"}` : ""}`
+                          : `A:${session.ballots[1].appearance?.status || "N/A"} O:${session.ballots[1].odour?.status || "N/A"}${session.ballots[1].productType !== "Raw Water" ? ` T:${session.ballots[1].taste?.status || "N/A"}` : ""}`
                         }
                       </span>}
                     </td>
@@ -723,7 +723,7 @@ const DailySummarySheet = () => {
                       {session.ballots[2] && <span className="text-xs text-gray-600">
                         {isBlindOrProficiencyTest 
                           ? `${session.testType === "blind" ? "Blind Test" : "Proficiency Test"}` 
-                          : `A:${session.ballots[2].appearance?.status || "N/A"} O:${session.ballots[2].odour?.status || "N/A"}${session.ballots[2].productType !== "Raw Water" && session.ballots[2].productType !== "CIP Final Rinse Water" ? ` T:${session.ballots[2].taste?.status || "N/A"}` : ""}`
+                          : `A:${session.ballots[2].appearance?.status || "N/A"} O:${session.ballots[2].odour?.status || "N/A"}${session.ballots[2].productType !== "Raw Water" ? ` T:${session.ballots[2].taste?.status || "N/A"}` : ""}`
                         }
                       </span>}
                     </td>
