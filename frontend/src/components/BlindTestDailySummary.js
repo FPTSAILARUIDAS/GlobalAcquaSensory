@@ -70,6 +70,79 @@ const BlindTestDailySummary = () => {
     }
   };
 
+  const initializeActualData = (sessions) => {
+    const data = {};
+    sessions.forEach((session, sessionIndex) => {
+      session.ballots.forEach((ballot, ballotIndex) => {
+        ballot.samples && ballot.samples.forEach((sample, sampleIndex) => {
+          const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
+          data[key] = {
+            actualOffNote: sample.actualOffNote || "",
+            actualStatus: sample.actualStatus || ""
+          };
+        });
+      });
+    });
+    setActualData(data);
+  };
+
+  const handleActualDataChange = (key, field, value) => {
+    setActualData(prev => ({
+      ...prev,
+      [key]: {
+        ...prev[key],
+        [field]: value
+      }
+    }));
+  };
+
+  const calculatePercentages = (session, ballot, sampleIndex, sample) => {
+    const key = `${summaryData.sessions.indexOf(session)}-${session.ballots.indexOf(ballot)}-${sampleIndex}`;
+    const actual = actualData[key] || {};
+    
+    if (!actual.actualOffNote || !actual.actualStatus) {
+      return { offNoteMatch: null, statusMatch: null };
+    }
+    
+    // Calculate off-note percentage
+    const panelistOffNote = sample.offNote || "";
+    const offNoteMatch = panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase()) ? 100 : 0;
+    
+    // Calculate IN/OUT percentage
+    const statusMatch = sample.status === actual.actualStatus ? 100 : 0;
+    
+    return { offNoteMatch, statusMatch };
+  };
+
+  const saveActualData = async () => {
+    try {
+      const storedAuth = localStorage.getItem("auth");
+      const auth = JSON.parse(storedAuth);
+      const token = auth.token;
+      
+      // Save to localStorage for persistence
+      localStorage.setItem(`actualData_${date}`, JSON.stringify(actualData));
+      
+      setIsEditing(false);
+      alert("Actual data saved successfully!");
+    } catch (error) {
+      console.error("Failed to save actual data:", error);
+      alert("Failed to save actual data");
+    }
+  };
+
+  useEffect(() => {
+    // Load saved actual data from localStorage
+    const savedData = localStorage.getItem(`actualData_${date}`);
+    if (savedData) {
+      try {
+        setActualData(JSON.parse(savedData));
+      } catch (e) {
+        console.error("Failed to parse saved data");
+      }
+    }
+  }, [date]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
