@@ -185,6 +185,23 @@ const BlindTestDailySummary = () => {
     <div className="min-h-screen bg-white p-8">
       {/* Action Buttons */}
       <div className="no-print flex items-center justify-end space-x-3 mb-6">
+        {!isEditing ? (
+          <Button
+            onClick={() => setIsEditing(true)}
+            className="bg-purple-600 hover:bg-purple-700 flex items-center space-x-2"
+          >
+            <Edit2 className="w-4 h-4" />
+            <span>Edit Actual Values</span>
+          </Button>
+        ) : (
+          <Button
+            onClick={saveActualData}
+            className="bg-green-600 hover:bg-green-700 flex items-center space-x-2"
+          >
+            <Save className="w-4 h-4" />
+            <span>Save Changes</span>
+          </Button>
+        )}
         <Button
           onClick={handleDownloadPDF}
           className="bg-blue-600 hover:bg-blue-700 flex items-center space-x-2"
