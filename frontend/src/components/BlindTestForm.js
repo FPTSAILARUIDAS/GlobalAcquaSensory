@@ -329,13 +329,27 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
                     {sample.id === "control" ? (
                       <span className="text-gray-400 text-sm">N/A</span>
                     ) : sample.status === "OUT" ? (
-                      <Input
+                      <Select
                         value={sample.offNote}
-                        onChange={(e) => handleSampleChange(sample.id, "offNote", e.target.value)}
-                        placeholder="Describe OFF note (Mandatory)"
+                        onValueChange={(value) => handleSampleChange(sample.id, "offNote", value)}
                         required
-                        className="border-red-300 focus:border-red-500"
-                      />
+                      >
+                        <SelectTrigger className="w-full border-red-300 focus:border-red-500">
+                          <SelectValue placeholder="Select OFF note (Mandatory)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Plastic">Plastic</SelectItem>
+                          <SelectItem value="Fruity">Fruity</SelectItem>
+                          <SelectItem value="Burnt Caramel">Burnt Caramel</SelectItem>
+                          <SelectItem value="Musty">Musty</SelectItem>
+                          <SelectItem value="Metallic">Metallic</SelectItem>
+                          <SelectItem value="Sulfurous">Sulfurous</SelectItem>
+                          <SelectItem value="Earthy">Earthy</SelectItem>
+                          <SelectItem value="Acetaldehyde">Acetaldehyde</SelectItem>
+                          <SelectItem value="Fermented">Fermented</SelectItem>
+                          <SelectItem value="Medicinal">Medicinal</SelectItem>
+                        </SelectContent>
+                      </Select>
                     ) : (
                       <span className="text-gray-400 text-sm">-</span>
                     )}
