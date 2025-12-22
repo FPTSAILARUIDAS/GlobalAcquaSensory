@@ -353,6 +353,9 @@ const BlindTestDailySummary = () => {
                 return summaryData.sessions.map((session, sessionIndex) => {
                   return session.ballots.map((ballot, ballotIndex) => {
                     const ballotStartRow = rowCounter + 1;
+                    const panelistPercentages = calculatePanelistPercentages(session, ballot);
+                    const nonControlSamples = ballot.samples ? ballot.samples.filter(s => s.colorCode !== "Control").length : 0;
+                    
                     return ballot.samples && ballot.samples.map((sample, sampleIndex) => {
                       rowCounter++;
                       const slNo = rowCounter;
@@ -385,17 +388,27 @@ const BlindTestDailySummary = () => {
                           >
                             {sample.colorCode}
                           </td>
-                          {/* Editable Actual Off Note */}
+                          {/* Editable Actual Off Note - DROPDOWN */}
                           <td className="border-2 border-gray-900 px-2 py-2 text-xs">
                             {isControl ? "N/A" : (
                               isEditing ? (
-                                <input
-                                  type="text"
+                                <select
                                   value={actual.actualOffNote}
                                   onChange={(e) => handleActualDataChange(key, 'actualOffNote', e.target.value)}
                                   className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
-                                  placeholder="Enter off note"
-                                />
+                                >
+                                  <option value="">Select off-note</option>
+                                  <option value="Plastic">Plastic</option>
+                                  <option value="Fruity">Fruity</option>
+                                  <option value="Burnt Caramel">Burnt Caramel</option>
+                                  <option value="Musty">Musty</option>
+                                  <option value="Metallic">Metallic</option>
+                                  <option value="Sulfurous">Sulfurous</option>
+                                  <option value="Earthy">Earthy</option>
+                                  <option value="Acetaldehyde">Acetaldehyde</option>
+                                  <option value="Fermented">Fermented</option>
+                                  <option value="Medicinal">Medicinal</option>
+                                </select>
                               ) : (
                                 actual.actualOffNote || "-"
                               )
@@ -441,30 +454,54 @@ const BlindTestDailySummary = () => {
                               </span>
                             )}
                           </td>
-                          {/* % Off-Note Match */}
-                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">
-                            {isControl ? "N/A" : (
-                              percentages.offNoteMatch !== null ? (
-                                <span className={`px-2 py-1 rounded ${
-                                  percentages.offNoteMatch === 100 ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
-                                }`}>
-                                  {percentages.offNoteMatch}%
-                                </span>
-                              ) : "-"
-                            )}
-                          </td>
-                          {/* % IN/OUT Match */}
-                          <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">
-                            {isControl ? "N/A" : (
-                              percentages.statusMatch !== null ? (
-                                <span className={`px-2 py-1 rounded ${
-                                  percentages.statusMatch === 100 ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
-                                }`}>
-                                  {percentages.statusMatch}%
-                                </span>
-                              ) : "-"
-                            )}
-                          </td>
+                          {/* % Off-Note Match - MERGED CELL */}
+                          {sampleIndex === 0 ? (
+                            <td 
+                              rowSpan={ballot.samples.length} 
+                              className="border-2 border-gray-900 px-3 py-2 text-center text-sm font-bold"
+                            >
+                              {panelistPercentages.offNotePercentage !== null ? (
+                                <div className="flex flex-col items-center">
+                                  <span className={`px-3 py-2 rounded text-lg ${
+                                    panelistPercentages.offNotePercentage >= 80 ? "bg-green-200 text-green-800" : 
+                                    panelistPercentages.offNotePercentage >= 50 ? "bg-yellow-200 text-yellow-800" :
+                                    "bg-red-200 text-red-800"
+                                  }`}>
+                                    {panelistPercentages.offNotePercentage}%
+                                  </span>
+                                  <span className="text-xs text-gray-600 mt-1">
+                                    ({panelistPercentages.totalSamples} samples)
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-gray-400">-</span>
+                              )}
+                            </td>
+                          ) : null}
+                          {/* % IN/OUT Match - MERGED CELL */}
+                          {sampleIndex === 0 ? (
+                            <td 
+                              rowSpan={ballot.samples.length} 
+                              className="border-2 border-gray-900 px-3 py-2 text-center text-sm font-bold"
+                            >
+                              {panelistPercentages.statusPercentage !== null ? (
+                                <div className="flex flex-col items-center">
+                                  <span className={`px-3 py-2 rounded text-lg ${
+                                    panelistPercentages.statusPercentage >= 80 ? "bg-green-200 text-green-800" : 
+                                    panelistPercentages.statusPercentage >= 50 ? "bg-yellow-200 text-yellow-800" :
+                                    "bg-red-200 text-red-800"
+                                  }`}>
+                                    {panelistPercentages.statusPercentage}%
+                                  </span>
+                                  <span className="text-xs text-gray-600 mt-1">
+                                    ({panelistPercentages.totalSamples} samples)
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-gray-400">-</span>
+                              )}
+                            </td>
+                          ) : null}
                           {/* Meets Requirement */}
                           <td className="border-2 border-gray-900 px-3 py-2 text-center text-xs">
                             {isControl ? (
