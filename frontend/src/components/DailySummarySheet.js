@@ -670,7 +670,7 @@ const DailySummarySheet = () => {
                   allPassed = session.ballots.every(ballot => 
                     ballot.appearance?.status === "IN" && 
                     ballot.odour?.status === "IN" && 
-                    (ballot.taste?.status === "IN" || ballot.productType === "Raw Water" || ballot.productType === "CIP Final Rinse Water")
+                    (ballot.taste?.status === "IN" || ballot.productType === "Raw Water")
                   );
                 }
                 
