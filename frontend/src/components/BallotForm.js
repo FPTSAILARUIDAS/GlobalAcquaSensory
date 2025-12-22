@@ -208,23 +208,30 @@ const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = 
   ];
 
   const odourReasons = [
-    "Chlorine Smell",
+    "Plastic",
+    "Fruity",
+    "Burnt Caramel",
     "Musty",
-    "Chemical",
-    "Rotten Eggs",
-    "Petroleum",
+    "Metallic",
+    "Sulfurous",
     "Earthy",
+    "Acetaldehyde",
+    "Fermented",
+    "Medicinal",
     "Other",
   ];
 
   const tasteReasons = [
-    "Bitter",
-    "Salty",
+    "Plastic",
+    "Fruity",
+    "Burnt Caramel",
+    "Musty",
     "Metallic",
-    "Chemical",
+    "Sulfurous",
     "Earthy",
-    "Sweet",
-    "Sour",
+    "Acetaldehyde",
+    "Fermented",
+    "Medicinal",
     "Other",
   ];
 
