@@ -61,6 +61,9 @@ const ProficiencyTestDailySummary = () => {
         sessions: proficiencySessions,
         totalSessions: proficiencySessions.length
       });
+      
+      // Initialize actual data from stored values or defaults
+      initializeActualData(proficiencySessions);
     } catch (error) {
       console.error("Failed to fetch daily summary:", error);
       if (error.response?.status === 401) {
@@ -71,6 +74,168 @@ const ProficiencyTestDailySummary = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const initializeActualData = (sessions) => {
+    const data = {};
+    sessions.forEach((session, sessionIndex) => {
+      session.ballots.forEach((ballot, ballotIndex) => {
+        ballot.samples && ballot.samples.forEach((sample, sampleIndex) => {
+          const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
+          data[key] = {
+            actualOffNote: sample.actualOffNote || "",
+            actualStatus: sample.actualStatus || ""
+          };
+        });
+      });
+    });
+    setActualData(data);
+  };
+
+  const handleActualDataChange = (key, field, value) => {
+    setActualData(prev => ({
+      ...prev,
+      [key]: {
+        ...prev[key],
+        [field]: value
+      }
+    }));
+  };
+
+  const calculatePanelistPercentages = (session, ballot) => {
+    const sessionIndex = summaryData.sessions.indexOf(session);
+    const ballotIndex = session.ballots.indexOf(ballot);
+    
+    let totalSamples = 0;
+    let offNoteMatches = 0;
+    let statusMatches = 0;
+    
+    ballot.samples && ballot.samples.forEach((sample, sampleIndex) => {
+      if (sample.colorCode === "Control") return; // Skip control
+      
+      const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
+      const actual = actualData[key] || {};
+      
+      if (actual.actualOffNote && actual.actualStatus) {
+        totalSamples++;
+        
+        // Check off-note match
+        const panelistOffNote = sample.offNote || "";
+        if (panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase())) {
+          offNoteMatches++;
+        }
+        
+        // Check status match
+        if (sample.status === actual.actualStatus) {
+          statusMatches++;
+        }
+      }
+    });
+    
+    if (totalSamples === 0) {
+      return { offNotePercentage: null, statusPercentage: null, totalSamples: 0 };
+    }
+    
+    return {
+      offNotePercentage: Math.round((offNoteMatches / totalSamples) * 100),
+      statusPercentage: Math.round((statusMatches / totalSamples) * 100),
+      totalSamples
+    };
+  };
+
+  const calculatePercentages = (session, ballot, sampleIndex, sample) => {
+    const key = `${summaryData.sessions.indexOf(session)}-${session.ballots.indexOf(ballot)}-${sampleIndex}`;
+    const actual = actualData[key] || {};
+    
+    if (!actual.actualOffNote || !actual.actualStatus) {
+      return { offNoteMatch: null, statusMatch: null };
+    }
+    
+    // Calculate off-note percentage
+    const panelistOffNote = sample.offNote || "";
+    const offNoteMatch = panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase()) ? 100 : 0;
+    
+    // Calculate IN/OUT percentage
+    const statusMatch = sample.status === actual.actualStatus ? 100 : 0;
+    
+    return { offNoteMatch, statusMatch };
+  };
+
+  const saveActualData = async () => {
+    try {
+      // Save to localStorage for persistence
+      localStorage.setItem(`actualData_proficiency_${date}`, JSON.stringify(actualData));
+      
+      setIsEditing(false);
+      alert("Actual data saved successfully!");
+    } catch (error) {
+      console.error("Failed to save actual data:", error);
+      alert("Failed to save actual data");
+    }
+  };
+
+  useEffect(() => {
+    // Load saved actual data from localStorage
+    const savedData = localStorage.getItem(`actualData_proficiency_${date}`);
+    if (savedData) {
+      try {
+        setActualData(JSON.parse(savedData));
+      } catch (e) {
+        console.error("Failed to parse saved data");
+      }
+    }
+    
+    // Load saved verification data
+    const savedVerification = localStorage.getItem(`verification_proficiency_${date}`);
+    if (savedVerification) {
+      try {
+        const verification = JSON.parse(savedVerification);
+        setVerifierName(verification.verifierName || "");
+        setSignaturePreview(verification.signature || null);
+        setVerificationSaved(true);
+      } catch (e) {
+        console.error("Failed to parse saved verification");
+      }
+    }
+  }, [date]);
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size should be less than 5MB");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignatureFile(file);
+        setSignaturePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeSignature = () => {
+    setSignatureFile(null);
+    setSignaturePreview(null);
+  };
+
+  const handleVerificationSave = () => {
+    if (!verifierName || !signaturePreview) {
+      alert("Please enter verifier name and upload signature");
+      return;
+    }
+    
+    const verificationData = {
+      verifierName,
+      signature: signaturePreview,
+      timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem(`verification_proficiency_${date}`, JSON.stringify(verificationData));
+    setVerificationSaved(true);
+    alert("Verification saved successfully!");
   };
 
   const formatDate = (dateString) => {
