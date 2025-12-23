@@ -208,12 +208,73 @@ const BlindTestDailySummary = () => {
   if (!summaryData || summaryData.totalSessions === 0) {
     return (
       <div className="min-h-screen bg-gray-50 p-8">
-        <Button onClick={() => navigate(-1)} variant="outline" className="mb-4">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
-        </Button>
-        <div className="bg-white rounded-lg p-8 text-center">
-          <p className="text-lg text-gray-600">No Blind or Proficiency Test sessions found for {formatDate(date)}</p>
+        <div className="max-w-7xl mx-auto">
+          <Button onClick={() => navigate(-1)} variant="outline" className="mb-4">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          
+          {/* Header */}
+          <div className="text-center mb-6 pb-4 border-b-4 border-purple-600 bg-white rounded-lg p-6">
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">
+              Global Acqua Pvt Ltd
+            </h1>
+            <p className="text-lg text-gray-600 mb-2">
+              Sensory Quality Control
+            </p>
+            <h2 className="text-2xl font-semibold text-purple-600 mb-3">
+              Sensory Blind Test Summary Report
+            </h2>
+            <div className="text-sm text-gray-700">
+              <span className="font-semibold">Date:</span>
+              <span className="ml-2">{formatDate(date)}</span>
+            </div>
+          </div>
+
+          {/* Date Navigation - ALWAYS SHOW */}
+          <div className="mb-4 flex items-center justify-center space-x-4 bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <button
+              onClick={() => {
+                const currentDate = new Date(date);
+                currentDate.setDate(currentDate.getDate() - 1);
+                navigate(`/blind-test-summary/${currentDate.toISOString().split('T')[0]}`);
+              }}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold"
+            >
+              ← Previous Day
+            </button>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-semibold text-gray-700">Select Date:</label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => navigate(`/blind-test-summary/${e.target.value}`)}
+                max={new Date().toISOString().split('T')[0]}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <button
+              onClick={() => {
+                const currentDate = new Date(date);
+                currentDate.setDate(currentDate.getDate() + 1);
+                const today = new Date().toISOString().split('T')[0];
+                const nextDay = currentDate.toISOString().split('T')[0];
+                if (nextDay <= today) {
+                  navigate(`/blind-test-summary/${nextDay}`);
+                }
+              }}
+              disabled={date >= new Date().toISOString().split('T')[0]}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed"
+            >
+              Next Day →
+            </button>
+          </div>
+
+          {/* No Data Message */}
+          <div className="bg-white rounded-lg p-8 text-center shadow-md">
+            <p className="text-lg text-gray-600">No Blind Test sessions found for {formatDate(date)}</p>
+            <p className="text-sm text-gray-500 mt-2">Use the date navigation above to view other dates</p>
+          </div>
         </div>
       </div>
     );
