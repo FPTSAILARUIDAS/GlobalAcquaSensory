@@ -784,6 +784,10 @@ const BlindTestDailySummary = () => {
             display: none !important;
           }
           
+          .print-only {
+            display: block !important;
+          }
+          
           body {
             background: white !important;
           }
@@ -795,6 +799,10 @@ const BlindTestDailySummary = () => {
           tr {
             page-break-inside: avoid;
           }
+        }
+        
+        .print-only {
+          display: none;
         }
       `}</style>
     </div>
