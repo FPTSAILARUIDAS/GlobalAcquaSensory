@@ -123,11 +123,19 @@ const ProficiencyTestDailySummary = () => {
       if (actual.actualOffNote && actual.actualStatus) {
         totalSamples++;
         
-        // Check off-note match
-        const panelistOffNote = sample.offNote || "";
-        const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
-        if (actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase())) {
-          offNoteMatches++;
+        // Special case: If actual off-note is "IN", it means no off-note expected
+        // If panelist status is also "IN", consider it a match (100%)
+        if (actual.actualOffNote === "IN") {
+          if (sample.status === "IN") {
+            offNoteMatches++;
+          }
+        } else {
+          // Check off-note match for other values
+          const panelistOffNote = sample.offNote || "";
+          const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+          if (actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase())) {
+            offNoteMatches++;
+          }
         }
         
         // Check status match
@@ -161,10 +169,17 @@ const ProficiencyTestDailySummary = () => {
       return { offNoteMatch: null, statusMatch: null };
     }
     
-    // Calculate off-note percentage
-    const panelistOffNote = sample.offNote || "";
-    const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
-    const offNoteMatch = actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase()) ? 100 : 0;
+    // Special case: If actual off-note is "IN", it means no off-note expected
+    // If panelist status is also "IN", consider it a 100% match
+    let offNoteMatch = 0;
+    if (actual.actualOffNote === "IN") {
+      offNoteMatch = sample.status === "IN" ? 100 : 0;
+    } else {
+      // Calculate off-note percentage for other values
+      const panelistOffNote = sample.offNote || "";
+      const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+      offNoteMatch = actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase()) ? 100 : 0;
+    }
     
     // Calculate IN/OUT percentage
     const statusMatch = sample.status === actual.actualStatus ? 100 : 0;
