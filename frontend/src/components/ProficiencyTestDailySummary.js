@@ -84,7 +84,8 @@ const ProficiencyTestDailySummary = () => {
           const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
           data[key] = {
             actualOffNote: sample.actualOffNote || "",
-            actualStatus: sample.actualStatus || ""
+            actualStatus: sample.actualStatus || "",
+            otherOffNote: sample.otherOffNote || ""
           };
         });
       });
@@ -116,12 +117,16 @@ const ProficiencyTestDailySummary = () => {
       const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
       const actual = actualData[key] || {};
       
+      // Skip NA values from percentage calculation
+      if (actual.actualOffNote === "NA" || actual.actualStatus === "NA") return;
+      
       if (actual.actualOffNote && actual.actualStatus) {
         totalSamples++;
         
         // Check off-note match
         const panelistOffNote = sample.offNote || "";
-        if (panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase())) {
+        const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+        if (actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase())) {
           offNoteMatches++;
         }
         
@@ -147,13 +152,19 @@ const ProficiencyTestDailySummary = () => {
     const key = `${summaryData.sessions.indexOf(session)}-${session.ballots.indexOf(ballot)}-${sampleIndex}`;
     const actual = actualData[key] || {};
     
+    // Skip NA values from percentage calculation
+    if (actual.actualOffNote === "NA" || actual.actualStatus === "NA") {
+      return { offNoteMatch: null, statusMatch: null };
+    }
+    
     if (!actual.actualOffNote || !actual.actualStatus) {
       return { offNoteMatch: null, statusMatch: null };
     }
     
     // Calculate off-note percentage
     const panelistOffNote = sample.offNote || "";
-    const offNoteMatch = panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase()) ? 100 : 0;
+    const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+    const offNoteMatch = actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase()) ? 100 : 0;
     
     // Calculate IN/OUT percentage
     const statusMatch = sample.status === actual.actualStatus ? 100 : 0;
