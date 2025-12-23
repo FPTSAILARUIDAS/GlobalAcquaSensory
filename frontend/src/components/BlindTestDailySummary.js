@@ -84,7 +84,8 @@ const BlindTestDailySummary = () => {
           const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
           data[key] = {
             actualOffNote: sample.actualOffNote || "",
-            actualStatus: sample.actualStatus || ""
+            actualStatus: sample.actualStatus || "",
+            otherOffNote: sample.otherOffNote || ""
           };
         });
       });
