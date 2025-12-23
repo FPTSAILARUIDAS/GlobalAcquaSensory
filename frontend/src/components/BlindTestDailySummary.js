@@ -152,13 +152,19 @@ const BlindTestDailySummary = () => {
     const key = `${summaryData.sessions.indexOf(session)}-${session.ballots.indexOf(ballot)}-${sampleIndex}`;
     const actual = actualData[key] || {};
     
+    // Skip NA values from percentage calculation
+    if (actual.actualOffNote === "NA" || actual.actualStatus === "NA") {
+      return { offNoteMatch: null, statusMatch: null };
+    }
+    
     if (!actual.actualOffNote || !actual.actualStatus) {
       return { offNoteMatch: null, statusMatch: null };
     }
     
     // Calculate off-note percentage
     const panelistOffNote = sample.offNote || "";
-    const offNoteMatch = panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase()) ? 100 : 0;
+    const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+    const offNoteMatch = actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase()) ? 100 : 0;
     
     // Calculate IN/OUT percentage
     const statusMatch = sample.status === actual.actualStatus ? 100 : 0;
