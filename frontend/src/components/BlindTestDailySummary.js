@@ -188,7 +188,59 @@ const BlindTestDailySummary = () => {
         console.error("Failed to parse saved data");
       }
     }
+    
+    // Load saved verification data
+    const savedVerification = localStorage.getItem(`verification_blind_${date}`);
+    if (savedVerification) {
+      try {
+        const verification = JSON.parse(savedVerification);
+        setVerifierName(verification.verifierName || "");
+        setSignaturePreview(verification.signature || null);
+        setVerificationSaved(true);
+      } catch (e) {
+        console.error("Failed to parse saved verification");
+      }
+    }
   }, [date]);
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size should be less than 5MB");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignatureFile(file);
+        setSignaturePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeSignature = () => {
+    setSignatureFile(null);
+    setSignaturePreview(null);
+  };
+
+  const handleVerificationSave = () => {
+    if (!verifierName || !signaturePreview) {
+      alert("Please enter verifier name and upload signature");
+      return;
+    }
+    
+    const verificationData = {
+      verifierName,
+      signature: signaturePreview,
+      timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem(`verification_blind_${date}`, JSON.stringify(verificationData));
+    setVerificationSaved(true);
+    alert("Verification saved successfully!");
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
