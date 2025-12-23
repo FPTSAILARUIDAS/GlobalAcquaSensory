@@ -22,16 +22,19 @@
 
 metadata:
   created_by: "main_agent"
-  version: "1.4"
-  test_sequence: 5
+  version: "1.5"
+  test_sequence: 6
   run_ui: true
+  last_tested: "2025-12-23"
+  testing_agent: "testing_agent"
 
 test_plan:
-  current_focus: 
-    - "Proficiency Test Summary Interactive Report"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  completed_tasks:
+    - "Proficiency Test Summary Interactive Report"
 
 agent_communication:
     - agent: "main"
