@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Download, X, ArrowLeft } from "lucide-react";
+import { Download, X, ArrowLeft, Save, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -14,6 +14,14 @@ const ProficiencyTestDailySummary = () => {
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [actualData, setActualData] = useState({}); // Store actual off notes and IN/OUT
+  const [isEditing, setIsEditing] = useState(false);
+  
+  // Verification state
+  const [verifierName, setVerifierName] = useState("");
+  const [signatureFile, setSignatureFile] = useState(null);
+  const [signaturePreview, setSignaturePreview] = useState(null);
+  const [verificationSaved, setVerificationSaved] = useState(false);
 
   useEffect(() => {
     fetchDailySummary();
