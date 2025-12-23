@@ -639,6 +639,128 @@ const ProficiencyTestDailySummary = () => {
           </table>
         </div>
 
+        {/* Verification Section */}
+        <div className="mb-8 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-300 shadow-sm no-print">
+          <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Verified By
+          </h3>
+          
+          {verificationSaved ? (
+            <div className="space-y-4">
+              <div className="flex items-start justify-between bg-white rounded-lg p-4 border border-green-200">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Verifier Name:</p>
+                  <p className="text-base text-gray-900">{verifierName}</p>
+                  
+                  <p className="text-sm font-semibold text-gray-700 mt-4 mb-2">Signature:</p>
+                  <div className="border-2 border-green-300 rounded-lg p-3 bg-gray-50 inline-block">
+                    <img
+                      src={signaturePreview}
+                      alt="Verifier Signature"
+                      className="max-w-xs h-20 object-contain"
+                    />
+                  </div>
+                </div>
+                <Button
+                  onClick={() => {
+                    setVerificationSaved(false);
+                    setVerifierName("");
+                    setSignaturePreview(null);
+                    localStorage.removeItem(`verification_proficiency_${date}`);
+                  }}
+                  variant="outline"
+                  className="ml-4 border-red-300 text-red-600 hover:bg-red-50"
+                >
+                  Edit
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                  Verifier Name *
+                </label>
+                <input
+                  type="text"
+                  value={verifierName}
+                  onChange={(e) => setVerifierName(e.target.value)}
+                  placeholder="Enter verifier name (e.g., BSL, Quality Manager)"
+                  className="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                  Signature *
+                </label>
+                {!signaturePreview ? (
+                  <label htmlFor="verification-signature-upload" className="cursor-pointer">
+                    <div className="border-2 border-dashed border-green-300 rounded-lg p-6 hover:border-green-500 hover:bg-green-50 transition-all text-center">
+                      <svg className="w-8 h-8 mx-auto mb-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <p className="text-sm font-semibold text-gray-700 mb-1">Click to upload signature</p>
+                      <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                    </div>
+                  </label>
+                ) : (
+                  <div className="relative border-2 border-green-300 rounded-lg p-4 bg-white">
+                    <img
+                      src={signaturePreview}
+                      alt="Signature Preview"
+                      className="max-h-32 mx-auto"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeSignature}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+                <input
+                  id="verification-signature-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleSignatureUpload}
+                  className="hidden"
+                />
+              </div>
+              
+              <Button
+                onClick={handleVerificationSave}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
+              >
+                Save Verification
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Verified By Section for Print */}
+        {verificationSaved && (
+          <div className="print-only mb-8 border-t-2 border-green-600 pt-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Verified By</h3>
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-semibold text-gray-700 mb-1">Name:</p>
+                <p className="text-base text-gray-900 mb-4">{verifierName}</p>
+                
+                <p className="text-sm font-semibold text-gray-700 mb-2">Signature:</p>
+                <div className="border-2 border-gray-300 rounded p-2 inline-block">
+                  <img
+                    src={signaturePreview}
+                    alt="Verifier Signature"
+                    className="h-16 object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Footer */}
         <div className="mt-8 pt-4 border-t-2 border-gray-300 text-center text-sm text-gray-600">
           <p className="font-semibold">Generated by Global Acqua Pvt Ltd - Sensory Analysis System</p>
@@ -658,6 +780,10 @@ const ProficiencyTestDailySummary = () => {
             display: none !important;
           }
           
+          .print-only {
+            display: block !important;
+          }
+          
           body {
             background: white !important;
           }
@@ -669,6 +795,10 @@ const ProficiencyTestDailySummary = () => {
           tr {
             page-break-inside: avoid;
           }
+        }
+        
+        .print-only {
+          display: none;
         }
       `}</style>
     </div>
