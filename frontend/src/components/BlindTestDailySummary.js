@@ -117,12 +117,16 @@ const BlindTestDailySummary = () => {
       const key = `${sessionIndex}-${ballotIndex}-${sampleIndex}`;
       const actual = actualData[key] || {};
       
+      // Skip NA values from percentage calculation
+      if (actual.actualOffNote === "NA" || actual.actualStatus === "NA") return;
+      
       if (actual.actualOffNote && actual.actualStatus) {
         totalSamples++;
         
         // Check off-note match
         const panelistOffNote = sample.offNote || "";
-        if (panelistOffNote.toLowerCase().includes(actual.actualOffNote.toLowerCase())) {
+        const actualOffNoteValue = actual.actualOffNote === "Others" ? actual.otherOffNote : actual.actualOffNote;
+        if (actualOffNoteValue && panelistOffNote.toLowerCase().includes(actualOffNoteValue.toLowerCase())) {
           offNoteMatches++;
         }
         
