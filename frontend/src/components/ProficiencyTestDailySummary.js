@@ -457,6 +457,8 @@ const ProficiencyTestDailySummary = () => {
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Actual IN/OUT</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-left text-xs font-bold">Panelist Submission Off Notes</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Panelist IN/OUT</th>
+                <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">% Off-Note Match</th>
+                <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">% IN/OUT Match</th>
                 <th className="border-2 border-gray-900 px-3 py-2 text-center text-xs font-bold">Meets Requirement</th>
               </tr>
             </thead>
