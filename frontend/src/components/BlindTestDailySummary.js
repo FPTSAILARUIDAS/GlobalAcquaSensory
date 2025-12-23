@@ -522,25 +522,39 @@ const BlindTestDailySummary = () => {
                           <td className="border-2 border-gray-900 px-2 py-2 text-xs">
                             {isControl ? "N/A" : (
                               isEditing ? (
-                                <select
-                                  value={actual.actualOffNote}
-                                  onChange={(e) => handleActualDataChange(key, 'actualOffNote', e.target.value)}
-                                  className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
-                                >
-                                  <option value="">Select off-note</option>
-                                  <option value="Plastic">Plastic</option>
-                                  <option value="Fruity">Fruity</option>
-                                  <option value="Burnt Caramel">Burnt Caramel</option>
-                                  <option value="Musty">Musty</option>
-                                  <option value="Metallic">Metallic</option>
-                                  <option value="Sulfurous">Sulfurous</option>
-                                  <option value="Earthy">Earthy</option>
-                                  <option value="Acetaldehyde">Acetaldehyde</option>
-                                  <option value="Fermented">Fermented</option>
-                                  <option value="Medicinal">Medicinal</option>
-                                </select>
+                                <div className="space-y-1">
+                                  <select
+                                    value={actual.actualOffNote}
+                                    onChange={(e) => handleActualDataChange(key, 'actualOffNote', e.target.value)}
+                                    className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                  >
+                                    <option value="">Select off-note</option>
+                                    <option value="IN">IN</option>
+                                    <option value="Plastic">Plastic</option>
+                                    <option value="Fruity">Fruity</option>
+                                    <option value="Burnt Caramel">Burnt Caramel</option>
+                                    <option value="Musty">Musty</option>
+                                    <option value="Metallic">Metallic</option>
+                                    <option value="Sulfurous">Sulfurous</option>
+                                    <option value="Earthy">Earthy</option>
+                                    <option value="Acetaldehyde">Acetaldehyde</option>
+                                    <option value="Fermented">Fermented</option>
+                                    <option value="Medicinal">Medicinal</option>
+                                    <option value="Others">Others</option>
+                                    <option value="NA">NA</option>
+                                  </select>
+                                  {actual.actualOffNote === "Others" && (
+                                    <input
+                                      type="text"
+                                      value={actual.otherOffNote || ""}
+                                      onChange={(e) => handleActualDataChange(key, 'otherOffNote', e.target.value)}
+                                      placeholder="Describe..."
+                                      className="w-full px-1 py-1 text-xs border border-purple-300 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                    />
+                                  )}
+                                </div>
                               ) : (
-                                actual.actualOffNote || "-"
+                                actual.actualOffNote === "Others" ? (actual.otherOffNote || "Others") : (actual.actualOffNote || "-")
                               )
                             )}
                           </td>
@@ -558,11 +572,14 @@ const BlindTestDailySummary = () => {
                                   <option value="">Select</option>
                                   <option value="IN">IN</option>
                                   <option value="OUT">OUT</option>
+                                  <option value="NA">NA</option>
                                 </select>
                               ) : (
                                 actual.actualStatus ? (
                                   <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                                    actual.actualStatus === "IN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                                    actual.actualStatus === "IN" ? "bg-green-100 text-green-700" : 
+                                    actual.actualStatus === "NA" ? "bg-gray-100 text-gray-700" :
+                                    "bg-red-100 text-red-700"
                                   }`}>
                                     {actual.actualStatus}
                                   </span>
