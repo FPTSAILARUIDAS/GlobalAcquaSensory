@@ -16,6 +16,12 @@ const BlindTestDailySummary = () => {
   const [message, setMessage] = useState("");
   const [actualData, setActualData] = useState({}); // Store actual off notes and IN/OUT
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Verification state
+  const [verifierName, setVerifierName] = useState("");
+  const [signatureFile, setSignatureFile] = useState(null);
+  const [signaturePreview, setSignaturePreview] = useState(null);
+  const [verificationSaved, setVerificationSaved] = useState(false);
 
   useEffect(() => {
     fetchDailySummary();
