@@ -39,13 +39,13 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus: 
-    - "Daily Summary PDF Export Formatting"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "medium"
   completed_tasks:
     - "Proficiency Test Summary Interactive Report"
+    - "Daily Summary PDF Export Formatting"
 
 agent_communication:
     - agent: "main"
