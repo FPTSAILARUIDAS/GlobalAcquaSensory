@@ -47,13 +47,14 @@ const DailySummarySheet = () => {
       
       if (!token) {
         console.error("❌ No authentication token found");
-        setMessage("Please login first to view daily summary");
+        setMessage("Please login first to view daily summary. Close this window and login from the main page.");
         setLoading(false);
         return;
       }
 
       const response = await axios.get(`${API}/admin/daily-summary/${date}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 30000 // 30 second timeout
       });
       
       console.log("✅ API Response:", response.data);
@@ -65,6 +66,7 @@ const DailySummarySheet = () => {
         !s.testType || s.testType === "regular"
       );
       
+      // Always set summaryData even if there are no sessions
       setSummaryData({
         ...response.data,
         sessions: regularSessions,
@@ -75,11 +77,16 @@ const DailySummarySheet = () => {
       console.error("❌ Failed to fetch daily summary:", error);
       console.error("  - Status:", error.response?.status);
       console.error("  - Data:", error.response?.data);
+      console.error("  - Message:", error.message);
       
       if (error.response?.status === 401) {
-        setMessage("Authentication failed. Please login again.");
+        setMessage("Authentication failed. Please close this window and login again from the main page.");
+      } else if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        setMessage("Request timed out. Please check your internet connection and try again.");
+      } else if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+        setMessage("Network error. Please check your internet connection and try again.");
       } else {
-        setMessage(error.response?.data?.detail || "Failed to load summary data");
+        setMessage(error.response?.data?.detail || "Failed to load summary data. Please try refreshing the page.");
       }
     } finally {
       setLoading(false);
