@@ -3,9 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Download, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { API } from "@/utils/api";
 
 const SummaryReport = () => {
   const { sessionCode } = useParams();
