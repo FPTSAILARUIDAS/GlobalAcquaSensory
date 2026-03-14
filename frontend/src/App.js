@@ -11,9 +11,7 @@ import InstallPrompt from "@/components/InstallPrompt";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { API } from "@/utils/api";
 
 const AppView = {
   DASHBOARD: "DASHBOARD",

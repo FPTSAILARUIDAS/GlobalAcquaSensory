@@ -9,9 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import BlindTestForm from "@/components/BlindTestForm";
 import ProficiencyTestForm from "@/components/ProficiencyTestForm";
 import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { API } from "@/utils/api";
 
 const BallotForm = ({ panelistNumber, onSubmit, initialData, onBack, testType = "regular" }) => {
   // If it's a blind test or proficiency test, render specialized form
