@@ -268,11 +268,23 @@ const DailySummarySheet = () => {
   }
 
   if (!summaryData) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
+    return <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
         <p className="text-lg font-semibold text-gray-700 mb-2">No data available</p>
-        {message && <p className="text-sm text-red-600">{message}</p>}
-        <Button onClick={() => navigate(-1)} className="mt-4">Go Back</Button>
+        {message && <p className="text-sm text-red-600 mb-4">{message}</p>}
+        <div className="flex gap-3 justify-center">
+          <Button 
+            onClick={() => {
+              setLoading(true);
+              setMessage("");
+              fetchDailySummary();
+            }} 
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            Retry
+          </Button>
+          <Button onClick={() => navigate(-1)} variant="outline">Go Back</Button>
+        </div>
       </div>
     </div>;
   }
