@@ -41,6 +41,7 @@ Build and enhance the "Global Acqua Sensory App" - a full-stack FastAPI/React/Mo
 - [x] Dynamic API URL utility for production/preview/local environments
 - [x] bcrypt/passlib compatibility fix (pinned versions)
 - [x] **P1 Refactoring**: Unified InteractiveSummaryReport component (Apr 2026)
+- [x] **Bug Fix**: Sessions list not loading - optimized /admin/sessions/all from 453MB to 262KB (Apr 2026)
 
 ## DB Schema
 - **users**: `{username, password_hash, role, signature: Optional[str]}`

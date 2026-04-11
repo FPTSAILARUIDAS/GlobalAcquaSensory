@@ -336,7 +336,23 @@ async def get_sessions(current_user: dict = Depends(get_current_user)):
 
 @api_router.get("/admin/sessions/all", dependencies=[Depends(get_admin_user)])
 async def get_all_sessions():
-    sessions = await db.sessions.find({}, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+    pipeline = [
+        {"$sort": {"createdAt": -1}},
+        {"$limit": 1000},
+        {"$project": {
+            "_id": 0,
+            "id": 1,
+            "sessionCode": 1,
+            "status": 1,
+            "testType": 1,
+            "targetPanelistCount": 1,
+            "createdBy": 1,
+            "createdAt": 1,
+            "completedAt": 1,
+            "ballotsCount": {"$size": {"$ifNull": ["$ballots", []]}},
+        }}
+    ]
+    sessions = await db.sessions.aggregate(pipeline).to_list(1000)
     return sessions
 
 @api_router.get("/sessions/{session_id}", response_model=BatchSession)

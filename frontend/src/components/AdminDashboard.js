@@ -15,6 +15,7 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [newUser, setNewUser] = useState({ username: "", password: "", role: "user" });
   const [message, setMessage] = useState("");
+  const [loadingSessions, setLoadingSessions] = useState(false);
 
   const axiosConfig = {
     headers: { Authorization: `Bearer ${authToken}` }
@@ -38,12 +39,15 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
   };
 
   const fetchSessions = async () => {
+    setLoadingSessions(true);
     try {
       const response = await axios.get(`${API}/admin/sessions/all`, axiosConfig);
       setSessions(response.data);
       setFilteredSessions(response.data);
     } catch (error) {
       console.error("Failed to fetch sessions:", error);
+    } finally {
+      setLoadingSessions(false);
     }
   };
 
@@ -66,21 +70,11 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
           if (dateStr.includes(query)) return true;
         }
         
-        // Search by product code from ballots
-        if (session.ballots && session.ballots.length > 0) {
-          const hasMatchingProductCode = session.ballots.some(ballot => 
-            ballot.productCode && ballot.productCode.toLowerCase().includes(query)
-          );
-          if (hasMatchingProductCode) return true;
-        }
+        // Search by test type
+        if (session.testType && session.testType.toLowerCase().includes(query)) return true;
         
-        // Search by panelist name
-        if (session.ballots && session.ballots.length > 0) {
-          const hasMatchingPanelist = session.ballots.some(ballot => 
-            ballot.panelistName && ballot.panelistName.toLowerCase().includes(query)
-          );
-          if (hasMatchingPanelist) return true;
-        }
+        // Search by created by
+        if (session.createdBy && session.createdBy.toLowerCase().includes(query)) return true;
       } catch (error) {
         console.error("Error filtering session:", error, session);
       }
@@ -381,7 +375,11 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
 
             {/* Sessions List */}
             <div className="space-y-4">
-              {filteredSessions.length === 0 ? (
+              {loadingSessions ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500 text-sm sm:text-base">Loading sessions...</p>
+                </div>
+              ) : filteredSessions.length === 0 ? (
                 <div className="text-center py-12">
                   <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                   <p className="text-gray-500 text-sm sm:text-base">
@@ -403,7 +401,7 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
                       </div>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
                         <div className="flex flex-col sm:flex-row sm:space-x-4">
-                          <span>Panelists: {session.ballots.length}/{session.targetPanelistCount}</span>
+                          <span>Panelists: {session.ballotsCount ?? 0}/{session.targetPanelistCount}</span>
                           <span>Created by: {session.createdBy}</span>
                         </div>
                         <div>Date: {new Date(session.createdAt).toLocaleString()}</div>
