@@ -1,28 +1,12 @@
 // Dynamic API URL configuration
-// This ensures the frontend always calls the correct backend based on the current domain
+// Always uses the current browser origin so the app works on any domain
+// (custom domain, preview, production) without reconfiguration
 
 const getApiUrl = () => {
-  // If REACT_APP_BACKEND_URL is set and valid, use it
-  const envUrl = process.env.REACT_APP_BACKEND_URL;
-  
-  // In production (deployed), use the current origin
-  // In development, use the environment variable
   if (typeof window !== 'undefined') {
-    const currentHost = window.location.hostname;
-    
-    // If we're on the deployed domain (emergent.host), use the same origin
-    if (currentHost.includes('emergent.host')) {
-      return window.location.origin;
-    }
-    
-    // If we're on preview domain, use the same origin
-    if (currentHost.includes('preview.emergentagent.com')) {
-      return window.location.origin;
-    }
+    return window.location.origin;
   }
-  
-  // Fallback to environment variable or empty string
-  return envUrl || '';
+  return process.env.REACT_APP_BACKEND_URL || '';
 };
 
 export const BACKEND_URL = getApiUrl();
