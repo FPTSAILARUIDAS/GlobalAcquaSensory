@@ -43,6 +43,8 @@ Build and enhance the "Global Acqua Sensory App" - a full-stack FastAPI/React/Mo
 - [x] **P1 Refactoring**: Unified InteractiveSummaryReport component (Apr 2026)
 - [x] **Bug Fix**: Sessions list not loading - optimized /admin/sessions/all from 453MB to 262KB (Apr 2026)
 - [x] **Verified**: All data access points working - sessions, daily summary, blind test, proficiency test, individual reports (Apr 2026)
+- [x] **Permanent Fix**: Daily summary endpoint - MongoDB-level date filtering replacing Python-level filtering with 1000 limit, DB indexes added (Apr 2026)
+- [x] **Permanent Fix**: api.js uses window.location.origin for universal domain compatibility (Apr 2026)
 
 ## DB Schema
 - **users**: `{username, password_hash, role, signature: Optional[str]}`
