@@ -198,6 +198,10 @@ async def init_admin():
 @app.on_event("startup")
 async def startup_event():
     await init_admin()
+    # Create indexes for faster date-based queries
+    await db.sessions.create_index("createdAt")
+    await db.sessions.create_index("completedAt")
+    await db.sessions.create_index("status")
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -386,31 +390,16 @@ async def clear_sessions():
 async def get_daily_summary(date: str):
     """Get all completed sessions for a specific date"""
     try:
-        # Get all completed sessions
-        all_sessions = await db.sessions.find({"status": "completed"}, {"_id": 0}).to_list(1000)
-        
-        # Filter by date (check if completedAt or createdAt matches the target date)
-        filtered_sessions = []
-        for session in all_sessions:
-            # Check completedAt first
-            session_date = None
-            if session.get("completedAt"):
-                try:
-                    session_date = session["completedAt"].split("T")[0]
-                except:
-                    pass
-            
-            # Fallback to createdAt if completedAt doesn't match
-            if not session_date or session_date != date:
-                if session.get("createdAt"):
-                    try:
-                        session_date = session["createdAt"].split("T")[0]
-                    except:
-                        pass
-            
-            # If either matches, include the session
-            if session_date == date:
-                filtered_sessions.append(session)
+        # Filter by date directly at MongoDB level using regex on completedAt/createdAt
+        date_regex = f"^{date}"
+        query = {
+            "status": "completed",
+            "$or": [
+                {"completedAt": {"$regex": date_regex}},
+                {"createdAt": {"$regex": date_regex}}
+            ]
+        }
+        filtered_sessions = await db.sessions.find(query, {"_id": 0}).to_list(None)
         
         # Check if there's already a verification for this date
         verification = await db.verifications.find_one({"date": date}, {"_id": 0})
