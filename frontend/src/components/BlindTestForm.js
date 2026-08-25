@@ -319,6 +319,7 @@ const BlindTestForm = ({ panelistNumber, onSubmit, onBack }) => {
                         <SelectContent>
                           <SelectItem value="IN">IN</SelectItem>
                           <SelectItem value="OUT">OUT</SelectItem>
+                          <SelectItem value="NA">NA</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
