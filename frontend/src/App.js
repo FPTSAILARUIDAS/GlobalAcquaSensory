@@ -86,7 +86,7 @@ function App() {
 
   const handleLogin = async (username, password) => {
     try {
-      const response = await axios.post(`${API}/auth/login`, { username, password });
+      const response = await axios.post(`${API}/auth/login`, { username, password }, { timeout: 30000 });
       const { access_token, role, username: user } = response.data;
       
       setAuthToken(access_token);
@@ -97,6 +97,12 @@ function App() {
       // Store auth
       localStorage.setItem("auth", JSON.stringify({ token: access_token, role, username: user }));
     } catch (error) {
+      if (error.response?.status === 401) {
+        throw new Error("Incorrect username or password");
+      }
+      if (!error.response || error.response.status >= 500 || error.code === "ECONNABORTED") {
+        throw new Error("Server is temporarily unavailable. Please wait a few seconds and try again.");
+      }
       throw new Error(error.response?.data?.detail || "Login failed");
     }
   };

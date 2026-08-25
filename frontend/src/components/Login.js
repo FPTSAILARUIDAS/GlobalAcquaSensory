@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
     try {
       await onLogin(username, password);
     } catch (err) {
-      setError(err.message || "Login failed. Please check your credentials.");
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }

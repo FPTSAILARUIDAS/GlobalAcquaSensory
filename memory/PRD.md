@@ -53,6 +53,7 @@ Build and enhance the "Global Acqua Sensory App" - a full-stack FastAPI/React/Mo
   - NOTE: if user saw error on deployed production app, a redeploy is required to pick up this fix
 - [x] **Feature**: NA option added to IN/OUT dropdown in Blind Test and Proficiency Test forms; Proficiency off-note description changed from free text to same 10-option dropdown as Blind Test (Aug 2026, browser-verified)
 - [x] **Feature**: Renamed "Proficiency Test" to "SPPS Test" across all UI labels (start button, form heading, admin tab, summary report title, daily summary type labels, individual report titles). Internal testType value "proficiency" and routes unchanged for data compatibility (Aug 2026, browser-verified)
+- [x] **Bug Fix**: "Login failed" report (Aug 2026) - backend auth verified fully working; failure coincided with transient preview pod restarts (502). Frontend hardened: 30s login timeout, 401 shows "Incorrect username or password", network/5xx shows "Server is temporarily unavailable" instead of misleading credentials message. Verified by testing agent (iteration_3.json, 100% pass: backend 5/5, all frontend flows incl. session persistence)
 
 ## DB Schema
 - **users**: `{username, password_hash, role, signature: Optional[str]}`
