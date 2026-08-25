@@ -52,6 +52,7 @@ Build and enhance the "Global Acqua Sensory App" - a full-stack FastAPI/React/Mo
   - Verified in browser: Daily Summary 2026-06-18 (24 sessions), Blind Summary 2026-06-18 (10 sessions), Proficiency Summary 2026-06-26 (10 sessions) all render with verification signatures intact
   - NOTE: if user saw error on deployed production app, a redeploy is required to pick up this fix
 - [x] **Feature**: NA option added to IN/OUT dropdown in Blind Test and Proficiency Test forms; Proficiency off-note description changed from free text to same 10-option dropdown as Blind Test (Aug 2026, browser-verified)
+- [x] **Feature**: Renamed "Proficiency Test" to "SPPS Test" across all UI labels (start button, form heading, admin tab, summary report title, daily summary type labels, individual report titles). Internal testType value "proficiency" and routes unchanged for data compatibility (Aug 2026, browser-verified)
 
 ## DB Schema
 - **users**: `{username, password_hash, role, signature: Optional[str]}`

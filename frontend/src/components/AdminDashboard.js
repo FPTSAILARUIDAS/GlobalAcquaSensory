@@ -240,8 +240,8 @@ const AdminDashboard = ({ authToken, onLogout, username }) => {
             className="px-3 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-200 whitespace-nowrap text-sm sm:text-base bg-gradient-to-r from-emerald-50 to-emerald-100 text-gray-700 hover:from-emerald-100 hover:to-emerald-200 border border-emerald-300"
           >
             <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" />
-            <span className="hidden xs:inline sm:inline">Proficiency Test Summary</span>
-            <span className="xs:hidden sm:hidden">Proficiency</span>
+            <span className="hidden xs:inline sm:inline">SPPS Test Summary</span>
+            <span className="xs:hidden sm:hidden">SPPS</span>
           </Button>
         </div>
 

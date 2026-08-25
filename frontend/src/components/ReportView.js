@@ -68,7 +68,7 @@ const ReportView = ({ session, onRestart, onBackToHistory }) => {
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                     {session.testType === "blind" ? "Sensory Blind Test Report" : 
-                     session.testType === "proficiency" ? "Proficiency Test Report" : 
+                     session.testType === "proficiency" ? "SPPS Test Report" : 
                      "Sensory Evaluation Report"}
                   </h1>
                   <p className="text-base text-gray-600 mb-1" style={{ fontFamily: 'Inter, sans-serif' }}>

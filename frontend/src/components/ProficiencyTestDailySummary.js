@@ -1,9 +1,9 @@
 import InteractiveSummaryReport from "@/components/InteractiveSummaryReport";
 
 const PROFICIENCY_TEST_CONFIG = {
-  testType: "Proficiency Test",
+  testType: "SPPS Test",
   testTypeFilter: "proficiency",
-  reportTitle: "Proficiency Test Summary Report",
+  reportTitle: "SPPS Test Summary Report",
   routePrefix: "proficiency-test-summary",
   storageKeyPrefix: "proficiency",
   themeColor: "#16a34a",

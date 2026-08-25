@@ -208,7 +208,7 @@ const ProficiencyTestForm = ({ panelistNumber, onSubmit, onBack }) => {
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
       <div className="mb-6">
         <h2 className="text-3xl font-bold text-green-700 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-          ⭐ Proficiency Test
+          ⭐ SPPS Test
         </h2>
         <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
           Compare samples against control reference using color codes

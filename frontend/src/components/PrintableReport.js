@@ -94,7 +94,7 @@ const PrintableReport = () => {
           </p>
           <h2 className="text-2xl font-semibold text-blue-600 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
             {session.testType === "blind" ? "Sensory Blind Test Report" : 
-             session.testType === "proficiency" ? "Proficiency Test Report" : 
+             session.testType === "proficiency" ? "SPPS Test Report" : 
              "Sensory Evaluation Report"}
           </h2>
           <div className="flex justify-between items-center text-sm text-gray-600 mt-4">

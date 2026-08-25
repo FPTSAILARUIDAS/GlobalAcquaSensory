@@ -390,7 +390,7 @@ function App() {
                         onClick={() => handleStartSession(1, "proficiency")}
                         className="w-full bg-white border-2 border-green-500 text-green-600 px-4 py-2.5 rounded-lg font-semibold hover:bg-green-50 transition-all duration-200 text-sm"
                       >
-                        ⭐ Proficiency Test
+                        ⭐ SPPS Test
                       </button>
                       <button
                         onClick={() => setShowTestTypeSelection(false)}
