@@ -399,7 +399,9 @@ async def get_daily_summary(date: str):
                 {"createdAt": {"$regex": date_regex}}
             ]
         }
-        filtered_sessions = await db.sessions.find(query, {"_id": 0}).to_list(None)
+        # Exclude heavy per-ballot signature images (not used in summary views)
+        projection = {"_id": 0, "ballots.signature": 0, "ballots.signaturePreview": 0}
+        filtered_sessions = await db.sessions.find(query, projection).to_list(None)
         
         # Check if there's already a verification for this date
         verification = await db.verifications.find_one({"date": date}, {"_id": 0})
@@ -546,6 +548,9 @@ async def get_signature(current_user: dict = Depends(get_current_user)):
 
 # Include the router in the main app
 app.include_router(api_router)
+
+from fastapi.middleware.gzip import GZipMiddleware
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 app.add_middleware(
     CORSMiddleware,

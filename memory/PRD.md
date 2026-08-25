@@ -45,6 +45,12 @@ Build and enhance the "Global Acqua Sensory App" - a full-stack FastAPI/React/Mo
 - [x] **Verified**: All data access points working - sessions, daily summary, blind test, proficiency test, individual reports (Apr 2026)
 - [x] **Permanent Fix**: Daily summary endpoint - MongoDB-level date filtering replacing Python-level filtering with 1000 limit, DB indexes added (Apr 2026)
 - [x] **Permanent Fix**: api.js uses window.location.origin for universal domain compatibility (Apr 2026)
+- [x] **Bug Fix**: Cloudflare "invalid or incomplete response" on Daily Summary (Aug 2026)
+  - Root cause: each ballot embedded ~940KB base64 `signature` + `signaturePreview` images; heavy dates produced ~30MB responses that Cloudflare/origin dropped mid-transfer
+  - Fix: `get_daily_summary` projection excludes `ballots.signature` and `ballots.signaturePreview` (unused by summary views; individual session reports via /sessions/{id} still return full signatures)
+  - Added GZipMiddleware (minimum_size=1024); heaviest date now ~1.1MB on the wire in 0.5s
+  - Verified in browser: Daily Summary 2026-06-18 (24 sessions), Blind Summary 2026-06-18 (10 sessions), Proficiency Summary 2026-06-26 (10 sessions) all render with verification signatures intact
+  - NOTE: if user saw error on deployed production app, a redeploy is required to pick up this fix
 
 ## DB Schema
 - **users**: `{username, password_hash, role, signature: Optional[str]}`
