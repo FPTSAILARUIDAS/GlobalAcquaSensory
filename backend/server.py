@@ -305,8 +305,8 @@ async def submit_ballot(input: BallotSubmit):
     ballots.append(input.ballotData.model_dump())
     
     # Check if session is complete
-    status = "completed" if len(ballots) >= session["targetPanelistCount"] else "in_progress"
-    completed_at = datetime.now(timezone.utc).isoformat() if status == "completed" else None
+    session_status = "completed" if len(ballots) >= session["targetPanelistCount"] else "in_progress"
+    completed_at = datetime.now(timezone.utc).isoformat() if session_status == "completed" else None
     
     # Update session
     await db.sessions.update_one(
@@ -314,7 +314,7 @@ async def submit_ballot(input: BallotSubmit):
         {
             "$set": {
                 "ballots": ballots,
-                "status": status,
+                "status": session_status,
                 "completedAt": completed_at
             }
         }
@@ -331,11 +331,13 @@ async def get_session_by_code(session_code: str):
         raise HTTPException(status_code=404, detail="Session not found")
     return session
 
-@api_router.get("/sessions", response_model=List[BatchSession])
+@api_router.get("/sessions")
 async def get_sessions(current_user: dict = Depends(get_current_user)):
     # Admin can see all sessions, users can only see their own
     query = {} if current_user["role"] == "admin" else {"createdBy": current_user["username"]}
-    sessions = await db.sessions.find(query, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+    # Exclude heavy base64 signature images from list responses
+    projection = {"_id": 0, "ballots.signature": 0, "ballots.signaturePreview": 0, "verificationSignature": 0}
+    sessions = await db.sessions.find(query, projection).sort("createdAt", -1).to_list(200)
     return sessions
 
 @api_router.get("/admin/sessions/all", dependencies=[Depends(get_admin_user)])
@@ -434,7 +436,7 @@ async def verify_daily_summary(verification: VerificationCreate, current_user: d
         "comments": verification.comments
     }
     
-    await db.verifications.insert_one(verification_doc)
+    await db.verifications.insert_one(dict(verification_doc))
     return {"message": "Summary verified successfully", "verification": verification_doc}
 
 @api_router.get("/admin/verification/{date}", dependencies=[Depends(get_admin_user)])
@@ -502,7 +504,7 @@ async def fix_session_statuses(current_user: dict = Depends(get_admin_user)):
                         try:
                             completed_at = f"{completion_date}T{completion_time}"
                             update_data["completedAt"] = completed_at
-                        except:
+                        except Exception:
                             update_data["completedAt"] = datetime.now(timezone.utc).isoformat()
                     else:
                         update_data["completedAt"] = datetime.now(timezone.utc).isoformat()

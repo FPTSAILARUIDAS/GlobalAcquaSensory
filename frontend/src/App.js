@@ -4,7 +4,6 @@ import axios from "axios";
 import { Cloud, CloudOff, PlusCircle, ClipboardList, ArrowLeft, Users, CheckCircle, Key, LogOut } from "lucide-react";
 import BallotForm from "@/components/BallotForm";
 import ReportView from "@/components/ReportView";
-import HistoryView from "@/components/HistoryView";
 import Login from "@/components/Login";
 import AdminDashboard from "@/components/AdminDashboard";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -34,7 +33,6 @@ function App() {
   const [targetPanelistCount, setTargetPanelistCount] = useState(3);
   const [currentPanelistNumber, setCurrentPanelistNumber] = useState(1);
   const [lastBallotData, setLastBallotData] = useState(undefined);
-  const [history, setHistory] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
   const [cloudConnected, setCloudConnected] = useState(true);
   
@@ -64,22 +62,19 @@ function App() {
     }
   }, []);
 
-  // Fetch history from backend
+  // Lightweight connectivity check (previously downloaded full session history)
   useEffect(() => {
     if (isAuthenticated && authToken) {
-      fetchHistory();
+      checkConnection();
     }
   }, [isAuthenticated, authToken]);
 
-  const fetchHistory = async () => {
+  const checkConnection = async () => {
     try {
-      const response = await axios.get(`${API}/sessions`, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      });
-      setHistory(response.data);
+      await axios.get(`${API}/`, { timeout: 10000 });
       setCloudConnected(true);
     } catch (error) {
-      console.error("Failed to fetch history:", error);
+      console.error("Connectivity check failed:", error);
       setCloudConnected(false);
     }
   };
@@ -248,7 +243,6 @@ function App() {
         setSelectedSession(updatedSession);
         setView(AppView.REPORT);
         localStorage.removeItem("active_session");
-        fetchHistory();
       } else {
         setCurrentPanelistNumber(updatedSession.ballots.length + 1);
         alert(`Ballot submitted! Waiting for ${updatedSession.targetPanelistCount - updatedSession.ballots.length} more panelist(s).`);

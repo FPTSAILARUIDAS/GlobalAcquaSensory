@@ -8,10 +8,12 @@ import SummaryReport from "@/components/SummaryReport";
 import DailySummarySheet from "@/components/DailySummarySheet";
 import BlindTestDailySummary from "@/components/BlindTestDailySummary";
 import ProficiencyTestDailySummary from "@/components/ProficiencyTestDailySummary";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <ErrorBoundary>
     <BrowserRouter>
       <Routes>
         <Route path="/report/:sessionCode" element={<PrintableReport />} />
@@ -22,5 +24,6 @@ root.render(
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
+    </ErrorBoundary>
   </React.StrictMode>,
 );

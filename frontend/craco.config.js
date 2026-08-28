@@ -109,4 +109,17 @@ if (config.enableVisualEdits || config.enableHealthCheck) {
   };
 }
 
+// Disable the full-screen dev-server error overlay (runtime errors handled by ErrorBoundary)
+const existingDevServer = webpackConfig.devServer;
+webpackConfig.devServer = (devServerConfig) => {
+  if (typeof existingDevServer === "function") {
+    devServerConfig = existingDevServer(devServerConfig);
+  }
+  devServerConfig.client = {
+    ...devServerConfig.client,
+    overlay: false,
+  };
+  return devServerConfig;
+};
+
 module.exports = webpackConfig;
